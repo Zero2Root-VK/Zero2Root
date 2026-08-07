@@ -154,18 +154,7 @@ DNS translates human-readable domain names into IP addresses. Understanding DNS 
 ### DNS Resolution — Step by Step
 
 When your browser requests `www.example.com`:
-
-```
-Browser → OS DNS resolver (checks local cache)
-       → /etc/hosts (or C:\Windows\System32\drivers\etc\hosts)
-       → Recursive resolver (configured DNS server, e.g., 8.8.8.8)
-         → Root nameservers (13 sets: a.root-servers.net through m.root-servers.net)
-             → TLD nameservers (.com, .org, .in, etc.)
-                 → Authoritative nameserver for example.com
-                     → Returns A record (IP address)
-       → Recursive resolver caches result for TTL duration
-Browser receives IP → makes TCP connection
-```
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/76671ae7-1947-4599-93ed-e8af46f1ac72" />
 
 The root nameservers don't know the answer — they know who to ask next. This hierarchical delegation is why DNS is distributed and resilient.
 

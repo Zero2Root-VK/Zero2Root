@@ -35,17 +35,7 @@ TCP is a **connection-oriented, reliable, ordered, error-checked** transport pro
 
 A TCP connection is established through three steps:
 
-```
-Client                          Server
-  |                               |
-  |--------- SYN ---------------→|   Client picks ISN_c, sends SYN
-  |                               |   Server allocates half-open connection
-  |←-------- SYN-ACK ------------|   Server picks ISN_s, ACKs ISN_c+1
-  |                               |
-  |--------- ACK ---------------→|   Client ACKs ISN_s+1
-  |                               |   Full connection established
-  |====== DATA TRANSFER =========|
-```
+<img width="1536" height="1024" alt="ChatGPT Image Aug 7, 2026, 09_08_50 PM" src="https://github.com/user-attachments/assets/d45c36c7-5e21-4c0c-aea5-b32652b23e6f" />
 
 **Initial Sequence Numbers (ISN):** Both sides independently pick a random 32-bit starting sequence number. Modern kernels use cryptographically random ISNs. Historically (early 1990s), ISNs were predictable, enabling TCP session hijacking — an attacker could forge packets with the correct sequence numbers. RFC 6528 mandates randomized ISNs.
 

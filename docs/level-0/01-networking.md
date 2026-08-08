@@ -289,23 +289,8 @@ Cookies carry session state in a stateless protocol. Security-relevant cookie at
 TLS (Transport Layer Security) provides confidentiality, integrity, and authentication for application-layer protocols. HTTPS = HTTP over TLS.
 
 ### TLS Handshake (TLS 1.3 Simplified)
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/be199323-b7e6-47ba-9d8a-1d7fa55017cc" />
 
-```
-Client                              Server
-  |                                   |
-  |-- ClientHello (supported TLS,  -->|  Supported TLS versions, cipher suites,
-  |   cipher suites, random nonce)    |  key share (Diffie-Hellman parameters)
-  |                                   |
-  |<-- ServerHello (chosen version, --|  Selects cipher suite, sends its key share
-  |    cipher, key share)             |  and certificate
-  |    Certificate                    |
-  |    CertificateVerify              |
-  |    Finished                       |
-  |                                   |
-  |-- Finished ---------------------->|  Both sides derive session keys
-  |                                   |
-  |====== Encrypted Application Data =|
-```
 
 Key concepts:
 

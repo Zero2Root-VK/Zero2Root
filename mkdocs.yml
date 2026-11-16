@@ -78,6 +78,7 @@ extra_css:
   - assets/stylesheets/home-v2.css
   - assets/stylesheets/content-v2.css
   - assets/stylesheets/brand-v2.css
+  - assets/stylesheets/atlas.css
 
 extra:
   social:
@@ -89,6 +90,7 @@ copyright: >
 
 nav:
   - Home: index.md
+  - Field Atlas: atlas/index.md
 
   - Learn:
     - Overview: learn/index.md

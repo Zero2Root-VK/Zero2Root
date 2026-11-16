@@ -1,8 +1,13 @@
 # Level 0 — Foundations
 
+<div class="z2r-level-intro" markdown="1">
+<span class="z2r-level-kicker">LEARNING PATH / LEVEL 00 — FOUNDATIONS</span>
+
 **Target audience:** Absolute beginners, IT graduates, career switchers with no prior security background.
 
 **Goal:** Build the foundational knowledge that every security professional is expected to have by default. These topics will be tested at *every* interview level — a senior interviewing for a principal role can still be asked "explain the TCP handshake." The difference is in the depth and application expected.
+
+</div>
 
 ---
 

@@ -665,6 +665,24 @@
       "target": "tcp",
       "kind": "uses",
       "label": "uses"
+    },
+    {
+      "source": "http",
+      "target": "api",
+      "kind": "prerequisite",
+      "label": "HTTP foundations"
+    },
+    {
+      "source": "bola",
+      "target": "web-tools",
+      "kind": "tested_with",
+      "label": "request-level validation"
+    },
+    {
+      "source": "kerberos",
+      "target": "network-tools",
+      "kind": "tested_with",
+      "label": "protocol inspection"
     }
   ],
   "routes": [
@@ -674,12 +692,10 @@
       "description": "Build the network baseline, discover an attack surface, enumerate it and validate a finding.",
       "nodes": [
         "networking",
-        "tcp",
-        "dns",
         "recon",
         "scanning",
         "assessment",
-        "owasp"
+        "basic-exploit"
       ]
     },
     {
@@ -689,12 +705,9 @@
       "nodes": [
         "networking",
         "http",
-        "owasp",
-        "web-advanced",
         "api",
         "bola",
-        "web-tools",
-        "source-review"
+        "web-tools"
       ]
     },
     {
@@ -706,7 +719,6 @@
         "infrastructure",
         "active-directory",
         "kerberos",
-        "segmentation",
         "network-tools"
       ]
     }

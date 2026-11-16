@@ -580,7 +580,7 @@
     nodeCount.textContent = String(data.nodes.findIndex((entry) => entry.id === id) + 1).padStart(2,"0") + " / " + String(data.nodes.length).padStart(2,"0");
     renderInspector(node);
     renderCompareTray();
-    $(".atlas-node", scene).forEach((element) => {
+    $$(".atlas-node", scene).forEach((element) => {
       const active = element.getAttribute("data-atlas-node") === id;
       element.classList.toggle("is-selected", active);
       element.setAttribute("aria-pressed", String(active));
@@ -592,7 +592,7 @@
       if (edge.source === id) relatedIds.add(edge.target);
       if (edge.target === id) relatedIds.add(edge.source);
     });
-    $$(".atlas-node", scene).forEach((element) => {
+    $$$(".atlas-node", scene).forEach((element) => {
       element.classList.toggle("is-nearby", relatedIds.has(element.getAttribute("data-atlas-node")));
       element.classList.toggle("is-dimmed", !relatedIds.has(element.getAttribute("data-atlas-node")));
     });
@@ -624,7 +624,7 @@
       : state.mode === "testing"
         ? new Set(["tested_with","uses","related","contains"])
         : null;
-    $$(".atlas-node", scene).forEach((element) => {
+    $$$(".atlas-node", scene).forEach((element) => {
       const id = element.getAttribute("data-atlas-node");
       const node = getNode(id);
       const isRouteNode = Boolean(routeSet && routeSet.has(id));
@@ -788,7 +788,7 @@
 
   function bindControls() {
     $$("[data-atlas-filter]").forEach((button)=>button.addEventListener("click",()=>applyFilter(button.getAttribute("data-atlas-filter"))));
-    $("[data-atlas-view]").forEach((button)=>button.addEventListener("click",()=>setMode(button.getAttribute("data-atlas-view"))));
+    $$("[data-atlas-view]").forEach((button)=>button.addEventListener("click",()=>setMode(button.getAttribute("data-atlas-view"))));
     search.addEventListener("input",()=>renderSearchResults(search.value));
 
     compareRun?.addEventListener("click", () => {

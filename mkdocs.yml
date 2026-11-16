@@ -10,8 +10,8 @@ theme:
   custom_dir: docs/overrides
   icon:
     repo: fontawesome/brands/github
-  logo: assets/logo.png
-  favicon: assets/favicon.png
+  logo: assets/zero2root-wordmark.svg
+  favicon: assets/zero2root-favicon.svg
   palette:
     - scheme: slate
       primary: brown

@@ -1,8 +1,13 @@
 # Level 1 — Junior Pentester
 
+<div class="z2r-level-intro" markdown="1">
+<span class="z2r-level-kicker">LEARNING PATH / LEVEL 01 — JUNIOR PENTESTER</span>
+
 **Target audience:** 0–1 year of experience. Entry-level pentest roles, junior security analyst positions moving into offensive work.
 
 **Goal:** Build the active testing skills that distinguish a security professional from someone who just understands concepts. At this level, you can execute reconnaissance, scanning, and basic exploitation. You understand OWASP Top 10 deeply and can write a professional finding report.
+
+</div>
 
 ---
 

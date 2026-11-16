@@ -1,8 +1,13 @@
 # Level 2 — Mid-Level Pentester
 
+<div class="z2r-level-intro" markdown="1">
+<span class="z2r-level-kicker">LEARNING PATH / LEVEL 02 — MID-LEVEL PENTESTER</span>
+
 **Target audience:** 1–3 years of hands-on VAPT experience across web, infrastructure, mobile, and specialized assessments.
 
 **Goal:** At this level you stop being someone who follows methodology and start being someone who *builds* methodology. You understand why techniques work, not just how to run them. You can handle client conversations, manage complex assessments independently, and write findings that stand up to scrutiny from experienced security teams.
+
+</div>
 
 ---
 

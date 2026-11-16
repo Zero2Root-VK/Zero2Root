@@ -590,3 +590,146 @@
     animation-iteration-count: 1 !important;
   }
 }
+
+
+/* ── Review round 2: fix homepage document-title and Markdown markup ── */
+.md-container:has(.z2r-hero) .md-content__inner > h1:first-child,
+.md-container:has(.z2r-hero) .md-content__inner > .md-typeset > h1:first-child,
+.md-container:has(.z2r-hero) .md-content__title {
+  display: none !important;
+}
+
+.md-container:has(.z2r-hero) .md-content__inner {
+  padding-top: 0 !important;
+}
+
+.md-container:has(.z2r-hero) .md-content__inner > .md-typeset {
+  padding-top: 0 !important;
+}
+
+.z2r-onboarding-content strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--md-default-fg-color);
+}
+
+.z2r-onboarding-content p {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* A more product-like module showcase under the learning paths */
+.z2r-module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.z2r-module-card {
+  position: relative;
+  display: flex;
+  min-height: 238px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 22px;
+  overflow: hidden;
+  color: inherit !important;
+  text-decoration: none !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(100,232,242,.10), transparent 42%),
+    linear-gradient(145deg, rgba(18,27,42,.94), rgba(10,15,26,.96));
+  border: 1px solid rgba(148,163,184,.17);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.16);
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+
+.z2r-module-card[href]:hover {
+  transform: translateY(-4px);
+  border-color: rgba(100,232,242,.48);
+  box-shadow: 0 18px 40px rgba(0,0,0,.23), 0 0 25px rgba(100,232,242,.06);
+}
+
+.z2r-module-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  color: #071017;
+  font-size: 23px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #70eaf0, #a6a1ff);
+  border-radius: 12px;
+}
+
+.z2r-module-status {
+  color: #aab5c5;
+  font: 700 10px/1.4 "JetBrains Mono", ui-monospace, monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.z2r-status-live {
+  color: #78e6c4;
+}
+
+.z2r-module-card > strong {
+  color: #f1f7ff;
+  font-size: 17px;
+  letter-spacing: -.02em;
+}
+
+.z2r-module-card > span:not(.z2r-module-icon):not(.z2r-module-status) {
+  color: #9aabc0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.z2r-module-card > b {
+  margin-top: auto;
+  color: var(--z2r-cyan);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.z2r-section-heading h2 {
+  color: var(--md-default-fg-color) !important;
+}
+
+.z2r-home .z2r-closing h2 {
+  margin: 10px 0 12px !important;
+  color: #eff7ff !important;
+  font-size: clamp(24px, 3vw, 32px) !important;
+  letter-spacing: -.04em !important;
+}
+
+.z2r-home .z2r-closing p {
+  color: #a5b4c7;
+  max-width: 760px;
+  line-height: 1.75;
+}
+
+.z2r-home .z2r-closing .md-button {
+  margin-top: 10px;
+}
+
+@media (max-width: 850px) {
+  .z2r-module-grid {
+    grid-template-columns: 1fr;
+  }
+  .z2r-module-card {
+    min-height: 205px;
+  }
+}
+
+@media (max-width: 600px) {
+  .z2r-module-card {
+    padding: 19px;
+  }
+  .z2r-onboarding-content strong {
+    line-height: 1.55;
+  }
+}

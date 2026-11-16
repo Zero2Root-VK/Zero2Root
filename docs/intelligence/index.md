@@ -1,6 +1,6 @@
 # Vulnerability Intelligence
 
-<badge>In development</badge>
+**Status: In development.**
 
 The Intelligence area is planned to connect vulnerability records with the products, weaknesses, advisories and research around them.
 

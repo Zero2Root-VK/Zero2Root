@@ -802,3 +802,20 @@
   .z2r-globe-canvas { display:none; }
   .z2r-globe-fallback { display:grid; }
 }
+
+/* ── QA hardening: hide the theme-generated Home title only on this hero page ── */
+.md-container:has(.z2r-hero) .md-content__inner h1 {
+  display: none !important;
+}
+
+/* The CSS fallback is present even when JavaScript is enabled but WebGL/CDN is unavailable. */
+.z2r-globe-fallback {
+  display: none;
+}
+.z2r-globe-fallback-mode .z2r-globe-fallback {
+  display: grid;
+}
+@media (prefers-reduced-motion: reduce) {
+  .z2r-globe-canvas { display: none; }
+  .z2r-globe-fallback { display: grid; }
+}

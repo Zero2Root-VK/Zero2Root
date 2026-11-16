@@ -575,3 +575,15 @@
     transition: none !important;
   }
 }
+
+/* Legacy component aliases mapped to the new identity.
+   Keeps older cards and callouts from retaining cyan/violet accents. */
+:root {
+  --z2r-cyan: var(--z2r-copper);
+  --z2r-blue: var(--z2r-mineral);
+  --z2r-violet: var(--z2r-brass);
+  --z2r-page-cyan: var(--z2r-copper);
+  --z2r-page-violet: var(--z2r-brass);
+  --z2r-page-green: var(--z2r-mineral);
+  --z2r-page-amber: var(--z2r-brass);
+}

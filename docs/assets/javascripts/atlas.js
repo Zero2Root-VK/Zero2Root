@@ -273,9 +273,21 @@
     }
   }
 
+  function clearRoute() {
+    state.route = null;
+    routeStops.replaceChildren();
+    root.classList.remove("has-active-route");
+  }
+
   function selectNode(id, focusMap) {
     const node = getNode(id);
     if (!node) return;
+    if (state.route && !state.route.nodes.includes(id)) clearRoute();
+    const hiddenByType = state.filter !== "all" && node.type !== state.filter;
+    const hiddenByView = state.mode === "learning" && !["lesson","protocol","framework"].includes(node.type)
+      || state.mode === "testing" && !["lesson","weakness","toolset","protocol"].includes(node.type);
+    if (hiddenByType) applyFilter("all");
+    if (hiddenByView) setMode("terrain", true);
     state.selected = id;
     nodeCount.textContent = String(data.nodes.findIndex((entry) => entry.id === id) + 1).padStart(2,"0") + " / " + String(data.nodes.length).padStart(2,"0");
     renderInspector(node);
@@ -397,7 +409,8 @@
     applyViewFilter();
   }
 
-  function setMode(mode) {
+  function setMode(mode, preserveRoute = false) {
+    if (state.route && !preserveRoute) clearRoute();
     state.mode=mode;
     $$("[data-atlas-view]").forEach((button)=>{
       const active=button.getAttribute("data-atlas-view")===mode;
@@ -468,7 +481,7 @@
 
   function bindControls() {
     $$("[data-atlas-filter]").forEach((button)=>button.addEventListener("click",()=>applyFilter(button.getAttribute("data-atlas-filter"))));
-    $$("[data-atlas-view]").forEach((button)=>button.addEventListener("click",()=>setMode(button.getAttribute("data-atlas-view"))));
+    $("[data-atlas-view]").forEach((button)=>button.addEventListener("click",()=>setMode(button.getAttribute("data-atlas-view"))));
     search.addEventListener("input",()=>renderSearchResults(search.value));
     search.addEventListener("keydown",(event)=>{
       if(event.key==="Escape"){search.value="";searchResults.hidden=true;return;}
@@ -487,6 +500,7 @@
       if(!event.target.closest(".atlas-command"))searchResults.hidden=true;
     });
     routeSelect.addEventListener("change",()=>{
+      clearRoute();
       const route=data.routes.find((item)=>item.id===routeSelect.value);
       if(route)routeDescription.textContent=route.description;
     });
@@ -497,7 +511,7 @@
       state.mode="learning";
       state.filter="all";
       state.selected=route.nodes[0];
-      setMode("learning");
+      setMode("learning", true);
       applyFilter("all");
       renderRouteStops(route);
       selectNode(route.nodes[0],true);

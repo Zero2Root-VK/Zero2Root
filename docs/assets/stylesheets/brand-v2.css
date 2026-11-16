@@ -736,3 +736,101 @@
   .z2r-art-caption { left: 15px; bottom: 25px; font-size: 8px; }
   .z2r-art-coordinate { right: 15px; bottom: 13px; font-size: 7px; }
 }
+
+/* ── Learning-level and resource page introductions ── */
+.z2r-level-intro {
+  position: relative;
+  margin: 1.25rem 0 2.8rem;
+  padding: 21px 23px 19px;
+  background:
+    linear-gradient(110deg, rgba(199,124,85,.055), transparent 68%),
+    var(--z2r-graphite);
+  border: 1px solid var(--z2r-line);
+  border-left: 3px solid var(--z2r-copper);
+  border-radius: 8px;
+}
+
+.z2r-level-kicker {
+  display: block;
+  margin: 0 0 13px;
+  color: var(--z2r-copper-light);
+  font: 600 9px/1.5 "IBM Plex Mono", ui-monospace, monospace;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+.z2r-level-intro p {
+  margin: .65rem 0;
+  color: var(--z2r-page-text, var(--z2r-ivory));
+  font-size: .94rem;
+  line-height: 1.75;
+}
+
+.z2r-level-intro p:last-child {
+  margin-bottom: 0;
+}
+
+.z2r-level-intro strong {
+  color: var(--z2r-ivory);
+  font-weight: 750;
+}
+
+.z2r-page-intro {
+  margin: 1rem 0 2rem;
+  padding: 0 0 19px;
+  border-bottom: 1px solid var(--z2r-line);
+}
+
+.z2r-page-intro p {
+  max-width: 62rem;
+  margin: 0;
+  color: var(--z2r-muted);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+/* Code syntax: mineral, brass and copper rather than saturated rainbow neon. */
+[data-md-color-scheme="slate"] {
+  --md-code-hl-color: rgba(199,124,85,.08);
+  --md-code-hl-number-color: #D2AA70;
+  --md-code-hl-special-color: #D99973;
+  --md-code-hl-function-color: #B7C6A9;
+  --md-code-hl-constant-color: #D99973;
+  --md-code-hl-keyword-color: #C77C55;
+  --md-code-hl-string-color: #9DB59E;
+  --md-code-hl-name-color: #E9E5DC;
+  --md-code-hl-operator-color: #B8B5AA;
+  --md-code-hl-punctuation-color: #AAA99F;
+  --md-code-hl-comment-color: #7D8982;
+  --md-code-hl-generic-color: #D2AA70;
+  --md-code-hl-variable-color: #D99973;
+}
+
+[data-md-color-scheme="default"] {
+  --md-code-hl-color: rgba(154,83,53,.075);
+  --md-code-hl-number-color: #855E30;
+  --md-code-hl-special-color: #9A5335;
+  --md-code-hl-function-color: #4C6B58;
+  --md-code-hl-constant-color: #9A5335;
+  --md-code-hl-keyword-color: #9A5335;
+  --md-code-hl-string-color: #4C6B58;
+  --md-code-hl-name-color: #242A27;
+  --md-code-hl-operator-color: #62665F;
+  --md-code-hl-punctuation-color: #62665F;
+  --md-code-hl-comment-color: #777A73;
+  --md-code-hl-generic-color: #855E30;
+  --md-code-hl-variable-color: #9A5335;
+}
+
+@media (max-width: 600px) {
+  .z2r-level-intro {
+    margin: 1rem 0 2.2rem;
+    padding: 17px 17px 15px;
+  }
+  .z2r-level-intro p {
+    font-size: .89rem;
+  }
+  .z2r-page-intro {
+    margin-bottom: 1.6rem;
+  }
+}

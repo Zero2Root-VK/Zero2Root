@@ -13,7 +13,7 @@ hide:
   </div>
 </div>
 
-<section class="z2r-section" id="learning-paths">
+<section class="z2r-section" markdown="1" id="learning-paths">
 
 <div class="z2r-section-heading">
   <span class="z2r-kicker">Your progression</span>
@@ -74,7 +74,7 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="explore-platform">
+<section class="z2r-section" markdown="1" id="explore-platform">
 
 <div class="z2r-section-heading">
   <span class="z2r-kicker">Explore the platform</span>
@@ -107,7 +107,7 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="security-domains">
+<section class="z2r-section" markdown="1" id="security-domains">
 
 <div class="z2r-section-heading">
   <span class="z2r-kicker">Broad technical coverage</span>
@@ -133,7 +133,7 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="learning-method">
+<section class="z2r-section" markdown="1" id="learning-method">
 
 <div class="z2r-section-heading">
   <span class="z2r-kicker">Learn with context</span>
@@ -157,7 +157,7 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="choose-your-starting-point">
+<section class="z2r-section" markdown="1" id="choose-your-starting-point">
 
 <div class="z2r-section-heading">
   <span class="z2r-kicker">Choose your entry point</span>

@@ -3,86 +3,17 @@
 {% block extrahead %}
   {{ super() }}
   <meta name="theme-color" content="#0B0D0E">
-  <meta name="description" content="Zero2Root is a cybersecurity engineering and intelligence platform for learners, pentesters and security researchers.">
-  <meta property="og:title" content="Zero2Root — Cybersecurity Engineering & Intelligence">
-  <meta property="og:description" content="Learn. Explore. Research. Exploit. A practical cybersecurity engineering and intelligence platform.">
+  <meta name="description" content="Explore the existing Zero2Root cybersecurity learning paths, lessons, tools and resources through an interactive radial content map.">
+  <meta property="og:title" content="Zero2Root — Cybersecurity, mapped">
+  <meta property="og:description" content="Explore the existing Zero2Root learning library: five learning levels, technical lessons, tools and resources.">
 {% endblock %}
 
-{% block hero %}
-  {% if page and page.is_homepage %}
-    <section class="z2r-hero" aria-labelledby="z2r-hero-title">
-      <div class="z2r-hero-inner">
-        <div class="z2r-hero-copy-column">
-          <div class="z2r-eyebrow"><span class="z2r-eyebrow-icon">⌁</span> ZERO2ROOT 2.0</div>
-          <h1 id="z2r-hero-title">
-            Understand the mechanism.<br>
-            <span>Verify the weakness.</span>
-          </h1>
-          <p class="z2r-hero-copy">
-            A practitioner-built field guide to how systems work, where they fail,
-            and how to test and secure them.
-          </p>
-          <div class="z2r-hero-actions">
-            <a href="#learning-paths" class="z2r-button z2r-button--primary">Explore learning paths <span aria-hidden="true">→</span></a>
-            <a href="tools/" class="z2r-button z2r-button--secondary">Browse technical guides</a>
-          </div>
-          <button class="z2r-search-trigger pv-hero-search" type="button" aria-label="Search Zero2Root">
-            <span class="z2r-search-symbol" aria-hidden="true">⌕</span>
-            <span>Search concepts, commands and field notes...</span>
-            <kbd>Ctrl K</kbd>
-          </button>
-          <div class="z2r-hero-stats" aria-label="Zero2Root highlights">
-            <div><strong>05</strong><span>Learning Levels</span></div>
-            <div><strong>10</strong><span>Security Domains</span></div>
-            <div><strong>OPEN</strong><span>Knowledge Base</span></div>
-          </div>
-        </div>
-
-        <figure class="z2r-hero-visual z2r-hero-art" aria-label="Original macro artwork of a forensic electronics board">
-          <img
-            class="z2r-hero-image"
-            src="{{ 'assets/images/hero-board.webp' | url }}"
-            alt="Macro view of a rugged circuit board, processor package and copper signal traces"
-            width="640"
-            height="360"
-            fetchpriority="high"
-            decoding="async">
-          <span class="z2r-art-index">FIELD STUDY <b>001</b></span>
-          <span class="z2r-art-caption">Hardware / Signal / System</span>
-          <span class="z2r-art-coordinate">Z2R — ENGINEERING NOTES</span>
-        </figure>
-      </div>
-    </section>
-  {% endif %}
-{% endblock %}
+{# The home page is the interactive index itself; no separate marketing hero. #}
+{% block hero %}{% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  <script>
-    (function () {
-      "use strict";
-
-      document.addEventListener("DOMContentLoaded", function () {
-        var searchTrigger = document.querySelector(".pv-hero-search");
-        var searchToggle = document.querySelector(".md-header__button[for='__search']");
-        if (searchTrigger && searchToggle) {
-          searchTrigger.addEventListener("click", function () { searchToggle.click(); });
-        }
-
-        document.addEventListener("keydown", function (event) {
-          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-            event.preventDefault();
-            if (searchToggle) searchToggle.click();
-            window.setTimeout(function () {
-              var field = document.querySelector(".md-search__input");
-              if (field) field.focus();
-            }, 100);
-          }
-        });
-
-        // The hero uses a locally served, optimized editorial image.
-        // No continuous canvas animation is required for this visual direction.
-      });
-    })();
-  </script>
+  {% if page and page.is_homepage %}
+    <script src="{{ 'assets/javascripts/home-map.js' | url }}" defer data-library-map></script>
+  {% endif %}
 {% endblock %}

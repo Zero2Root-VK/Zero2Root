@@ -590,11 +590,11 @@
 
 /* Light-theme contrast refinements (normal text >= 4.5:1 on warm paper). */
 [data-md-color-scheme="default"] {
-  --z2r-copper: #9A5335;
-  --z2r-copper-light: #955236;
+  --z2r-copper: #8C482D;
+  --z2r-copper-light: #8D4B30;
   --z2r-mineral: #4C6B58;
-  --z2r-brass: #855E30;
-  --z2r-danger: #A34E45;
+  --z2r-brass: #7C4B2E;
+  --z2r-danger: #94433D;
 }
 
 [data-md-color-scheme="default"] .z2r-button--primary {
@@ -808,18 +808,18 @@
 
 [data-md-color-scheme="default"] {
   --md-code-hl-color: rgba(154,83,53,.075);
-  --md-code-hl-number-color: #855E30;
-  --md-code-hl-special-color: #9A5335;
+  --md-code-hl-number-color: #7C4B2E;
+  --md-code-hl-special-color: #8C482D;
   --md-code-hl-function-color: #4C6B58;
-  --md-code-hl-constant-color: #9A5335;
-  --md-code-hl-keyword-color: #9A5335;
+  --md-code-hl-constant-color: #8C482D;
+  --md-code-hl-keyword-color: #8C482D;
   --md-code-hl-string-color: #4C6B58;
   --md-code-hl-name-color: #242A27;
   --md-code-hl-operator-color: #62665F;
   --md-code-hl-punctuation-color: #62665F;
   --md-code-hl-comment-color: #777A73;
-  --md-code-hl-generic-color: #855E30;
-  --md-code-hl-variable-color: #9A5335;
+  --md-code-hl-generic-color: #7C4B2E;
+  --md-code-hl-variable-color: #8C482D;
 }
 
 @media (max-width: 600px) {

@@ -45,6 +45,13 @@ hide:
         </div>
       </div>
 
+      <div class="atlas-filter-row" role="group" aria-label="Filter node categories">
+        <button type="button" class="is-active" data-atlas-filter="all" aria-pressed="true">All points</button>
+        <button type="button" data-atlas-filter="lesson" aria-pressed="false">Lessons</button>
+        <button type="button" data-atlas-filter="weakness" aria-pressed="false">Weaknesses</button>
+        <button type="button" data-atlas-filter="protocol" aria-pressed="false">Protocols</button>
+        <button type="button" data-atlas-filter="toolset" aria-pressed="false">Tool references</button>
+      </div>
       <div class="atlas-map-frame">
         <div class="atlas-map-topline"><span>FIG. 01</span><span>DOMAIN TOPOLOGY / INTERACTIVE</span></div>
         <svg class="atlas-map" data-atlas-map viewBox="0 0 1400 820" role="group" aria-label="Interactive map of cybersecurity topics. Select any labelled point to inspect its source material and connected concepts." tabindex="0">
@@ -107,6 +114,7 @@ hide:
         <option value="enterprise-identity">Enterprise identity assessment</option>
       </select>
       <p data-atlas-route-description>Build the network baseline, discover an attack surface, enumerate it and validate a finding.</p>
+      <div class="atlas-route-stops" data-atlas-route-stops aria-label="Route stops"></div>
       <button type="button" class="atlas-route-button" data-atlas-trace>Trace this route <span aria-hidden="true">↗</span></button>
     </div>
   </section>

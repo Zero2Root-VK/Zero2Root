@@ -18,6 +18,16 @@
   const legend = one("[data-library-legend]");
   const errorPanel = one("[data-library-error]");
   const resultCount = one("[data-library-result-count]");
+  const viewport = one("[data-library-viewport]");
+  const hovercard = one("[data-library-hovercard]");
+  const hoverType = one("[data-library-hover-type]");
+  const hoverTitle = one("[data-library-hover-title]");
+  const hoverMeta = one("[data-library-hover-meta]");
+  const zoomLabel = one("[data-library-zoom-label]");
+  const zoomIn = one("[data-library-zoom-in]");
+  const zoomOut = one("[data-library-zoom-out]");
+  const zoomReset = one("[data-library-zoom-reset]");
+  const mapWrap = one(".z2r-library-radial-wrap");
 
   const CX = 430;
   const CY = 430;
@@ -25,7 +35,10 @@
   const START = -Math.PI / 2;
   const GROUP_GAP = 0.035;
   const PAGE_GAP = 0.009;
-  const state = { data: null, selected: null, filter: "all", query: "", visiblePages: [] };
+  const state = {
+    data: null, selected: null, filter: "all", query: "", visiblePages: [],
+    zoom: 1, zoomFocus: { x: CX, y: CY }, hoveredGroup: null, hoveredPage: null
+  };
 
   function makeSvg(tag, attrs = {}, text = null) {
     const node = document.createElementNS(svgNS, tag);
@@ -123,6 +136,8 @@
     let cursor = START;
     const pageElements = new Map();
     const groupElements = new Map();
+    const groupFocus = new Map();
+    const pageFocus = new Map();
 
     groups.forEach((group) => {
       const groupPages = pages.filter((page) => page.group === group.id);
@@ -130,6 +145,7 @@
       const start = cursor;
       const end = start + groupSpan;
       const groupMid = (start + end) / 2;
+      groupFocus.set(group.id, polar(165, groupMid));
 
       const groupPath = makeSvg("path", {
         d: annularPath(119, 211, start + 0.004, end - 0.004),
@@ -150,6 +166,10 @@
           applyFilter(group.id);
         }
       });
+      groupPath.addEventListener("pointerenter", (event) => showHover("group", group.id, event, groupPath));
+      groupPath.addEventListener("pointerleave", hideHover);
+      groupPath.addEventListener("focus", (event) => showHover("group", group.id, event, groupPath));
+      groupPath.addEventListener("blur", hideHover);
       segments.appendChild(groupPath);
       groupElements.set(group.id, groupPath);
 
@@ -171,6 +191,8 @@
       groupPages.forEach((page, index) => {
         const pageStart = start + index * step + PAGE_GAP / 2;
         const pageEnd = start + (index + 1) * step - PAGE_GAP / 2;
+        const pageMid = (pageStart + pageEnd) / 2;
+        pageFocus.set(page.id, polar(288, pageMid));
         const arc = makeSvg("path", {
           d: annularPath(230, 347, pageStart, pageEnd),
           class: "library-page-sector",
@@ -186,6 +208,10 @@
         arc.appendChild(makeSvg("title", {}, page.title + " — " + group.name));
         arc.addEventListener("click", () => selectPage(page.id));
         arc.addEventListener("keydown", (event) => handlePageKey(event, page.id));
+        arc.addEventListener("pointerenter", (event) => showHover("page", page.id, event, arc));
+        arc.addEventListener("pointerleave", hideHover);
+        arc.addEventListener("focus", (event) => showHover("page", page.id, event, arc));
+        arc.addEventListener("blur", hideHover);
         segments.appendChild(arc);
         pageElements.set(page.id, arc);
 
@@ -204,6 +230,8 @@
 
     state.pageElements = pageElements;
     state.groupElements = groupElements;
+    state.groupFocus = groupFocus;
+    state.pageFocus = pageFocus;
     renderLegend();
     renderDirectory();
     applyVisibility();
@@ -295,7 +323,96 @@
     search.value = "";
     applyVisibility();
     renderInspector(pageId);
+    applyZoom(1.10, state.pageFocus.get(pageId));
     if (focus) state.pageElements.get(pageId)?.focus();
+  }
+
+
+  function applyZoom(value, focus = state.zoomFocus) {
+    if (!viewport) return;
+    state.zoom = Math.max(0.86, Math.min(1.28, value));
+    state.zoomFocus = state.zoom <= 1 ? { x: CX, y: CY } : (focus || { x: CX, y: CY });
+    viewport.style.transformOrigin =
+      (state.zoomFocus.x / 860 * 100).toFixed(2) + "% " +
+      (state.zoomFocus.y / 860 * 100).toFixed(2) + "%";
+    viewport.style.transform = "scale(" + state.zoom.toFixed(3) + ")";
+    if (zoomLabel) zoomLabel.textContent = Math.round(state.zoom * 100) + "%";
+    if (zoomOut) zoomOut.disabled = state.zoom <= 0.86;
+    if (zoomIn) zoomIn.disabled = state.zoom >= 1.28;
+  }
+
+  function showHover(kind, id, event, target) {
+    if (!hovercard || !mapWrap || !state.data) return;
+    let title = "";
+    let meta = "";
+    if (kind === "group") {
+      const group = state.data.groups.find((item) => item.id === id);
+      if (!group) return;
+      const count = state.data.pages.filter((page) => page.group === id).length;
+      state.hoveredGroup = id;
+      state.hoveredPage = null;
+      title = group.name;
+      meta = count + " EXISTING PAGES · SELECT TO FOCUS";
+      if (hoverType) hoverType.textContent = group.kind === "learning" ? "LEARNING PATH" : "REFERENCE COLLECTION";
+    } else {
+      const page = state.data.pages.find((item) => item.id === id);
+      if (!page) return;
+      const group = state.data.groups.find((item) => item.id === page.group);
+      state.hoveredPage = id;
+      state.hoveredGroup = page.group;
+      title = page.title;
+      meta = group.name + " / " + typeLabel(page.type);
+      if (hoverType) hoverType.textContent = "EXISTING PAGE";
+    }
+    if (hoverTitle) hoverTitle.textContent = title;
+    if (hoverMeta) hoverMeta.textContent = meta;
+    syncHoverStyles();
+
+    const wrapRect = mapWrap.getBoundingClientRect();
+    let x, y;
+    if (event && event.type !== "focus" && Number.isFinite(event.clientX)) {
+      x = event.clientX - wrapRect.left;
+      y = event.clientY - wrapRect.top;
+    } else if (target && target.getBoundingClientRect) {
+      const targetRect = target.getBoundingClientRect();
+      x = targetRect.left + targetRect.width / 2 - wrapRect.left;
+      y = targetRect.top + targetRect.height / 2 - wrapRect.top;
+    } else {
+      x = wrapRect.width / 2;
+      y = wrapRect.height / 2;
+    }
+    const left = Math.max(12, Math.min(wrapRect.width - 252, x + 14));
+    const top = Math.max(10, Math.min(wrapRect.height - 82, y + 14));
+    hovercard.style.left = left + "px";
+    hovercard.style.top = top + "px";
+    hovercard.hidden = false;
+  }
+
+  function syncHoverStyles() {
+    if (!state.data) return;
+    state.pageElements.forEach((element, id) => {
+      const page = state.data.pages.find((item) => item.id === id);
+      const related = state.hoveredPage ? id === state.hoveredPage :
+        state.hoveredGroup ? page.group === state.hoveredGroup : false;
+      const dimmed = Boolean(state.hoveredPage || state.hoveredGroup) && !related;
+      element.classList.toggle("is-hovered", related);
+      element.classList.toggle("is-hover-dimmed", dimmed);
+    });
+    state.groupElements.forEach((element, id) => {
+      const related = state.hoveredPage ? id === state.hoveredGroup :
+        state.hoveredGroup ? id === state.hoveredGroup : false;
+      const dimmed = Boolean(state.hoveredPage || state.hoveredGroup) && !related;
+      element.classList.toggle("is-hovered", related);
+      element.classList.toggle("is-hover-dimmed", dimmed);
+    });
+  }
+
+  function hideHover() {
+    if (!hovercard) return;
+    hovercard.hidden = true;
+    state.hoveredGroup = null;
+    state.hoveredPage = null;
+    syncHoverStyles();
   }
 
   function applyVisibility() {
@@ -322,6 +439,7 @@
 
     resultCount.textContent = matches.length + " / " + state.data.pages.length + " PAGES";
     syncFilterButtons();
+    syncHoverStyles();
   }
 
   function syncFilterButtons() {
@@ -342,10 +460,15 @@
     if (groupId !== "all") {
       const next = state.data.pages.find((page) => page.group === groupId);
       if (next) renderInspector(next.id);
-    } else if (state.selected && !state.visiblePages.some((page) => page.id === state.selected)) {
-      const next = state.visiblePages[0];
-      if (next) renderInspector(next.id);
+      applyZoom(1.18, state.groupFocus.get(groupId));
+    } else {
+      applyZoom(1);
+      if (state.selected && !state.visiblePages.some((page) => page.id === state.selected)) {
+        const next = state.visiblePages[0];
+        if (next) renderInspector(next.id);
+      }
     }
+    hideHover();
   }
 
   function handlePageKey(event, pageId) {
@@ -384,6 +507,15 @@
 
   function bindControls() {
     search.addEventListener("input", syncSearch);
+    if (zoomIn) zoomIn.addEventListener("click", () => applyZoom(state.zoom + 0.06));
+    if (zoomOut) zoomOut.addEventListener("click", () => applyZoom(state.zoom - 0.06));
+    if (zoomReset) zoomReset.addEventListener("click", () => applyZoom(1));
+    if (svg) {
+      svg.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        applyZoom(state.zoom + (event.deltaY < 0 ? 0.045 : -0.045));
+      }, { passive: false });
+    }
     search.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         search.value = "";
@@ -448,6 +580,7 @@
       renderMap();
       renderStats();
       bindControls();
+      applyZoom(1);
 
       const requested = new URL(window.location.href).searchParams.get("page");
       const initial = data.pages.find((page) => page.id === requested) ||

@@ -373,7 +373,7 @@
       "short": "SQLi / XSS",
       "type": "weakness",
       "region": "appsec",
-      "x": 595,
+      "x": 520,
       "y": 425,
       "level": "OWASP",
       "href": "/level-1/04-owasp-top10/",

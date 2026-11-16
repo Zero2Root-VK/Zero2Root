@@ -1,6 +1,6 @@
 # Protocol & Security Lab
 
-<badge>In development</badge>
+**Status: In development.**
 
 The Lab is planned as a browser-based environment for visualizing how protocols and security mechanisms work.
 

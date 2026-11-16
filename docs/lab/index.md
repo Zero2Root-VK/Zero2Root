@@ -1,20 +1,45 @@
 # Protocol & Security Lab
 
-**Status: In development.**
+<div class="z2r-status-banner">
+  <strong>In development</strong>
+  <span>These browser-based learning experiences are planned. They are not live testing tools yet.</span>
+</div>
 
 The Lab is planned as a browser-based environment for visualizing how protocols and security mechanisms work.
 
 ## Proposed learning experiences
 
-| Lab | What it will explain |
-|---|---|
-| TCP/IP Explorer | Connection setup, packet flow and teardown |
-| HTTP Lab | Requests, responses, headers, cookies and status codes |
-| DNS Explorer | Name resolution and record types |
-| TLS Handshake | Certificate exchange and session establishment |
-| JWT Lab | Token structure, claims and validation |
-| WebSocket Lab | Upgrade handshake and message flow |
-| Modbus TCP | Industrial protocol request and response structure |
+<div class="grid cards" markdown>
+
+-   **TCP/IP Explorer**
+
+    Connection setup, packet flow and teardown, with step-by-step playback.
+
+-   **HTTP Lab**
+
+    Requests, responses, headers, cookies and status codes.
+
+-   **DNS Explorer**
+
+    Name resolution, record types and the resolver journey.
+
+-   **TLS Handshake**
+
+    Certificate exchange and session establishment.
+
+-   **JWT Lab**
+
+    Token structure, claims and validation.
+
+-   **WebSocket Lab**
+
+    Upgrade handshake and message flow.
+
+-   **Modbus TCP**
+
+    Industrial protocol request and response structure.
+
+</div>
 
 ## Design principles
 

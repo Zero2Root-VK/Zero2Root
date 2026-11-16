@@ -311,14 +311,13 @@
       element.classList.toggle("is-dimmed", !connected);
     });
     if (focusMap) {
-      const targetWidth = Math.min(1050, view.width);
-      if (view.width > targetWidth * 1.02) {
-        view.width = targetWidth;
-        view.height = targetWidth * 820 / 1400;
-        view.x = Math.max(0, Math.min(1400 - view.width, node.x - view.width/2));
-        view.y = Math.max(0, Math.min(820 - view.height, node.y - view.height/2));
-        applyViewBox();
-      }
+      const mobile = window.matchMedia("(max-width: 600px)").matches;
+      const targetWidth = mobile ? 600 : 1050;
+      view.width = Math.min(view.width, targetWidth);
+      view.height = view.width * 820 / 1400;
+      view.x = Math.max(0, Math.min(1400 - view.width, node.x - view.width/2));
+      view.y = Math.max(0, Math.min(820 - view.height, node.y - view.height/2));
+      applyViewBox();
     }
     applyViewFilter();
   }
@@ -536,7 +535,7 @@
       bindControls();
       bindMapControls();
       const first=getNode("api")||data.nodes[0];
-      selectNode(first.id,false);
+      selectNode(first.id,true);
       fallback.hidden=true;
       root.classList.add("is-ready");
     } catch(error) {

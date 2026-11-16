@@ -587,3 +587,26 @@
   --z2r-page-green: var(--z2r-mineral);
   --z2r-page-amber: var(--z2r-brass);
 }
+
+/* Light-theme contrast refinements (normal text >= 4.5:1 on warm paper). */
+[data-md-color-scheme="default"] {
+  --z2r-copper: #9A5335;
+  --z2r-copper-light: #955236;
+  --z2r-mineral: #4C6B58;
+  --z2r-brass: #855E30;
+  --z2r-danger: #A34E45;
+}
+
+[data-md-color-scheme="default"] .z2r-button--primary {
+  color: #F1EEE7 !important;
+}
+
+/* The cinematic hero remains a dark stage even when article pages use paper mode. */
+[data-md-color-scheme="default"] .z2r-hero {
+  --z2r-ivory: #E9E5DC;
+  --z2r-muted: #AAA99F;
+  --z2r-copper: #C77C55;
+  --z2r-copper-light: #D99973;
+  --z2r-mineral: #8EA99A;
+  --z2r-brass: #D2AA70;
+}

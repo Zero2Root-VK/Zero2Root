@@ -8,7 +8,7 @@ hide:
     <section class="z2r-library-copy" aria-label="Zero2Root knowledge library">
       <p class="z2r-library-kicker">A FIELD GUIDE TO THE SECURITY LANDSCAPE</p>
       <h1>Cybersecurity,<br><em>mapped.</em></h1>
-      <p class="z2r-library-intro">A connected path through the craft of security. Explore the learning levels, practical lessons, tools and field resources already inside Zero2Root.</p>
+      <p class="z2r-library-intro">Explore structured learning paths, practical lessons, security tools and field resources—all in one place.</p>
 
       <div class="z2r-library-metrics" aria-label="Library statistics">
         <div><strong data-library-stat="levels">05</strong><span>LEVELS</span></div>
@@ -26,7 +26,7 @@ hide:
         <a class="z2r-library-open-link" data-library-open href="level-0/">Explore this destination <span aria-hidden="true">↗</span></a>
       </section>
 
-      <p class="z2r-library-copy-foot">49 EXISTING DESTINATIONS <span>·</span> 5 LEARNING LEVELS <span>·</span> ONE CONNECTED LIBRARY</p>
+      <p class="z2r-library-copy-foot">49 DESTINATIONS <span>·</span> 5 LEARNING PATHS <span>·</span> TOOLS &amp; RESOURCES</p>
     </section>
 
     <section class="z2r-library-map-stage" aria-label="Interactive Zero2Root knowledge map">

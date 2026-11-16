@@ -2,38 +2,27 @@
 hide:
   - title
 ---
-<div class="pv-onboarding-banner">
-  <div class="pv-onboarding-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m1 15h-2v-2h2v2m0-4h-2V7h2v6Z"/></svg>
-  </div>
-  <div class="pv-onboarding-content">
-    <strong>How to Use This Guide</strong>
-    <p>Start at the level that matches your experience, not your target job title. If you're aiming for a mid-level role but your networking fundamentals are shaky, go through <strong>Level 0</strong> first. Interviewers probe foundations regardless of the role.</p>
+
+<div class="z2r-home" markdown="1">
+
+<div class="z2r-onboarding" markdown="1">
+  <div class="z2r-onboarding-mark" aria-hidden="true">i</div>
+  <div>
+    **Start at the level that matches your understanding — not just your target job title.**
+
+    If your goal is a mid-level role but networking fundamentals are shaky, begin with Level 0. Strong foundations make advanced security work easier to reason about.
   </div>
 </div>
 
----
+<section class="z2r-section" id="learning-paths" markdown="1">
 
-## What Makes This Different
+<div class="z2r-section-heading" markdown="1">
+  <span class="z2r-kicker">Your progression</span>
 
-Most interview guides give you a list of questions with no answers, or surface-level answers that don't survive a follow-up question. This guide is built by pentesters who have been on both sides of the table.
+  ## Learning paths
 
-Every interview Q&A uses a **three-layer format**:
-
-=== "Concept Answer"
-    The technical definition — what you need to actually understand.
-
-=== "What's Being Tested"
-    Why the interviewer asked this. What follow-up question is coming.
-    What level of depth they're expecting at this role level.
-
-=== "Model Answer to Give"
-    Exactly how to frame your answer — with the right depth, right terminology,
-    and an awareness of what comes next in the conversation.
-
----
-
-## Learning Paths
+  Move from core concepts to advanced security engineering through five structured levels. Each path combines technical understanding, practical context and interview preparation.
+</div>
 
 <div class="grid cards" markdown>
 
@@ -41,7 +30,7 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    Networking, OS fundamentals, core security concepts, intro to pentesting.
+    Networking, operating systems, core security concepts and an introduction to penetration testing.
 
     [:octicons-arrow-right-24: Start Level 0](level-0/index.md)
 
@@ -49,7 +38,7 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    Recon, scanning, OWASP Top 10, basic exploitation, report writing.
+    Reconnaissance, scanning, OWASP Top 10, basic exploitation and professional report writing.
 
     [:octicons-arrow-right-24: Start Level 1](level-1/index.md)
 
@@ -57,7 +46,7 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    Web advanced, API, Android, AD basics, source code & config review.
+    Advanced web, API and Android security, infrastructure testing, Active Directory and source code review.
 
     [:octicons-arrow-right-24: Start Level 2](level-2/index.md)
 
@@ -65,7 +54,7 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    AD advanced, red team, cloud (AWS/Azure/GCP), exploit dev, engagement mgmt.
+    Advanced Active Directory, red team concepts, cloud security, iOS security and exploit development.
 
     [:octicons-arrow-right-24: Start Level 3](level-3/index.md)
 
@@ -73,7 +62,7 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    Program design, threat modeling, GRC/compliance, leadership, business dev.
+    Security program design, threat modeling, GRC, compliance, leadership and business development.
 
     [:octicons-arrow-right-24: Start Level 4](level-4/index.md)
 
@@ -81,47 +70,97 @@ Every interview Q&A uses a **three-layer format**:
 
     ---
 
-    Commands and interview context for recon, scanning, web, network & mobile tools.
+    Practical references for reconnaissance, scanning, web application, network, infrastructure and mobile security tools.
 
-    [:octicons-arrow-right-24: Browse Tools](tools/index.md)
+    [:octicons-arrow-right-24: Browse tools](tools/index.md)
 
 </div>
+</section>
 
----
+<section class="z2r-section" id="security-domains" markdown="1">
 
-## What We Cover
+<div class="z2r-section-heading" markdown="1">
+  <span class="z2r-kicker">Broad technical coverage</span>
 
+  ## Explore the security landscape
+
+  Build knowledge across the systems, applications and teams that make up modern environments.
+</div>
+
+<div class="z2r-domain-grid" markdown="1">
 <div class="grid cards" markdown>
 
--   :material-web-check: **Web & API**
--   :material-cellphone: **Mobile (Android + iOS)**
--   :material-server: **Infrastructure & AD**
--   :material-cloud: **Cloud (AWS/Azure/GCP)**
--   :material-code-tags: **Source Code Review**
--   :material-tune-variant: **Config Review**
--   :material-lan: **Segmentation Testing**
--   :material-shield-account: **Red Team & Purple Team**
--   :material-file-document-check: **GRC & Compliance**
--   :material-account-group: **Leadership & BD**
+-   :material-web-check:{ .lg } **Web & API Security**
+-   :material-cellphone:{ .lg } **Mobile Security**
+-   :material-server:{ .lg } **Infrastructure & Active Directory**
+-   :material-cloud:{ .lg } **Cloud Security**
+-   :material-code-tags:{ .lg } **Source Code Review**
+-   :material-tune-variant:{ .lg } **Configuration Review**
+-   :material-lan:{ .lg } **Segmentation Testing**
+-   :material-shield-account:{ .lg } **Red & Purple Team**
+-   :material-file-document-check:{ .lg } **GRC & Compliance**
+-   :material-account-group:{ .lg } **Leadership & Business**
 
 </div>
+</div>
+</section>
 
----
+<section class="z2r-section" id="learning-method" markdown="1">
 
-## Ready, Set, Go
+<div class="z2r-section-heading" markdown="1">
+  <span class="z2r-kicker">Learn with context</span>
 
-| Your experience | Start here |
-|----------------|------------|
-| Fresher / IT graduate / career switcher | [Level 0 — Foundations](level-0/index.md) |
+  ## More than a list of questions
+
+  Interview preparation is organized into three layers so you can understand a topic, recognize what an interviewer is evaluating and explain your thinking clearly.
+</div>
+
+<div class="z2r-principles">
+  <div class="z2r-principle">
+    **Concept answer**
+    <span>The technical definition and the underlying idea you need to understand.</span>
+  </div>
+  <div class="z2r-principle">
+    **What's being tested**
+    <span>The reasoning behind the question, likely follow-ups and expected depth.</span>
+  </div>
+  <div class="z2r-principle">
+    **Model answer**
+    <span>A clear way to communicate the concept with appropriate technical detail.</span>
+  </div>
+</div>
+</section>
+
+<section class="z2r-section" id="choose-your-starting-point" markdown="1">
+
+<div class="z2r-section-heading" markdown="1">
+  <span class="z2r-kicker">Choose your entry point</span>
+
+  ## Where should you start?
+
+  Use your current hands-on experience as a guide. You can move between levels whenever you need to strengthen a topic.
+</div>
+
+| Your experience | Recommended starting point |
+|-----------------|-----------------------------|
+| Fresher, IT graduate or career switcher | [Level 0 — Foundations](level-0/index.md) |
 | 0–1 years in pentesting | [Level 1 — Junior](level-1/index.md) |
-| 1–3 years, web/infra/mobile VAPT | [Level 2 — Mid-Level](level-2/index.md) |
-| 3–5 years, AD / red team exposure | [Level 3 — Senior](level-3/index.md) |
-| 5+ years, leading engagements | [Level 4 — Lead](level-4/index.md) |
+| 1–3 years in web, infrastructure or mobile VAPT | [Level 2 — Mid-Level](level-2/index.md) |
+| 3–5 years with AD or red team exposure | [Level 3 — Senior](level-3/index.md) |
+| 5+ years or leading engagements | [Level 4 — Lead](level-4/index.md) |
 | Need a quick command reference | [Tools Reference](tools/index.md) |
-| Planning your cert path | [Resources: Certifications](resources/index.md) |
+| Planning a certification path | [Certifications roadmap](certifications.md) |
 
----
+</section>
 
-!!! note "Open Source"
-    This guide is free and open source. If you find something missing or inaccurate,
-    open a PR on GitHub. Built by practitioners, for practitioners.
+<div class="z2r-closing" markdown="1">
+  <span class="z2r-kicker">Built by practitioners, for practitioners</span>
+
+  ## Understand the why. Practice the how.
+
+  Zero2Root is an open, community-driven knowledge base. Use the learning paths, explore the tool references and contribute improvements that help the wider security community.
+
+  [:octicons-mark-github-16: Contribute on GitHub](https://github.com/Zero2Root-VK/Zero2Root)
+</div>
+
+</div>

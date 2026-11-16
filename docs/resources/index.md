@@ -1,7 +1,10 @@
 # Resources
 
-Supplementary materials to support your interview preparation journey — from certifications and behavioral prep to resume building.
+<div class="z2r-page-intro" markdown="1">
+<span class="z2r-level-kicker">FIELD NOTES / CAREER & PRACTICE</span>
 
+Supplementary materials to support your interview preparation journey — from certifications and behavioral prep to resume building.
+</div>
 <div class="grid cards" markdown>
 
 -   :material-certificate:{ .lg .middle } **Certifications Roadmap**

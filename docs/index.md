@@ -2,126 +2,97 @@
 hide:
   - title
 ---
-<div class="pv-onboarding-banner">
-  <div class="pv-onboarding-icon">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m1 15h-2v-2h2v2m0-4h-2V7h2v6Z"/></svg>
+
+<div class="z2r-library" data-z2r-library>
+  <main class="z2r-library-experience">
+    <section class="z2r-library-copy" aria-label="Zero2Root knowledge library">
+      <p class="z2r-library-kicker">A FIELD GUIDE TO THE SECURITY LANDSCAPE</p>
+      <h1>Cybersecurity,<br><em>mapped.</em></h1>
+      <p class="z2r-library-intro">Explore structured learning paths, practical lessons, security tools and field resources—all in one place.</p>
+
+      <div class="z2r-library-metrics" aria-label="Library statistics">
+        <div><strong data-library-stat="levels">05</strong><span>LEVELS</span></div>
+        <div><strong data-library-stat="lessons">34</strong><span>LESSONS</span></div>
+        <div><strong data-library-stat="tools">05</strong><span>TOOLS</span></div>
+        <div><strong data-library-stat="resources">03</strong><span>RESOURCES</span></div>
+      </div>
+
+      <section class="z2r-library-selection" data-library-inspector aria-live="polite" aria-label="Selected destination">
+        <div class="z2r-library-selection-index"><span>SELECTED DESTINATION</span><span data-library-inspector-index>01 / 49</span></div>
+        <span class="z2r-library-inspector-type" data-library-inspector-type>LEARNING LEVEL OVERVIEW</span>
+        <h2 data-library-inspector-title>Level 0 — Foundations</h2>
+        <div class="z2r-library-inspector-group" data-library-inspector-group>LEVEL 0 / FOUNDATIONS</div>
+        <p data-library-inspector-summary>Absolute beginners, IT graduates and career switchers with no prior security background.</p>
+        <a class="z2r-library-open-link" data-library-open href="level-0/">Explore this destination <span aria-hidden="true">↗</span></a>
+      </section>
+
+      <p class="z2r-library-copy-foot">49 DESTINATIONS <span>·</span> 5 LEARNING PATHS <span>·</span> TOOLS &amp; RESOURCES</p>
+    </section>
+
+    <section class="z2r-library-map-stage" aria-label="Interactive Zero2Root knowledge map">
+      <div class="z2r-library-radial-wrap">
+        <svg class="z2r-library-radial" data-library-radial viewBox="0 0 860 860" role="group" aria-label="Interactive radial knowledge map. Select an inner category or outer lesson segment to explore existing Zero2Root pages.">
+          <defs>
+            <pattern id="z2r-library-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+              <path d="M28 0H0V28" fill="none" stroke="#8EA99A" stroke-opacity=".045" stroke-width=".7"/>
+              <circle cx="0" cy="0" r=".8" fill="#8EA99A" fill-opacity=".09"/>
+            </pattern>
+            <radialGradient id="z2r-library-vignette">
+              <stop offset="0" stop-color="#8EA99A" stop-opacity=".035"/>
+              <stop offset="1" stop-color="#0B0D0E" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <rect width="860" height="860" fill="url(#z2r-library-grid)"/>
+          <rect width="860" height="860" fill="url(#z2r-library-vignette)"/>
+          <g data-library-viewport>
+            <g data-library-rings></g>
+            <g data-library-segments></g>
+            <g data-library-connections></g>
+            <g data-library-labels></g>
+            <g data-library-center></g>
+          </g>
+        </svg>
+        <div class="z2r-library-hovercard" data-library-hovercard hidden role="status" aria-live="polite">
+          <span data-library-hover-type>EXISTING PAGE</span>
+          <strong data-library-hover-title></strong>
+          <small data-library-hover-meta></small>
+        </div>
+      </div>
+      <div class="z2r-library-map-legend" data-library-legend></div>
+    </section>
+  </main>
+
+  <section class="z2r-library-discovery" aria-label="Find and filter existing content">
+    <label class="z2r-library-search">
+      <span aria-hidden="true">⌕</span>
+      <input type="search" data-library-search autocomplete="off" placeholder="Find a lesson, tool or resource…" aria-label="Search existing Zero2Root pages">
+      <kbd>/</kbd>
+    </label>
+    <div class="z2r-library-filters" role="group" aria-label="Filter by existing section">
+      <button type="button" class="is-active" data-library-filter="all" aria-pressed="true">ALL</button>
+      <button type="button" data-library-filter="level-0" aria-pressed="false">L0</button>
+      <button type="button" data-library-filter="level-1" aria-pressed="false">L1</button>
+      <button type="button" data-library-filter="level-2" aria-pressed="false">L2</button>
+      <button type="button" data-library-filter="level-3" aria-pressed="false">L3</button>
+      <button type="button" data-library-filter="level-4" aria-pressed="false">L4</button>
+      <button type="button" data-library-filter="tools" aria-pressed="false">TOOLS</button>
+      <button type="button" data-library-filter="resources" aria-pressed="false">RESOURCES</button>
+    </div>
+    <span class="z2r-library-result-count" data-library-result-count aria-live="polite">49 / 49 PAGES</span>
+  </section>
+
+  <details class="z2r-library-directory">
+    <summary><span>Browse all existing destinations</span><small data-library-directory-count>49 PAGES</small><b aria-hidden="true">＋</b></summary>
+    <p>The directory contains the same existing Markdown pages represented in the map.</p>
+    <div class="z2r-library-directory-grid" data-library-directory></div>
+  </details>
+
+  <footer class="z2r-library-footer">
+    <span>ZERO2ROOT / CURRENT CONTENT INDEX</span>
+    <span>LEARN THE SYSTEM. UNDERSTAND THE WEAKNESS.</span>
+  </footer>
+  <div class="z2r-library-error" data-library-error hidden role="alert">
+    <strong>The knowledge map could not load.</strong>
+    <p>Your existing learning pages remain available. Reload to retry the interactive map.</p>
   </div>
-  <div class="pv-onboarding-content">
-    <strong>How to Use This Guide</strong>
-    <p>Start at the level that matches your experience, not your target job title. If you're aiming for a mid-level role but your networking fundamentals are shaky, go through <strong>Level 0</strong> first. Interviewers probe foundations regardless of the role.</p>
-  </div>
 </div>
-
----
-
-## What Makes This Different
-
-Most interview guides give you a list of questions with no answers, or surface-level answers that don't survive a follow-up question. This guide is built by pentesters who have been on both sides of the table.
-
-Every interview Q&A uses a **three-layer format**:
-
-=== "Concept Answer"
-    The technical definition — what you need to actually understand.
-
-=== "What's Being Tested"
-    Why the interviewer asked this. What follow-up question is coming.
-    What level of depth they're expecting at this role level.
-
-=== "Model Answer to Give"
-    Exactly how to frame your answer — with the right depth, right terminology,
-    and an awareness of what comes next in the conversation.
-
----
-
-## Learning Paths
-
-<div class="grid cards" markdown>
-
--   :material-numeric-0-circle:{ .lg .middle } **Level 0 — Foundations**
-
-    ---
-
-    Networking, OS fundamentals, core security concepts, intro to pentesting.
-
-    [:octicons-arrow-right-24: Start Level 0](level-0/index.md)
-
--   :material-numeric-1-circle:{ .lg .middle } **Level 1 — Junior Pentester**
-
-    ---
-
-    Recon, scanning, OWASP Top 10, basic exploitation, report writing.
-
-    [:octicons-arrow-right-24: Start Level 1](level-1/index.md)
-
--   :material-numeric-2-circle:{ .lg .middle } **Level 2 — Mid-Level Pentester**
-
-    ---
-
-    Web advanced, API, Android, AD basics, source code & config review.
-
-    [:octicons-arrow-right-24: Start Level 2](level-2/index.md)
-
--   :material-numeric-3-circle:{ .lg .middle } **Level 3 — Senior Pentester**
-
-    ---
-
-    AD advanced, red team, cloud (AWS/Azure/GCP), exploit dev, engagement mgmt.
-
-    [:octicons-arrow-right-24: Start Level 3](level-3/index.md)
-
--   :material-numeric-4-circle:{ .lg .middle } **Level 4 — Lead / Architect**
-
-    ---
-
-    Program design, threat modeling, GRC/compliance, leadership, business dev.
-
-    [:octicons-arrow-right-24: Start Level 4](level-4/index.md)
-
--   :material-tools:{ .lg .middle } **Tools Reference**
-
-    ---
-
-    Commands and interview context for recon, scanning, web, network & mobile tools.
-
-    [:octicons-arrow-right-24: Browse Tools](tools/index.md)
-
-</div>
-
----
-
-## What We Cover
-
-<div class="grid cards" markdown>
-
--   :material-web-check: **Web & API**
--   :material-cellphone: **Mobile (Android + iOS)**
--   :material-server: **Infrastructure & AD**
--   :material-cloud: **Cloud (AWS/Azure/GCP)**
--   :material-code-tags: **Source Code Review**
--   :material-tune-variant: **Config Review**
--   :material-lan: **Segmentation Testing**
--   :material-shield-account: **Red Team & Purple Team**
--   :material-file-document-check: **GRC & Compliance**
--   :material-account-group: **Leadership & BD**
-
-</div>
-
----
-
-## Ready, Set, Go
-
-| Your experience | Start here |
-|----------------|------------|
-| Fresher / IT graduate / career switcher | [Level 0 — Foundations](level-0/index.md) |
-| 0–1 years in pentesting | [Level 1 — Junior](level-1/index.md) |
-| 1–3 years, web/infra/mobile VAPT | [Level 2 — Mid-Level](level-2/index.md) |
-| 3–5 years, AD / red team exposure | [Level 3 — Senior](level-3/index.md) |
-| 5+ years, leading engagements | [Level 4 — Lead](level-4/index.md) |
-| Need a quick command reference | [Tools Reference](tools/index.md) |
-| Planning your cert path | [Resources: Certifications](resources/index.md) |
-
----
-
-!!! note "Open Source"
-    This guide is free and open source. If you find something missing or inaccurate,
-    open a PR on GitHub. Built by practitioners, for practitioners.

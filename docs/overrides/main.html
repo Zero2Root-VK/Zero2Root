@@ -1,54 +1,19 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  {{ super() }}
+  <meta name="theme-color" content="#0B0D0E">
+  <meta name="description" content="Explore the existing Zero2Root cybersecurity learning paths, lessons, tools and resources through an interactive radial content map.">
+  <meta property="og:title" content="Zero2Root — Cybersecurity, mapped">
+  <meta property="og:description" content="Explore the existing Zero2Root learning library: five learning levels, technical lessons, tools and resources.">
 {% endblock %}
 
-{% block hero %}
-  {% if page and page.is_homepage %}
-    <style>
-      .md-content .md-typeset h1 { display: none !important; }
-    </style>
-    <div class="pv-hero">
-      <div class="pv-hero-inner md-grid">
-        <div class="pv-hero-content">
-          <h1>Zero2Root</h1>
-          <p>Elevate your cybersecurity career — from fundamentals to mastery.</p>
-          <div class="pv-hero-buttons">
-            <a href="level-0/" class="md-button md-button--primary">
-              Start Learning
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </a>
-            <a href="#what-makes-this-different" class="md-button">Why This Guide?</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  {% endif %}
-{% endblock %}
+{# The home page is the interactive index itself; no separate marketing hero. #}
+{% block hero %}{% endblock %}
 
 {% block scripts %}
   {{ super() }}
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var heroSearch = document.querySelector(".pv-hero-search");
-      if (heroSearch) {
-        heroSearch.addEventListener("click", function(e) {
-          var searchLabel = document.querySelector(".md-header__button[for='__search']");
-          if (searchLabel) searchLabel.click();
-        });
-      }
-      document.addEventListener("keydown", function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-          e.preventDefault();
-          var searchLabel = document.querySelector(".md-header__button[for='__search']");
-          if (searchLabel) searchLabel.click();
-          setTimeout(function() {
-            var searchInput = document.querySelector(".md-search__input");
-            if (searchInput) searchInput.focus();
-          }, 100);
-        }
-      });
-    });
-  </script>
+  {% if page and page.is_homepage %}
+    <script src="{{ 'assets/javascripts/home-map.js' | url }}" defer data-library-map></script>
+  {% endif %}
 {% endblock %}

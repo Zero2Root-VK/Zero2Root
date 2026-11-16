@@ -834,3 +834,35 @@
     margin-bottom: 1.6rem;
   }
 }
+
+/* Site identity: precise wordmark sizing across desktop and mobile. */
+.md-header__button.md-logo {
+  display: inline-flex !important;
+  align-items: center;
+  width: auto;
+  max-width: min(260px, 42vw);
+}
+
+.md-header__button.md-logo img {
+  display: block;
+  width: auto !important;
+  height: 2.35rem !important;
+  max-width: 100%;
+  max-height: none !important;
+  margin: 0 !important;
+}
+
+.md-header__title {
+  font-family: "IBM Plex Sans", Inter, sans-serif;
+  font-weight: 650 !important;
+  letter-spacing: -.025em;
+}
+
+@media (max-width: 600px) {
+  .md-header__button.md-logo {
+    max-width: 190px;
+  }
+  .md-header__button.md-logo img {
+    height: 1.85rem !important;
+  }
+}

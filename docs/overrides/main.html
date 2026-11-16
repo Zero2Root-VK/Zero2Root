@@ -2,7 +2,7 @@
 
 {% block extrahead %}
   {{ super() }}
-  <meta name="theme-color" content="#050812">
+  <meta name="theme-color" content="#0B0D0E">
   <meta name="description" content="Zero2Root is a cybersecurity engineering and intelligence platform for learners, pentesters and security researchers.">
   <meta property="og:title" content="Zero2Root — Cybersecurity Engineering & Intelligence">
   <meta property="og:description" content="Learn. Explore. Research. Exploit. A practical cybersecurity engineering and intelligence platform.">
@@ -192,15 +192,15 @@
           var projected = points.map(function (point) { return project(point, spin, radius); });
 
           var glow = context.createRadialGradient(cx, cy, radius * 0.1, cx, cy, radius * 1.4);
-          glow.addColorStop(0, "rgba(26, 115, 190, 0.17)");
-          glow.addColorStop(0.52, "rgba(92, 56, 177, 0.07)");
-          glow.addColorStop(1, "rgba(4, 9, 22, 0)");
+          glow.addColorStop(0, "rgba(199, 124, 85, 0.12)");
+          glow.addColorStop(0.52, "rgba(142, 169, 154, 0.045)");
+          glow.addColorStop(1, "rgba(11, 13, 14, 0)");
           context.fillStyle = glow;
           context.fillRect(0, 0, width, height);
 
-          drawRing(cx, cy, radius * 1.27, radius * 0.36, -0.38, "rgba(49, 214, 237, 0.38)", 1.1);
-          drawRing(cx, cy, radius * 1.42, radius * 0.43, 0.56, "rgba(171, 91, 246, 0.27)", 1);
-          drawRing(cx, cy, radius * 1.13, radius * 0.31, 1.02, "rgba(49, 214, 237, 0.19)", 0.8);
+          drawRing(cx, cy, radius * 1.27, radius * 0.36, -0.38, "rgba(199, 124, 85, 0.34)", 1.1);
+          drawRing(cx, cy, radius * 1.42, radius * 0.43, 0.56, "rgba(142, 169, 154, 0.22)", 1);
+          drawRing(cx, cy, radius * 1.13, radius * 0.31, 1.02, "rgba(199, 124, 85, 0.16)", 0.8);
 
           // Network lines across the surface.
           context.lineWidth = 0.7;
@@ -211,7 +211,7 @@
             context.beginPath();
             context.moveTo(a.x, a.y);
             context.lineTo(b.x, b.y);
-            context.strokeStyle = "rgba(91, 172, 234, " + (0.07 + Math.max(a.z, b.z) * 0.12) + ")";
+            context.strokeStyle = "rgba(142, 169, 154, " + (0.07 + Math.max(a.z, b.z) * 0.12) + ")";
             context.stroke();
           });
 
@@ -222,8 +222,8 @@
             context.beginPath();
             context.arc(point.x, point.y, size, 0, Math.PI * 2);
             context.fillStyle = index % 7 === 0
-              ? "rgba(190, 126, 255, " + (0.15 + front * 0.68) + ")"
-              : "rgba(73, 222, 243, " + (0.10 + front * 0.78) + ")";
+              ? "rgba(210, 170, 112, " + (0.15 + front * 0.68) + ")"
+              : "rgba(199, 124, 85, " + (0.10 + front * 0.78) + ")";
             context.fill();
           });
 
@@ -233,8 +233,8 @@
             if (point.z < -0.08) return;
             context.beginPath();
             context.arc(point.x, point.y, 2.1 + point.z * 1.8, 0, Math.PI * 2);
-            context.fillStyle = "rgba(230, 248, 255, 0.95)";
-            context.shadowColor = node.seed % 3 === 0 ? "#b77cff" : "#43eaff";
+            context.fillStyle = "rgba(233, 229, 220, 0.92)";
+            context.shadowColor = node.seed % 3 === 0 ? "#D2AA70" : "#C77C55";
             context.shadowBlur = 12;
             context.fill();
             context.shadowBlur = 0;
@@ -243,7 +243,7 @@
           // A subtle outer circular boundary.
           context.beginPath();
           context.arc(cx, cy, radius * 1.01, 0, Math.PI * 2);
-          context.strokeStyle = "rgba(95, 170, 232, 0.18)";
+          context.strokeStyle = "rgba(142, 169, 154, 0.18)";
           context.lineWidth = 1;
           context.stroke();
         }

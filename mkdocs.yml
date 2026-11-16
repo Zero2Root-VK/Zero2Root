@@ -1,8 +1,8 @@
 site_name: Zero2Root
-site_description: Elevate your cybersecurity career — from fundamentals to mastery.
+site_description: Practical cybersecurity learning, tools and security knowledge — from fundamentals to advanced offensive security.
 site_author: Zero2Root Contributors
-site_url: https://zero2root.github.io
-repo_url: https://github.com/Cybertechhacks/Zero2Root
+site_url: https://zero2root.com
+repo_url: https://github.com/Zero2Root-VK/Zero2Root
 edit_uri: edit/main/docs/
 
 theme:
@@ -73,11 +73,12 @@ markdown_extensions:
 
 extra_css:
   - assets/stylesheets/extra.css
+  - assets/stylesheets/home-v2.css
 
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/Cybertechhacks/Zero2Root
+      link: https://github.com/Zero2Root-VK/Zero2Root
 
 copyright: >
   Built and maintained by Vinod Kumar Bontha · CEH (Master) | CRTA | CNSP · <a href="https://linkedin.com/in/vinodkr000" target="_blank" rel="noopener">LinkedIn</a>

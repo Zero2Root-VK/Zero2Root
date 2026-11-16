@@ -7,6 +7,13 @@ hide:
 
   <section class="z2r-module-section" id="platform-modules" aria-label="Zero2Root platform modules">
     <div class="z2r-module-grid">
+      <a class="z2r-module-card z2r-module-card--copper" href="atlas/">
+        <span class="z2r-module-icon" aria-hidden="true">⌖</span>
+        <span class="z2r-module-status z2r-status-live">INTERACTIVE / AVAILABLE</span>
+        <strong>Cyber Terrain — Field Atlas</strong>
+        <span>Navigate a source-linked map of security domains, concepts, weaknesses, protocols and practical references.</span>
+        <b>Explore the knowledge terrain <span aria-hidden="true">→</span></b>
+      </a>
       <a class="z2r-module-card z2r-module-card--cyan" href="learn/">
         <span class="z2r-module-icon" aria-hidden="true">▱</span>
         <span class="z2r-module-status z2r-status-live">AVAILABLE NOW</span>

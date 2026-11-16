@@ -1,6 +1,6 @@
 # AI Research Assistant
 
-<badge>Planned</badge>
+**Status: Planned.**
 
 The AI Research Assistant is a planned interface for asking questions across the Zero2Root knowledge base.
 

@@ -1,26 +1,49 @@
 {% extends "base.html" %}
 
 {% block extrahead %}
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  {{ super() }}
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="Practical cybersecurity learning, tools and security knowledge — from fundamentals to advanced offensive security.">
 {% endblock %}
 
 {% block hero %}
   {% if page and page.is_homepage %}
-    <style>
-      .md-content .md-typeset h1 { display: none !important; }
-    </style>
-    <div class="pv-hero">
-      <div class="pv-hero-inner md-grid">
-        <div class="pv-hero-content">
-          <h1>Zero2Root</h1>
-          <p>Elevate your cybersecurity career — from fundamentals to mastery.</p>
-          <div class="pv-hero-buttons">
-            <a href="level-0/" class="md-button md-button--primary">
-              Start Learning
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </a>
-            <a href="#what-makes-this-different" class="md-button">Why This Guide?</a>
+    <div class="z2r-hero" aria-labelledby="z2r-hero-title">
+      <div class="z2r-hero-inner">
+        <div class="z2r-hero-content">
+          <div class="z2r-eyebrow">Practical cybersecurity knowledge</div>
+          <h1 id="z2r-hero-title">Understand the system.<span>Secure what matters.</span></h1>
+          <p class="z2r-hero-copy">
+            A practical path through cybersecurity — build strong foundations,
+            understand real-world techniques, and develop the judgement to test
+            and secure modern systems.
+          </p>
+          <div class="z2r-hero-actions">
+            <a href="level-0/" class="md-button md-button--primary">Explore learning paths</a>
+            <a href="#learning-paths" class="md-button">View the roadmap</a>
           </div>
+          <button class="z2r-hero-search pv-hero-search" type="button" aria-label="Search Zero2Root">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 14 15.5l.27.28v.79L20 22l2-2-6.5-6zm-5 0A4.5 4.5 0 1 1 10.5 5a4.5 4.5 0 0 1 0 9z"/></svg>
+            <span>Search learning paths, tools and topics</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+          <div class="z2r-hero-metrics" aria-label="Platform highlights">
+            <div class="z2r-metric"><strong>05</strong><span>Learning levels</span></div>
+            <div class="z2r-metric"><strong>10</strong><span>Security domains</span></div>
+            <div class="z2r-metric"><strong>Open</strong><span>Free knowledge base</span></div>
+          </div>
+        </div>
+
+        <div class="z2r-hero-visual" aria-label="Zero2Root learning and security concept illustration">
+          <div class="z2r-orbit" aria-hidden="true"></div>
+          <div class="z2r-orbit-ring" aria-hidden="true"></div>
+          <div class="z2r-signal z2r-signal--one" aria-hidden="true"></div>
+          <div class="z2r-signal z2r-signal--two" aria-hidden="true"></div>
+          <div class="z2r-core" aria-hidden="true">Z2R</div>
+          <div class="z2r-node z2r-node--top">LEARN<small>Build foundations</small></div>
+          <div class="z2r-node z2r-node--left">ANALYZE<small>Understand systems</small></div>
+          <div class="z2r-node z2r-node--right">SECURE<small>Apply the knowledge</small></div>
+          <div class="z2r-hero-caption">Learn · Explore · Engineer</div>
         </div>
       </div>
     </div>
@@ -30,20 +53,21 @@
 {% block scripts %}
   {{ super() }}
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       var heroSearch = document.querySelector(".pv-hero-search");
-      if (heroSearch) {
-        heroSearch.addEventListener("click", function(e) {
-          var searchLabel = document.querySelector(".md-header__button[for='__search']");
-          if (searchLabel) searchLabel.click();
+      var searchLabel = document.querySelector(".md-header__button[for='__search']");
+
+      if (heroSearch && searchLabel) {
+        heroSearch.addEventListener("click", function () {
+          searchLabel.click();
         });
       }
-      document.addEventListener("keydown", function(e) {
-        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-          e.preventDefault();
-          var searchLabel = document.querySelector(".md-header__button[for='__search']");
+
+      document.addEventListener("keydown", function (event) {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+          event.preventDefault();
           if (searchLabel) searchLabel.click();
-          setTimeout(function() {
+          window.setTimeout(function () {
             var searchInput = document.querySelector(".md-search__input");
             if (searchInput) searchInput.focus();
           }, 100);

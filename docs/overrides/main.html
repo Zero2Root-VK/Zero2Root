@@ -34,16 +34,15 @@
           </div>
         </div>
 
-        <div class="z2r-hero-visual" aria-label="Zero2Root learning and security concept illustration">
-          <div class="z2r-orbit" aria-hidden="true"></div>
-          <div class="z2r-orbit-ring" aria-hidden="true"></div>
-          <div class="z2r-signal z2r-signal--one" aria-hidden="true"></div>
-          <div class="z2r-signal z2r-signal--two" aria-hidden="true"></div>
-          <div class="z2r-core" aria-hidden="true">Z2R</div>
-          <div class="z2r-node z2r-node--top">LEARN<small>Build foundations</small></div>
-          <div class="z2r-node z2r-node--left">ANALYZE<small>Understand systems</small></div>
-          <div class="z2r-node z2r-node--right">SECURE<small>Apply the knowledge</small></div>
-          <div class="z2r-hero-caption">Learn · Explore · Engineer</div>
+        <div class="z2r-hero-visual" aria-label="Interactive three-dimensional cybersecurity network globe">
+          <canvas class="z2r-globe-canvas" aria-hidden="true"></canvas>
+          <div class="z2r-globe-vignette" aria-hidden="true"></div>
+          <div class="z2r-globe-label z2r-globe-label--top"><span class="z2r-live-dot"></span> NETWORK INTELLIGENCE / LIVE VIEW</div>
+          <div class="z2r-globe-label z2r-globe-label--left">01 <span>LEARN</span></div>
+          <div class="z2r-globe-label z2r-globe-label--right">02 <span>ANALYZE</span></div>
+          <div class="z2r-globe-label z2r-globe-label--bottom">03 <span>ENGINEER</span></div>
+          <div class="z2r-globe-caption">Explore the systems beneath the surface</div>
+          <noscript><div class="z2r-globe-fallback">ZERO2ROOT <span>·</span> LEARN / ANALYZE / ENGINEER</div></noscript>
         </div>
       </div>
     </div>
@@ -61,6 +60,108 @@
         heroSearch.addEventListener("click", function () {
           searchLabel.click();
         });
+      }
+
+
+      var globeCanvas = document.querySelector(".z2r-globe-canvas");
+      var heroVisual = document.querySelector(".z2r-hero-visual");
+      if (globeCanvas && heroVisual && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        import("https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js")
+          .then(function (THREE) {
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+            camera.position.z = 7.2;
+            var renderer = new THREE.WebGLRenderer({ canvas: globeCanvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
+            renderer.setClearColor(0x000000, 0);
+            var globe = new THREE.Group();
+            scene.add(globe);
+
+            var shell = new THREE.Mesh(
+              new THREE.IcosahedronGeometry(1.72, 3),
+              new THREE.MeshBasicMaterial({ color: 0x111b35, wireframe: true, transparent: true, opacity: 0.38 })
+            );
+            globe.add(shell);
+
+            var points = [];
+            var count = 520;
+            var golden = Math.PI * (3 - Math.sqrt(5));
+            for (var i = 0; i < count; i++) {
+              var y = 1 - (i / (count - 1)) * 2;
+              var radius = Math.sqrt(1 - y * y);
+              var theta = golden * i;
+              points.push(Math.cos(theta) * radius * 1.7, y * 1.7, Math.sin(theta) * radius * 1.7);
+            }
+            var pointGeometry = new THREE.BufferGeometry();
+            pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
+            var pointMaterial = new THREE.PointsMaterial({ color: 0x71eaf2, size: 0.024, transparent: true, opacity: 0.86, sizeAttenuation: true });
+            globe.add(new THREE.Points(pointGeometry, pointMaterial));
+
+            var nodePositions = [];
+            for (var n = 0; n < 34; n++) {
+              var idx = Math.floor(Math.random() * count);
+              nodePositions.push(points[idx * 3], points[idx * 3 + 1], points[idx * 3 + 2]);
+            }
+            var nodeGeometry = new THREE.BufferGeometry();
+            nodeGeometry.setAttribute("position", new THREE.Float32BufferAttribute(nodePositions, 3));
+            globe.add(new THREE.Points(nodeGeometry, new THREE.PointsMaterial({ color: 0xb6a5ff, size: 0.055, transparent: true, opacity: 0.95 })));
+
+            var links = [];
+            for (var a = 0; a < nodePositions.length / 3; a++) {
+              var ax = nodePositions[a * 3], ay = nodePositions[a * 3 + 1], az = nodePositions[a * 3 + 2];
+              var nearest = [];
+              for (var b = 0; b < nodePositions.length / 3; b++) {
+                if (a === b) continue;
+                var dx = ax - nodePositions[b * 3], dy = ay - nodePositions[b * 3 + 1], dz = az - nodePositions[b * 3 + 2];
+                nearest.push({ b: b, d: dx * dx + dy * dy + dz * dz });
+              }
+              nearest.sort(function (x, y) { return x.d - y.d; });
+              nearest.slice(0, 2).forEach(function (item) {
+                if (item.b > a) {
+                  links.push(ax, ay, az, nodePositions[item.b * 3], nodePositions[item.b * 3 + 1], nodePositions[item.b * 3 + 2]);
+                }
+              });
+            }
+            var linkGeometry = new THREE.BufferGeometry();
+            linkGeometry.setAttribute("position", new THREE.Float32BufferAttribute(links, 3));
+            globe.add(new THREE.LineSegments(linkGeometry, new THREE.LineBasicMaterial({ color: 0x6b80df, transparent: true, opacity: 0.38 })));
+
+            var halo = new THREE.Mesh(
+              new THREE.SphereGeometry(1.82, 48, 48),
+              new THREE.MeshBasicMaterial({ color: 0x3c72df, transparent: true, opacity: 0.045, side: THREE.BackSide })
+            );
+            globe.add(halo);
+
+            var resize = function () {
+              var w = heroVisual.clientWidth || 440;
+              var h = heroVisual.clientHeight || 420;
+              renderer.setSize(w, h, false);
+              camera.aspect = w / h;
+              camera.updateProjectionMatrix();
+            };
+            resize();
+            var observer = new ResizeObserver(resize);
+            observer.observe(heroVisual);
+            var pointerX = 0;
+            heroVisual.addEventListener("pointermove", function (event) {
+              var rect = heroVisual.getBoundingClientRect();
+              pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 0.45;
+            }, { passive: true });
+            var clock = new THREE.Clock();
+            var animate = function () {
+              var elapsed = clock.getElapsedTime();
+              globe.rotation.y = elapsed * 0.12 + pointerX;
+              globe.rotation.x = Math.sin(elapsed * 0.16) * 0.09;
+              renderer.render(scene, camera);
+              requestAnimationFrame(animate);
+            };
+            animate();
+          })
+          .catch(function () {
+            heroVisual.classList.add("z2r-globe-fallback-mode");
+          });
+      } else if (globeCanvas && heroVisual) {
+        heroVisual.classList.add("z2r-globe-fallback-mode");
       }
 
       document.addEventListener("keydown", function (event) {

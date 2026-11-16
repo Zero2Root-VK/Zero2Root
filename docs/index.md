@@ -5,26 +5,23 @@ hide:
 
 <div class="z2r-home" markdown="1">
 
-<div class="z2r-onboarding" markdown="1">
+<div class="z2r-onboarding">
   <div class="z2r-onboarding-mark" aria-hidden="true">i</div>
-  <div>
-    **Start at the level that matches your understanding — not just your target job title.**
-
-    If your goal is a mid-level role but networking fundamentals are shaky, begin with Level 0. Strong foundations make advanced security work easier to reason about.
+  <div class="z2r-onboarding-content">
+    <strong>Start at the level that matches your understanding — not just your target job title.</strong>
+    <p>If your goal is a mid-level role but networking fundamentals are shaky, begin with Level 0. Strong foundations make advanced security work easier to reason about.</p>
   </div>
 </div>
 
-<section class="z2r-section" id="learning-paths" markdown="1">
+<section class="z2r-section" id="learning-paths">
 
-<div class="z2r-section-heading" markdown="1">
+<div class="z2r-section-heading">
   <span class="z2r-kicker">Your progression</span>
-
-  ## Learning paths
-
-  Move from core concepts to advanced security engineering through five structured levels. Each path combines technical understanding, practical context and interview preparation.
+  <h2>Learning paths</h2>
+  <p>Move from core concepts to advanced security engineering through five structured levels. Each path combines technical understanding, practical context and interview preparation.</p>
 </div>
 
-<div class="grid cards" markdown>
+<div class="grid cards" markdown="1">
 
 -   :material-numeric-0-circle:{ .lg .middle } **Level 0 — Foundations**
 
@@ -77,18 +74,49 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="security-domains" markdown="1">
+<section class="z2r-section" id="explore-platform">
 
-<div class="z2r-section-heading" markdown="1">
+<div class="z2r-section-heading">
+  <span class="z2r-kicker">Explore the platform</span>
+  <h2>Learn the craft. Explore the systems.</h2>
+  <p>Zero2Root is growing beyond static learning material. The next modules will make security concepts easier to inspect, connect and practice.</p>
+</div>
+
+<div class="z2r-module-grid">
+  <a class="z2r-module-card" href="tools/index.md">
+    <span class="z2r-module-icon">⌘</span>
+    <span class="z2r-module-status z2r-status-live">Available now</span>
+    <strong>Security Toolkit</strong>
+    <span>Explore practical tools, commands and testing references across security domains.</span>
+    <b>Explore tools <span aria-hidden="true">↗</span></b>
+  </a>
+  <div class="z2r-module-card">
+    <span class="z2r-module-icon">⇄</span>
+    <span class="z2r-module-status">In development</span>
+    <strong>Protocol Lab</strong>
+    <span>Visualize TCP, HTTP, DNS and TLS flows with step-by-step packet explanations.</span>
+    <b>Coming to Zero2Root</b>
+  </div>
+  <div class="z2r-module-card">
+    <span class="z2r-module-icon">⌕</span>
+    <span class="z2r-module-status">Planned</span>
+    <strong>Vulnerability Intelligence</strong>
+    <span>Connect CVEs, CWEs, advisories, affected technologies and security research.</span>
+    <b>Research workspace</b>
+  </div>
+</div>
+</section>
+
+<section class="z2r-section" id="security-domains">
+
+<div class="z2r-section-heading">
   <span class="z2r-kicker">Broad technical coverage</span>
-
-  ## Explore the security landscape
-
-  Build knowledge across the systems, applications and teams that make up modern environments.
+  <h2>Explore the security landscape</h2>
+  <p>Build knowledge across the systems, applications and teams that make up modern environments.</p>
 </div>
 
 <div class="z2r-domain-grid" markdown="1">
-<div class="grid cards" markdown>
+<div class="grid cards" markdown="1">
 
 -   :material-web-check:{ .lg } **Web & API Security**
 -   :material-cellphone:{ .lg } **Mobile Security**
@@ -105,40 +133,36 @@ hide:
 </div>
 </section>
 
-<section class="z2r-section" id="learning-method" markdown="1">
+<section class="z2r-section" id="learning-method">
 
-<div class="z2r-section-heading" markdown="1">
+<div class="z2r-section-heading">
   <span class="z2r-kicker">Learn with context</span>
-
-  ## More than a list of questions
-
-  Interview preparation is organized into three layers so you can understand a topic, recognize what an interviewer is evaluating and explain your thinking clearly.
+  <h2>More than a list of questions</h2>
+  <p>Interview preparation is organized into three layers so you can understand a topic, recognize what an interviewer is evaluating and explain your thinking clearly.</p>
 </div>
 
 <div class="z2r-principles">
   <div class="z2r-principle">
-    **Concept answer**
+    <strong>Concept answer</strong>
     <span>The technical definition and the underlying idea you need to understand.</span>
   </div>
   <div class="z2r-principle">
-    **What's being tested**
+    <strong>What's being tested</strong>
     <span>The reasoning behind the question, likely follow-ups and expected depth.</span>
   </div>
   <div class="z2r-principle">
-    **Model answer**
+    <strong>Model answer</strong>
     <span>A clear way to communicate the concept with appropriate technical detail.</span>
   </div>
 </div>
 </section>
 
-<section class="z2r-section" id="choose-your-starting-point" markdown="1">
+<section class="z2r-section" id="choose-your-starting-point">
 
-<div class="z2r-section-heading" markdown="1">
+<div class="z2r-section-heading">
   <span class="z2r-kicker">Choose your entry point</span>
-
-  ## Where should you start?
-
-  Use your current hands-on experience as a guide. You can move between levels whenever you need to strengthen a topic.
+  <h2>Where should you start?</h2>
+  <p>Use your current hands-on experience as a guide. You can move between levels whenever you need to strengthen a topic.</p>
 </div>
 
 | Your experience | Recommended starting point |
@@ -153,14 +177,11 @@ hide:
 
 </section>
 
-<div class="z2r-closing" markdown="1">
+<div class="z2r-closing">
   <span class="z2r-kicker">Built by practitioners, for practitioners</span>
-
-  ## Understand the why. Practice the how.
-
-  Zero2Root is an open, community-driven knowledge base. Use the learning paths, explore the tool references and contribute improvements that help the wider security community.
-
-  [:octicons-mark-github-16: Contribute on GitHub](https://github.com/Zero2Root-VK/Zero2Root)
+  <h2>Understand the why. Practice the how.</h2>
+  <p>Zero2Root is an open, community-driven knowledge base. Use the learning paths, explore the tool references and contribute improvements that help the wider security community.</p>
+  <a class="md-button md-button--primary" href="https://github.com/Zero2Root-VK/Zero2Root">Contribute on GitHub</a>
 </div>
 
 </div>

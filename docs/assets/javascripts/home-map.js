@@ -9,6 +9,7 @@
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = one("[data-library-radial]");
   const rings = one("[data-library-rings]");
+  const connections = one("[data-library-connections]");
   const segments = one("[data-library-segments]");
   const labels = one("[data-library-labels]");
   const center = one("[data-library-center]");
@@ -37,7 +38,8 @@
   const PAGE_GAP = 0.009;
   const state = {
     data: null, selected: null, filter: "all", query: "", visiblePages: [],
-    zoom: 1, zoomFocus: { x: CX, y: CY }, hoveredGroup: null, hoveredPage: null
+    zoom: 1, zoomFocus: { x: CX, y: CY }, hoveredGroup: null, hoveredPage: null,
+    groupLinks: new Map(), pageLinks: new Map()
   };
 
   function makeSvg(tag, attrs = {}, text = null) {
@@ -128,6 +130,7 @@
   function renderMap() {
     segments.replaceChildren();
     labels.replaceChildren();
+    connections.replaceChildren();
 
     const groups = state.data.groups;
     const pages = state.data.pages;
@@ -138,6 +141,8 @@
     const groupElements = new Map();
     const groupFocus = new Map();
     const pageFocus = new Map();
+    const groupLinks = new Map();
+    const pageLinks = new Map();
 
     groups.forEach((group) => {
       const groupPages = pages.filter((page) => page.group === group.id);
@@ -146,6 +151,21 @@
       const end = start + groupSpan;
       const groupMid = (start + end) / 2;
       groupFocus.set(group.id, polar(165, groupMid));
+      const groupAnchor = polar(226, groupMid);
+      const hubAnchor = polar(84, groupMid);
+      const groupLink = makeSvg("path", {
+        d: "M " + hubAnchor.x.toFixed(2) + " " + hubAnchor.y.toFixed(2) +
+          " Q " + polar(150, groupMid - 0.12).x.toFixed(2) + " " + polar(150, groupMid - 0.12).y.toFixed(2) +
+          " " + groupAnchor.x.toFixed(2) + " " + groupAnchor.y.toFixed(2),
+        class: "library-link library-link-group",
+        "data-library-link-group": group.id
+      });
+      connections.appendChild(groupLink);
+      groupLinks.set(group.id, groupLink);
+      connections.appendChild(makeSvg("circle", {
+        cx: groupAnchor.x, cy: groupAnchor.y, r: 3.2,
+        class: "library-network-node", "data-library-node-group": group.id
+      }));
 
       const groupPath = makeSvg("path", {
         d: annularPath(119, 211, start + 0.004, end - 0.004),
@@ -193,6 +213,18 @@
         const pageEnd = start + (index + 1) * step - PAGE_GAP / 2;
         const pageMid = (pageStart + pageEnd) / 2;
         pageFocus.set(page.id, polar(288, pageMid));
+        const pageAnchor = polar(351.5, pageMid);
+        const pageLink = makeSvg("path", {
+          d: "M " + groupAnchor.x.toFixed(2) + " " + groupAnchor.y.toFixed(2) +
+            " C " + polar(270, pageMid).x.toFixed(2) + " " + polar(270, pageMid).y.toFixed(2) +
+            " " + polar(316, pageMid).x.toFixed(2) + " " + polar(316, pageMid).y.toFixed(2) +
+            " " + pageAnchor.x.toFixed(2) + " " + pageAnchor.y.toFixed(2),
+          class: "library-link library-link-page",
+          "data-library-link-page": page.id,
+          "data-library-link-group": group.id
+        });
+        connections.appendChild(pageLink);
+        pageLinks.set(page.id, pageLink);
         const arc = makeSvg("path", {
           d: annularPath(230, 347, pageStart, pageEnd),
           class: "library-page-sector",
@@ -232,6 +264,8 @@
     state.groupElements = groupElements;
     state.groupFocus = groupFocus;
     state.pageFocus = pageFocus;
+    state.groupLinks = groupLinks;
+    state.pageLinks = pageLinks;
     renderLegend();
     renderDirectory();
     applyVisibility();
@@ -302,6 +336,7 @@
     state.groupElements.forEach((element, id) => {
       element.setAttribute("aria-pressed", String(id === page.group && state.filter === id));
     });
+    syncNetworkStyles();
 
     try {
       const url = new URL(window.location.href);
@@ -381,11 +416,12 @@
       x = wrapRect.width / 2;
       y = wrapRect.height / 2;
     }
-    const left = Math.max(12, Math.min(wrapRect.width - 252, x + 14));
-    const top = Math.max(10, Math.min(wrapRect.height - 82, y + 14));
+    hovercard.hidden = false;
+    const cardRect = hovercard.getBoundingClientRect();
+    const left = Math.max(12, Math.min(wrapRect.width - cardRect.width - 12, x + 14));
+    const top = Math.max(10, Math.min(wrapRect.height - cardRect.height - 10, y + 14));
     hovercard.style.left = left + "px";
     hovercard.style.top = top + "px";
-    hovercard.hidden = false;
   }
 
   function syncHoverStyles() {
@@ -404,6 +440,32 @@
       const dimmed = Boolean(state.hoveredPage || state.hoveredGroup) && !related;
       element.classList.toggle("is-hovered", related);
       element.classList.toggle("is-hover-dimmed", dimmed);
+    });
+    syncNetworkStyles();
+  }
+
+  function syncNetworkStyles() {
+    if (!state.data) return;
+    const selectedPage = state.data.pages.find((page) => page.id === state.selected);
+    const activeGroup = state.hoveredGroup ||
+      (state.hoveredPage ? state.data.pages.find((page) => page.id === state.hoveredPage)?.group : null) ||
+      (state.filter !== "all" ? state.filter : selectedPage?.group) || null;
+    const activePage = state.hoveredPage || state.selected;
+    state.groupLinks.forEach((element, id) => {
+      const related = Boolean(activeGroup) && id === activeGroup;
+      element.classList.toggle("is-related", related);
+      element.classList.toggle("is-muted", Boolean(activeGroup) && !related);
+    });
+    state.pageLinks.forEach((element, id) => {
+      const page = state.data.pages.find((item) => item.id === id);
+      const related = activePage ? id === activePage : activeGroup ? page.group === activeGroup : false;
+      const muted = activePage ? id !== activePage : Boolean(activeGroup) && page.group !== activeGroup;
+      element.classList.toggle("is-related", related);
+      element.classList.toggle("is-muted", muted);
+    });
+    many("[data-library-node-group]").forEach((node) => {
+      const related = node.getAttribute("data-library-node-group") === activeGroup;
+      node.classList.toggle("is-related", related);
     });
   }
 
@@ -510,6 +572,16 @@
     if (zoomIn) zoomIn.addEventListener("click", () => applyZoom(state.zoom + 0.06));
     if (zoomOut) zoomOut.addEventListener("click", () => applyZoom(state.zoom - 0.06));
     if (zoomReset) zoomReset.addEventListener("click", () => applyZoom(1));
+    if (center) {
+      center.style.cursor = "pointer";
+      center.setAttribute("role", "button");
+      center.setAttribute("tabindex", "0");
+      center.setAttribute("aria-label", "Reset knowledge map");
+      center.addEventListener("click", () => applyFilter("all"));
+      center.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") { event.preventDefault(); applyFilter("all"); }
+      });
+    }
     if (svg) {
       svg.addEventListener("wheel", (event) => {
         event.preventDefault();
@@ -549,7 +621,7 @@
     one('[data-library-stat="lessons"]').textContent = String(lessonPages).padStart(2, "0");
     one('[data-library-stat="tools"]').textContent = String(toolPages).padStart(2, "0");
     one('[data-library-stat="resources"]').textContent = String(resourcePages).padStart(2, "0");
-    one(".z2r-library-edition strong").innerHTML = "01 <i>/</i> " + String(pages.length).padStart(2, "0");
+
   }
 
   function showError(error) {

@@ -1,8 +1,13 @@
 # Level 3 — Senior Pentester
 
+<div class="z2r-level-intro" markdown="1">
+<span class="z2r-level-kicker">LEARNING PATH / LEVEL 03 — SENIOR PENTESTER</span>
+
 **Target audience:** 3–5 years of hands-on penetration testing. Leading engagements independently, mentoring juniors, working on complex AD and red team scope.
 
 **Goal:** At this level you're expected to have deep domain expertise in at least two areas, breadth across all major domains, and the ability to manage an engagement from scoping through reporting with minimal supervision. Interviewers test judgment as much as technique.
+
+</div>
 
 ---
 

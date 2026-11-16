@@ -2,216 +2,305 @@
 
 {% block extrahead %}
   {{ super() }}
-  <meta name="theme-color" content="#080b12">
-  <meta name="description" content="Practical cybersecurity learning, tools and security knowledge — from fundamentals to advanced offensive security.">
+  <meta name="theme-color" content="#050812">
+  <meta name="description" content="Zero2Root is a cybersecurity engineering and intelligence platform for learners, pentesters and security researchers.">
+  <meta property="og:title" content="Zero2Root — Cybersecurity Engineering & Intelligence">
+  <meta property="og:description" content="Learn. Explore. Research. Exploit. A practical cybersecurity engineering and intelligence platform.">
 {% endblock %}
 
 {% block hero %}
   {% if page and page.is_homepage %}
-    <div class="z2r-hero" aria-labelledby="z2r-hero-title">
+    <section class="z2r-hero" aria-labelledby="z2r-hero-title">
       <div class="z2r-hero-inner">
-        <div class="z2r-hero-content">
-          <div class="z2r-eyebrow">Practical cybersecurity knowledge</div>
-          <h1 id="z2r-hero-title">Understand the system.<span>Secure what matters.</span></h1>
+        <div class="z2r-hero-copy-column">
+          <div class="z2r-eyebrow"><span class="z2r-eyebrow-icon">⌁</span> ZERO2ROOT 2.0</div>
+          <h1 id="z2r-hero-title">
+            Learn. Explore.<br>
+            Research. <span>Exploit.</span>
+          </h1>
           <p class="z2r-hero-copy">
-            A practical path through cybersecurity — build strong foundations,
-            understand real-world techniques, and develop the judgement to test
-            and secure modern systems.
+            A practical cybersecurity engineering &amp; intelligence platform
+            for learners, pentesters and security researchers.
           </p>
           <div class="z2r-hero-actions">
-            <a href="level-0/" class="md-button md-button--primary">Explore learning paths</a>
-            <a href="#learning-paths" class="md-button">View the roadmap</a>
+            <a href="#platform-modules" class="z2r-button z2r-button--primary">Explore the Platform <span aria-hidden="true">→</span></a>
+            <a href="#learning-paths" class="z2r-button z2r-button--secondary"><span aria-hidden="true">⌘</span> View Roadmap</a>
           </div>
-          <button class="z2r-hero-search pv-hero-search" type="button" aria-label="Search Zero2Root">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.5 6.5 0 1 0 14 15.5l.27.28v.79L20 22l2-2-6.5-6zm-5 0A4.5 4.5 0 1 1 10.5 5a4.5 4.5 0 0 1 0 9z"/></svg>
-            <span>Search learning paths, tools and topics</span>
+          <button class="z2r-search-trigger pv-hero-search" type="button" aria-label="Search Zero2Root">
+            <span class="z2r-search-symbol" aria-hidden="true">⌕</span>
+            <span>Search learning, labs, tools and research...</span>
             <kbd>Ctrl K</kbd>
           </button>
-          <div class="z2r-hero-metrics" aria-label="Platform highlights">
-            <div class="z2r-metric"><strong>05</strong><span>Learning levels</span></div>
-            <div class="z2r-metric"><strong>10</strong><span>Security domains</span></div>
-            <div class="z2r-metric"><strong>Open</strong><span>Free knowledge base</span></div>
+          <div class="z2r-hero-stats" aria-label="Zero2Root highlights">
+            <div><strong>05</strong><span>Learning Levels</span></div>
+            <div><strong>10+</strong><span>Security Domains</span></div>
+            <div><strong>OPEN</strong><span>Knowledge Base</span></div>
           </div>
         </div>
 
-        <div class="z2r-hero-visual" aria-label="Interactive three-dimensional cybersecurity network globe">
+        <div class="z2r-hero-visual" aria-label="Animated cybersecurity intelligence globe">
           <canvas class="z2r-globe-canvas" aria-hidden="true"></canvas>
-          <div class="z2r-globe-vignette" aria-hidden="true"></div>
-          <div class="z2r-globe-label z2r-globe-label--top"><span class="z2r-live-dot"></span> INTERACTIVE NETWORK / 3D VIEW</div>
-          <div class="z2r-globe-label z2r-globe-label--left">01 <span>LEARN</span></div>
-          <div class="z2r-globe-label z2r-globe-label--right">02 <span>ANALYZE</span></div>
-          <div class="z2r-globe-label z2r-globe-label--bottom">03 <span>ENGINEER</span></div>
-          <div class="z2r-globe-caption">Explore the systems beneath the surface</div>
-          <div class="z2r-globe-fallback" role="img" aria-label="Zero2Root cybersecurity network globe illustration">ZERO2ROOT <span>·</span> LEARN / ANALYZE / ENGINEER</div>
-          <noscript><style>.z2r-globe-fallback { display: grid !important; }</style></noscript>
+          <div class="z2r-globe-orbit z2r-globe-orbit--one" aria-hidden="true"></div>
+          <div class="z2r-globe-orbit z2r-globe-orbit--two" aria-hidden="true"></div>
+          <div class="z2r-globe-core" aria-hidden="true"><span>›_</span></div>
+          <div class="z2r-globe-wordmark" aria-hidden="true">Zero2Root <span>2.0</span></div>
+
+          <a class="z2r-orbit-card z2r-orbit-card--learn" href="learn/">
+            <span class="z2r-orbit-icon">⌂</span><span><strong>Learn</strong><small>Structured pathways<br>from fundamentals to advanced</small></span>
+          </a>
+          <a class="z2r-orbit-card z2r-orbit-card--intel" href="intelligence/">
+            <span class="z2r-orbit-icon">▦</span><span><strong>Intelligence</strong><small>CVE · CWE · Advisories<br>Vulnerability graph roadmap</small></span>
+          </a>
+          <a class="z2r-orbit-card z2r-orbit-card--lab" href="lab/">
+            <span class="z2r-orbit-icon">⚗</span><span><strong>Lab</strong><small>Interactive protocol,<br>network and exploit labs</small></span>
+          </a>
+          <a class="z2r-orbit-card z2r-orbit-card--agents" href="agents/">
+            <span class="z2r-orbit-icon">✧</span><span><strong>Agents</strong><small>AI-assisted security<br>research workflows</small></span>
+          </a>
+          <a class="z2r-orbit-card z2r-orbit-card--tools" href="tools/">
+            <span class="z2r-orbit-icon">⬡</span><span><strong>Tools</strong><small>Curated offensive &amp;<br>defensive toolkits</small></span>
+          </a>
+          <a class="z2r-orbit-card z2r-orbit-card--research" href="research/">
+            <span class="z2r-orbit-icon">▤</span><span><strong>Research</strong><small>Exploitation, analysis<br>and security engineering</small></span>
+          </a>
+          <div class="z2r-globe-caption">A connected view of cybersecurity engineering</div>
         </div>
       </div>
-    </div>
+    </section>
   {% endif %}
 {% endblock %}
 
 {% block scripts %}
   {{ super() }}
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      var heroSearch = document.querySelector(".pv-hero-search");
-      var searchLabel = document.querySelector(".md-header__button[for='__search']");
+    (function () {
+      "use strict";
 
-      if (heroSearch && searchLabel) {
-        heroSearch.addEventListener("click", function () {
-          searchLabel.click();
-        });
-      }
-
-
-      var globeCanvas = document.querySelector(".z2r-globe-canvas");
-      var heroVisual = document.querySelector(".z2r-hero-visual");
-      if (globeCanvas && heroVisual && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        import("https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js")
-          .then(function (THREE) {
-            var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-            camera.position.z = 7.2;
-            var renderer = new THREE.WebGLRenderer({ canvas: globeCanvas, alpha: true, antialias: true });
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.7));
-            renderer.setClearColor(0x000000, 0);
-            var globe = new THREE.Group();
-            scene.add(globe);
-
-            var shell = new THREE.Mesh(
-              new THREE.IcosahedronGeometry(1.72, 3),
-              new THREE.MeshBasicMaterial({ color: 0x111b35, wireframe: true, transparent: true, opacity: 0.38 })
-            );
-            globe.add(shell);
-
-            var points = [];
-            var count = 520;
-            var golden = Math.PI * (3 - Math.sqrt(5));
-            for (var i = 0; i < count; i++) {
-              var y = 1 - (i / (count - 1)) * 2;
-              var radius = Math.sqrt(1 - y * y);
-              var theta = golden * i;
-              points.push(Math.cos(theta) * radius * 1.7, y * 1.7, Math.sin(theta) * radius * 1.7);
-            }
-            var pointGeometry = new THREE.BufferGeometry();
-            pointGeometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
-            var pointMaterial = new THREE.PointsMaterial({ color: 0x71eaf2, size: 0.024, transparent: true, opacity: 0.86, sizeAttenuation: true });
-            globe.add(new THREE.Points(pointGeometry, pointMaterial));
-
-            var nodePositions = [];
-            for (var n = 0; n < 34; n++) {
-              // Deterministic distribution keeps the globe consistent between visits.
-              var idx = (n * 73 + 19) % count;
-              nodePositions.push(points[idx * 3], points[idx * 3 + 1], points[idx * 3 + 2]);
-            }
-            var nodeGeometry = new THREE.BufferGeometry();
-            nodeGeometry.setAttribute("position", new THREE.Float32BufferAttribute(nodePositions, 3));
-            globe.add(new THREE.Points(nodeGeometry, new THREE.PointsMaterial({ color: 0xb6a5ff, size: 0.055, transparent: true, opacity: 0.95 })));
-
-            var links = [];
-            for (var a = 0; a < nodePositions.length / 3; a++) {
-              var ax = nodePositions[a * 3], ay = nodePositions[a * 3 + 1], az = nodePositions[a * 3 + 2];
-              var nearest = [];
-              for (var b = 0; b < nodePositions.length / 3; b++) {
-                if (a === b) continue;
-                var dx = ax - nodePositions[b * 3], dy = ay - nodePositions[b * 3 + 1], dz = az - nodePositions[b * 3 + 2];
-                nearest.push({ b: b, d: dx * dx + dy * dy + dz * dz });
-              }
-              nearest.sort(function (x, y) { return x.d - y.d; });
-              nearest.slice(0, 2).forEach(function (item) {
-                if (item.b > a) {
-                  links.push(ax, ay, az, nodePositions[item.b * 3], nodePositions[item.b * 3 + 1], nodePositions[item.b * 3 + 2]);
-                }
-              });
-            }
-            var linkGeometry = new THREE.BufferGeometry();
-            linkGeometry.setAttribute("position", new THREE.Float32BufferAttribute(links, 3));
-            globe.add(new THREE.LineSegments(linkGeometry, new THREE.LineBasicMaterial({ color: 0x6b80df, transparent: true, opacity: 0.38 })));
-
-            var halo = new THREE.Mesh(
-              new THREE.SphereGeometry(1.82, 48, 48),
-              new THREE.MeshBasicMaterial({ color: 0x3c72df, transparent: true, opacity: 0.045, side: THREE.BackSide })
-            );
-            globe.add(halo);
-
-            var resize = function () {
-              var w = heroVisual.clientWidth || 440;
-              var h = heroVisual.clientHeight || 420;
-              renderer.setSize(w, h, false);
-              camera.aspect = w / h;
-              camera.updateProjectionMatrix();
-            };
-            resize();
-            var observer = new ResizeObserver(resize);
-            observer.observe(heroVisual);
-            var pointerX = 0;
-            heroVisual.addEventListener("pointermove", function (event) {
-              var rect = heroVisual.getBoundingClientRect();
-              pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 0.45;
-            }, { passive: true });
-            var clock = new THREE.Clock();
-            var frameId = 0;
-            var inViewport = true;
-
-            var renderFrame = function () {
-              frameId = 0;
-              if (document.hidden || !inViewport) return;
-
-              var elapsed = clock.getElapsedTime();
-              globe.rotation.y = elapsed * 0.12 + pointerX;
-              globe.rotation.x = Math.sin(elapsed * 0.16) * 0.09;
-              renderer.render(scene, camera);
-              frameId = requestAnimationFrame(renderFrame);
-            };
-
-            var scheduleFrame = function () {
-              if (!frameId && !document.hidden && inViewport) {
-                frameId = requestAnimationFrame(renderFrame);
-              }
-            };
-
-            var visibilityHandler = function () {
-              if (document.hidden && frameId) {
-                cancelAnimationFrame(frameId);
-                frameId = 0;
-              } else {
-                scheduleFrame();
-              }
-            };
-            document.addEventListener("visibilitychange", visibilityHandler);
-
-            if ("IntersectionObserver" in window) {
-              var visibilityObserver = new IntersectionObserver(function (entries) {
-                inViewport = entries.some(function (entry) { return entry.isIntersecting; });
-                if (!inViewport && frameId) {
-                  cancelAnimationFrame(frameId);
-                  frameId = 0;
-                } else {
-                  scheduleFrame();
-                }
-              }, { threshold: 0.05 });
-              visibilityObserver.observe(heroVisual);
-            }
-
-            scheduleFrame();
-          })
-          .catch(function () {
-            heroVisual.classList.add("z2r-globe-fallback-mode");
-          });
-      } else if (globeCanvas && heroVisual) {
-        heroVisual.classList.add("z2r-globe-fallback-mode");
-      }
-
-      document.addEventListener("keydown", function (event) {
-        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-          event.preventDefault();
-          if (searchLabel) searchLabel.click();
-          window.setTimeout(function () {
-            var searchInput = document.querySelector(".md-search__input");
-            if (searchInput) searchInput.focus();
-          }, 100);
+      document.addEventListener("DOMContentLoaded", function () {
+        var searchTrigger = document.querySelector(".pv-hero-search");
+        var searchToggle = document.querySelector(".md-header__button[for='__search']");
+        if (searchTrigger && searchToggle) {
+          searchTrigger.addEventListener("click", function () { searchToggle.click(); });
         }
+
+        document.addEventListener("keydown", function (event) {
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+            event.preventDefault();
+            if (searchToggle) searchToggle.click();
+            window.setTimeout(function () {
+              var field = document.querySelector(".md-search__input");
+              if (field) field.focus();
+            }, 100);
+          }
+        });
+
+        var canvas = document.querySelector(".z2r-globe-canvas");
+        var visual = document.querySelector(".z2r-hero-visual");
+        if (!canvas || !visual || !canvas.getContext) return;
+
+        var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        var context = canvas.getContext("2d");
+        if (!context) return;
+
+        var width = 0;
+        var height = 0;
+        var dpr = 1;
+        var animationFrame = 0;
+        var visible = true;
+        var rotation = 0;
+        var pointerOffset = 0;
+        var points = [];
+        var networkEdges = [];
+
+        var goldenAngle = Math.PI * (3 - Math.sqrt(5));
+        for (var i = 0; i < 420; i++) {
+          var y = 1 - (i / 419) * 2;
+          var radius = Math.sqrt(1 - y * y);
+          var angle = goldenAngle * i;
+          points.push({
+            x: Math.cos(angle) * radius,
+            y: y,
+            z: Math.sin(angle) * radius,
+            seed: i
+          });
+        }
+
+        var networkNodes = points.filter(function (point) { return point.seed % 10 === 0; });
+        networkNodes.forEach(function (point, index) {
+          var nearest = [];
+          networkNodes.forEach(function (other, otherIndex) {
+            if (index === otherIndex) return;
+            var dx = point.x - other.x;
+            var dy = point.y - other.y;
+            var dz = point.z - other.z;
+            nearest.push({ index: otherIndex, distance: dx * dx + dy * dy + dz * dz });
+          });
+          nearest.sort(function (a, b) { return a.distance - b.distance; });
+          nearest.slice(0, 2).forEach(function (edge) {
+            if (edge.index > index) networkEdges.push([index, edge.index]);
+          });
+        });
+
+        function resize() {
+          var rect = visual.getBoundingClientRect();
+          width = Math.max(1, rect.width);
+          height = Math.max(1, rect.height);
+          dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          context.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        function project(point, spin, radius) {
+          var cos = Math.cos(spin);
+          var sin = Math.sin(spin);
+          var x = point.x * cos - point.z * sin;
+          var z = point.x * sin + point.z * cos;
+          var y = point.y;
+          var pitch = -0.16;
+          var cy = Math.cos(pitch);
+          var sy = Math.sin(pitch);
+          var rotatedY = y * cy - z * sy;
+          var rotatedZ = y * sy + z * cy;
+          var perspective = 3.7 / (3.7 - rotatedZ * 0.48);
+          return {
+            x: width * 0.5 + x * radius * perspective,
+            y: height * 0.47 + rotatedY * radius * perspective,
+            z: rotatedZ,
+            scale: perspective
+          };
+        }
+
+        function drawRing(cx, cy, rx, ry, angle, color, lineWidth) {
+          context.save();
+          context.translate(cx, cy);
+          context.rotate(angle);
+          context.beginPath();
+          context.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+          context.strokeStyle = color;
+          context.lineWidth = lineWidth;
+          context.stroke();
+          context.restore();
+        }
+
+        function draw() {
+          context.clearRect(0, 0, width, height);
+          var cx = width * 0.5;
+          var cy = height * 0.47;
+          var radius = Math.min(width * 0.355, height * 0.385, 205);
+          var spin = rotation + pointerOffset;
+          var projected = points.map(function (point) { return project(point, spin, radius); });
+
+          var glow = context.createRadialGradient(cx, cy, radius * 0.1, cx, cy, radius * 1.4);
+          glow.addColorStop(0, "rgba(26, 115, 190, 0.17)");
+          glow.addColorStop(0.52, "rgba(92, 56, 177, 0.07)");
+          glow.addColorStop(1, "rgba(4, 9, 22, 0)");
+          context.fillStyle = glow;
+          context.fillRect(0, 0, width, height);
+
+          drawRing(cx, cy, radius * 1.27, radius * 0.36, -0.38, "rgba(49, 214, 237, 0.38)", 1.1);
+          drawRing(cx, cy, radius * 1.42, radius * 0.43, 0.56, "rgba(171, 91, 246, 0.27)", 1);
+          drawRing(cx, cy, radius * 1.13, radius * 0.31, 1.02, "rgba(49, 214, 237, 0.19)", 0.8);
+
+          // Network lines across the surface.
+          context.lineWidth = 0.7;
+          networkEdges.forEach(function (edge) {
+            var a = projected[networkNodes[edge[0]].seed];
+            var b = projected[networkNodes[edge[1]].seed];
+            if (a.z < -0.25 && b.z < -0.25) return;
+            context.beginPath();
+            context.moveTo(a.x, a.y);
+            context.lineTo(b.x, b.y);
+            context.strokeStyle = "rgba(91, 172, 234, " + (0.07 + Math.max(a.z, b.z) * 0.12) + ")";
+            context.stroke();
+          });
+
+          // Fine data points: front-facing points glow more strongly.
+          projected.forEach(function (point, index) {
+            var front = Math.max(0, (point.z + 0.45) / 1.45);
+            var size = (0.55 + front * 1.15) * point.scale;
+            context.beginPath();
+            context.arc(point.x, point.y, size, 0, Math.PI * 2);
+            context.fillStyle = index % 7 === 0
+              ? "rgba(190, 126, 255, " + (0.15 + front * 0.68) + ")"
+              : "rgba(73, 222, 243, " + (0.10 + front * 0.78) + ")";
+            context.fill();
+          });
+
+          // Bright connected research nodes.
+          networkNodes.forEach(function (node) {
+            var point = projected[node.seed];
+            if (point.z < -0.08) return;
+            context.beginPath();
+            context.arc(point.x, point.y, 2.1 + point.z * 1.8, 0, Math.PI * 2);
+            context.fillStyle = "rgba(230, 248, 255, 0.95)";
+            context.shadowColor = node.seed % 3 === 0 ? "#b77cff" : "#43eaff";
+            context.shadowBlur = 12;
+            context.fill();
+            context.shadowBlur = 0;
+          });
+
+          // A subtle outer circular boundary.
+          context.beginPath();
+          context.arc(cx, cy, radius * 1.01, 0, Math.PI * 2);
+          context.strokeStyle = "rgba(95, 170, 232, 0.18)";
+          context.lineWidth = 1;
+          context.stroke();
+        }
+
+        function animate() {
+          animationFrame = 0;
+          if (document.hidden || !visible) return;
+          draw();
+          if (!reducedMotion) rotation += 0.0018;
+          animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        function schedule() {
+          if (!animationFrame && !document.hidden && visible) {
+            animationFrame = window.requestAnimationFrame(animate);
+          }
+        }
+
+        resize();
+        if ("ResizeObserver" in window) {
+          var resizeObserver = new ResizeObserver(resize);
+          resizeObserver.observe(visual);
+        } else {
+          window.addEventListener("resize", resize, { passive: true });
+        }
+
+        visual.addEventListener("pointermove", function (event) {
+          var rect = visual.getBoundingClientRect();
+          pointerOffset = ((event.clientX - rect.left) / rect.width - 0.5) * 0.22;
+        }, { passive: true });
+        visual.addEventListener("pointerleave", function () { pointerOffset = 0; }, { passive: true });
+
+        if ("IntersectionObserver" in window) {
+          var intersectionObserver = new IntersectionObserver(function (entries) {
+            visible = entries.some(function (entry) { return entry.isIntersecting; });
+            if (!visible && animationFrame) {
+              window.cancelAnimationFrame(animationFrame);
+              animationFrame = 0;
+            } else {
+              schedule();
+            }
+          }, { threshold: 0.05 });
+          intersectionObserver.observe(visual);
+        }
+
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden && animationFrame) {
+            window.cancelAnimationFrame(animationFrame);
+            animationFrame = 0;
+          } else {
+            schedule();
+          }
+        });
+
+        draw();
+        if (!reducedMotion) schedule();
       });
-    });
+    })();
   </script>
 {% endblock %}

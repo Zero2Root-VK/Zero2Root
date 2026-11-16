@@ -749,3 +749,44 @@
   .z2r-button { transition: none !important; }
   .z2r-globe-canvas { display: none; }
 }
+
+
+/* Mobile orbit labels: keep the globe visible and make callouts compact. */
+@media (max-width: 600px) {
+  .z2r-orbit-card {
+    width: 116px;
+    min-width: 0;
+    padding: 7px 8px;
+    gap: 5px;
+    background: rgba(5, 12, 27, .92);
+  }
+  .z2r-orbit-icon {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+  }
+  .z2r-orbit-card strong {
+    margin: 0;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+  .z2r-orbit-card small {
+    display: none;
+  }
+  .z2r-orbit-card--learn,
+  .z2r-orbit-card--intel {
+    top: 2%;
+  }
+  .z2r-orbit-card--lab,
+  .z2r-orbit-card--agents {
+    top: 43%;
+  }
+  .z2r-orbit-card--tools,
+  .z2r-orbit-card--research {
+    bottom: 2%;
+  }
+  .z2r-globe-wordmark {
+    font-size: 19px;
+  }
+}

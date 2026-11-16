@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286 54" role="img" aria-labelledby="title desc">
+  <title id="title">Zero2Root</title>
+  <desc id="desc">Zero2Root cybersecurity research and engineering</desc>
+  <rect x="1" y="5" width="42" height="42" rx="5" fill="#14191A" stroke="#C77C55" stroke-width="1.2"/>
+  <path d="M10 15H34V19L17 33H34V37H10V33L27 19H10Z" fill="#D99973"/>
+  <path d="M35 38h3" stroke="#8EA99A" stroke-width="2" stroke-linecap="round"/>
+  <text x="56" y="29" fill="#E9E5DC" font-family="IBM Plex Sans, Inter, Arial, sans-serif" font-size="23" font-weight="700" letter-spacing="1.25">ZERO2ROOT</text>
+  <text x="57" y="42" fill="#8EA99A" font-family="IBM Plex Mono, monospace" font-size="7.5" font-weight="500" letter-spacing="1.55">SECURITY RESEARCH / ENGINEERING</text>
+</svg>

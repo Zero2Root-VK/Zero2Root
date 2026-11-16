@@ -610,3 +610,129 @@
   --z2r-mineral: #8EA99A;
   --z2r-brass: #D2AA70;
 }
+
+/* ── Distinctive editorial hero artwork ── */
+.z2r-hero-visual.z2r-hero-art {
+  position: relative;
+  display: block;
+  min-height: 0;
+  width: 100%;
+  height: clamp(360px, 39vw, 500px);
+  overflow: hidden;
+  isolation: isolate;
+  align-self: center;
+  margin: 0;
+  background: #111614;
+  border: 1px solid #303A38;
+  border-radius: 10px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.23);
+}
+
+.z2r-hero-art::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(11,13,14,.10), transparent 52%),
+    linear-gradient(0deg, rgba(11,13,14,.74), transparent 31%),
+    linear-gradient(180deg, rgba(11,13,14,.26), transparent 22%);
+  pointer-events: none;
+}
+
+.z2r-hero-art::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  right: 18px;
+  width: 34px;
+  height: 34px;
+  border-top: 1px solid rgba(217,153,115,.75);
+  border-right: 1px solid rgba(217,153,115,.75);
+  pointer-events: none;
+}
+
+.z2r-hero-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 50%;
+  filter: saturate(.76) contrast(1.035) brightness(.88);
+}
+
+.z2r-art-index,
+.z2r-art-caption,
+.z2r-art-coordinate {
+  position: absolute;
+  z-index: 2;
+  color: #E9E5DC;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.z2r-art-index {
+  top: 22px;
+  left: 22px;
+  color: #D99973;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+}
+
+.z2r-art-index b {
+  margin-left: 9px;
+  color: #E9E5DC;
+  font-weight: 500;
+}
+
+.z2r-art-caption {
+  left: 22px;
+  bottom: 35px;
+  font-size: 10px;
+  letter-spacing: .15em;
+}
+
+.z2r-art-coordinate {
+  right: 22px;
+  bottom: 18px;
+  color: rgba(233,229,220,.62);
+  font-size: 8px;
+  letter-spacing: .12em;
+}
+
+.z2r-hero-copy-column h1 {
+  max-width: 710px;
+  font-size: clamp(42px, 5.3vw, 68px) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.055em !important;
+}
+
+.z2r-hero-copy-column h1 span {
+  display: inline-block;
+  margin-top: .08em;
+}
+
+.z2r-hero-copy {
+  max-width: 530px;
+}
+
+@media (max-width: 900px) {
+  .z2r-hero-visual.z2r-hero-art {
+    height: clamp(270px, 58vw, 400px);
+  }
+}
+
+@media (max-width: 600px) {
+  .z2r-hero-visual.z2r-hero-art {
+    height: 250px;
+    margin-top: 2px;
+  }
+  .z2r-art-index { top: 15px; left: 15px; font-size: 9px; }
+  .z2r-art-caption { left: 15px; bottom: 25px; font-size: 8px; }
+  .z2r-art-coordinate { right: 15px; bottom: 13px; font-size: 7px; }
+}

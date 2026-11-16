@@ -55,6 +55,12 @@
     return element;
   };
 
+  const scrollToElement = (element, block = "nearest") => {
+    if (!element) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    element.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block });
+  };
+
   const edgeKey = (a, b) => [a, b].sort().join("::");
   const getNode = (id) => data.nodes.find((node) => node.id === id);
   const typeLabel = (type) => ({
@@ -458,7 +464,7 @@
       : [...state.compare, id];
     if (compareResults) compareResults.hidden = true;
     renderCompareTray();
-    compareDock?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    scrollToElement(compareDock, "nearest");
   }
 
   function clearComparison() {
@@ -512,7 +518,7 @@
         button.addEventListener("click", () => {
           selectNode(node.id, true);
           directory.closest("details")?.removeAttribute("open");
-          $(".atlas-map-frame")?.scrollIntoView({ behavior: "smooth", block: "start" });
+          scrollToElement($(".atlas-map-frame"), "start");
         });
         list.appendChild(button);
       });
@@ -787,7 +793,7 @@
 
     compareRun?.addEventListener("click", () => {
       renderComparison();
-      compareResults?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      scrollToElement(compareResults, "nearest");
     });
     compareClear?.addEventListener("click", clearComparison);
 

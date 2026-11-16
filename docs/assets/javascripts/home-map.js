@@ -311,7 +311,7 @@
     state.pageElements.forEach((element, id) => {
       const visible = visibleIds.has(id);
       element.classList.toggle("is-filtered", !visible);
-      element.classList.toggle("is-dimmed", Boolean(state.selected && state.selected !== id && visible && !state.query));
+      element.classList.toggle("is-dimmed", false);
     });
 
     state.groupElements.forEach((element, id) => {

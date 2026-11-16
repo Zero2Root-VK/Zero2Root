@@ -866,3 +866,25 @@
     height: 1.85rem !important;
   }
 }
+
+/* Final palette bridge: prevent legacy documentation tokens from leaking blue. */
+:root {
+  --z2r-page-text: var(--z2r-ivory);
+  --z2r-page-muted: var(--z2r-muted);
+  --z2r-page-cyan: var(--z2r-copper);
+  --z2r-page-violet: var(--z2r-brass);
+}
+
+.md-container:not(:has(.z2r-hero)) {
+  background:
+    radial-gradient(ellipse at 64% 0%, rgba(142,169,154,.035), transparent 42%),
+    var(--z2r-ink) !important;
+}
+
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > ol > li,
+.md-typeset .grid.cards > li {
+  background: var(--z2r-graphite) !important;
+  border-color: var(--z2r-line) !important;
+  box-shadow: none !important;
+}

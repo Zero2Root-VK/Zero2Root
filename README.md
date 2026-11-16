@@ -77,7 +77,7 @@ Zero2Root is created and maintained by **Vinod Kumar Bontha**, a Security Analys
   - *Max Healthcare:* CISO Certificate of Appreciation (P1 Critical)
 - 🛠️ **Open-Source Tools:** [JSSecretHunter](https://github.com/Cybertechhacks/JSSecretHunter) · [SecretPulse](https://github.com/Cybertechhacks/SecretPulse)
 - 💼 **LinkedIn:** [linkedin.com/in/vinodkr000](https://linkedin.com/in/vinodkr000)
-- 💻 **GitHub:** [@Cybertechhacks](https://github.com/Cybertechhacks)
+- 💻 **GitHub:** [@Zero2Root-VK](https://github.com/Zero2Root-VK)
  
 Started as a personal knowledge base while preparing for offensive security roles, and grew into a structured, open resource for the community.
 

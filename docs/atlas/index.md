@@ -56,7 +56,7 @@ hide:
       </div>
       <div class="atlas-map-frame">
         <div class="atlas-map-topline"><span>FIG. 01</span><span>DOMAIN TOPOLOGY / INTERACTIVE</span></div>
-        <svg class="atlas-map" data-atlas-map viewBox="0 0 1400 820" role="group" aria-label="Interactive map of cybersecurity topics. Select any labelled point to inspect its source material and connected concepts." tabindex="0">
+        <svg class="atlas-map" data-atlas-map viewBox="0 0 1400 820" role="group" aria-label="Interactive map of cybersecurity topics. Select any labelled point to inspect its source material and connected concepts." tabindex="-1">
           <defs>
             <pattern id="atlas-grid" width="32" height="32" patternUnits="userSpaceOnUse">
               <path d="M32 0H0V32" fill="none" stroke="#9BA69B" stroke-opacity=".075" stroke-width=".7"/>

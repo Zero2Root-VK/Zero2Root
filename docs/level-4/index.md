@@ -1,8 +1,13 @@
 # Level 4 — Lead / Consultant / Architect
 
+<div class="z2r-level-intro" markdown="1">
+<span class="z2r-level-kicker">LEARNING PATH / LEVEL 04 — LEAD & ARCHITECT</span>
+
 **Target audience:** 5+ years, leading programs, managing teams, engaging at the executive level.
 
 **Goal:** Technical depth is assumed. What's being assessed at this level is strategic thinking, program design capability, business acumen, and ability to translate security findings into business decisions.
+
+</div>
 
 ---
 

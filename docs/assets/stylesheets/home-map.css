@@ -984,3 +984,16 @@
   .z2r-library-radial .library-link,
   .z2r-library-radial .library-network-node {transition:none!important;animation:none!important}
 }
+
+.z2r-library-radial .library-link-group {animation:library-link-flow 34s linear infinite}
+.z2r-library-radial .library-network-node {animation:library-node-breathe 4.8s ease-in-out infinite}
+.z2r-library-radial .library-network-node:nth-of-type(2n) {animation-delay:-2.4s}
+@keyframes library-link-flow {to {stroke-dashoffset:-88}}
+@keyframes library-node-breathe {
+  0%,100% {opacity:.62}
+  50% {opacity:1}
+}
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-radial .library-link-group,
+  .z2r-library-radial .library-network-node {animation:none!important}
+}

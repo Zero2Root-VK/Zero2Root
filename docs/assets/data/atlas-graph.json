@@ -51,7 +51,17 @@
       "level": "Level 0",
       "href": "/level-0/01-networking/",
       "summary": "Understand addressing, transport, name resolution, HTTP, TLS, VLANs and the packet flow behind everyday security tools.",
-      "source": "Level 0 · Networking Fundamentals"
+      "source": "Level 0 · Networking Fundamentals",
+      "keywords": [
+        "networking",
+        "OSI",
+        "TCP/IP",
+        "IP addressing",
+        "subnetting",
+        "encapsulation",
+        "VLAN",
+        "port scanning"
+      ]
     },
     {
       "id": "security",
@@ -64,7 +74,17 @@
       "level": "Level 0",
       "href": "/level-0/03-security-concepts/",
       "summary": "Build the vocabulary for confidentiality, integrity, availability, authentication, authorization, encryption and threat thinking.",
-      "source": "Level 0 · Core Security Concepts"
+      "source": "Level 0 · Core Security Concepts",
+      "keywords": [
+        "security fundamentals",
+        "CIA triad",
+        "confidentiality",
+        "integrity",
+        "availability",
+        "authentication",
+        "authorization",
+        "threat modeling"
+      ]
     },
     {
       "id": "tcp",
@@ -77,7 +97,17 @@
       "level": "Protocol",
       "href": "/level-0/01-networking/",
       "summary": "Transport behavior, connection setup, flags, teardown and the trade-offs between reliable streams and datagrams.",
-      "source": "Networking Fundamentals"
+      "source": "Networking Fundamentals",
+      "keywords": [
+        "TCP",
+        "UDP",
+        "three-way handshake",
+        "SYN",
+        "ACK",
+        "RST",
+        "ports",
+        "transport layer"
+      ]
     },
     {
       "id": "dns",
@@ -90,7 +120,18 @@
       "level": "Protocol",
       "href": "/level-0/01-networking/",
       "summary": "Recursive resolution, record types, delegation and zone-transfer exposure.",
-      "source": "Networking Fundamentals"
+      "source": "Networking Fundamentals",
+      "keywords": [
+        "DNS",
+        "domain name system",
+        "A record",
+        "AAAA",
+        "CNAME",
+        "MX",
+        "NS",
+        "zone transfer",
+        "recursive resolver"
+      ]
     },
     {
       "id": "http",
@@ -103,7 +144,18 @@
       "level": "Protocol",
       "href": "/level-0/01-networking/",
       "summary": "Methods, status codes, headers, cookies and the structure of application requests and responses.",
-      "source": "Networking Fundamentals"
+      "source": "Networking Fundamentals",
+      "keywords": [
+        "HTTP",
+        "HTTPS",
+        "REST",
+        "request",
+        "response",
+        "headers",
+        "cookies",
+        "methods",
+        "status codes"
+      ]
     },
     {
       "id": "tls",
@@ -116,7 +168,16 @@
       "level": "Protocol",
       "href": "/level-0/01-networking/",
       "summary": "Certificate exchange, session establishment and common TLS configuration weaknesses.",
-      "source": "Networking Fundamentals"
+      "source": "Networking Fundamentals",
+      "keywords": [
+        "TLS",
+        "SSL",
+        "certificate",
+        "handshake",
+        "cipher suites",
+        "HSTS",
+        "certificate validation"
+      ]
     },
     {
       "id": "recon",
@@ -129,7 +190,15 @@
       "level": "Level 1",
       "href": "/level-1/01-reconnaissance/",
       "summary": "Move from passive discovery to active enumeration. Map domains, DNS, technologies and exposed assets before testing.",
-      "source": "Level 1 · Reconnaissance"
+      "source": "Level 1 · Reconnaissance",
+      "keywords": [
+        "reconnaissance",
+        "OSINT",
+        "subdomain discovery",
+        "asset discovery",
+        "passive recon",
+        "active recon"
+      ]
     },
     {
       "id": "scanning",
@@ -142,7 +211,15 @@
       "level": "Level 1",
       "href": "/level-1/02-scanning-enumeration/",
       "summary": "Identify reachable hosts, open ports, services, versions and useful protocol details.",
-      "source": "Level 1 · Scanning & Enumeration"
+      "source": "Level 1 · Scanning & Enumeration",
+      "keywords": [
+        "Nmap",
+        "port scanning",
+        "service detection",
+        "enumeration",
+        "host discovery",
+        "version detection"
+      ]
     },
     {
       "id": "assessment",
@@ -155,7 +232,15 @@
       "level": "Level 1",
       "href": "/level-1/03-vulnerability-assessment/",
       "summary": "Validate scanner output, understand CVSS and turn discovery into evidence-backed findings.",
-      "source": "Level 1 · Vulnerability Assessment"
+      "source": "Level 1 · Vulnerability Assessment",
+      "keywords": [
+        "vulnerability assessment",
+        "Nessus",
+        "CVSS",
+        "scanner validation",
+        "false positives",
+        "risk rating"
+      ]
     },
     {
       "id": "owasp",
@@ -168,7 +253,14 @@
       "level": "Level 1",
       "href": "/level-1/04-owasp-top10/",
       "summary": "A structured introduction to common web application risk categories, testing approaches and prevention.",
-      "source": "Level 1 · OWASP Top 10"
+      "source": "Level 1 · OWASP Top 10",
+      "keywords": [
+        "OWASP Top 10",
+        "broken access control",
+        "injection",
+        "security misconfiguration",
+        "web vulnerabilities"
+      ]
     },
     {
       "id": "basic-exploit",
@@ -181,7 +273,14 @@
       "level": "Level 1",
       "href": "/level-1/05-basic-exploitation/",
       "summary": "Understand the mechanics behind introductory exploitation, SQL injection, XSS and common testing workflows.",
-      "source": "Level 1 · Basic Exploitation"
+      "source": "Level 1 · Basic Exploitation",
+      "keywords": [
+        "exploitation",
+        "SQL injection",
+        "XSS",
+        "proof of concept",
+        "validation"
+      ]
     },
     {
       "id": "web-advanced",
@@ -194,7 +293,16 @@
       "level": "Level 2",
       "href": "/level-2/01-web-advanced/",
       "summary": "Explore authentication bypass, XXE, advanced XSS, CSP and deeper application logic flaws.",
-      "source": "Level 2 · Web Application — Advanced"
+      "source": "Level 2 · Web Application — Advanced",
+      "keywords": [
+        "XXE",
+        "CORS",
+        "OAuth",
+        "JWT attacks",
+        "authentication bypass",
+        "CSP bypass",
+        "SSRF"
+      ]
     },
     {
       "id": "api",
@@ -207,7 +315,15 @@
       "level": "Level 2",
       "href": "/level-2/02-api-security/",
       "summary": "Assess REST, GraphQL and SOAP APIs, including authorization, authentication, object properties and resource consumption.",
-      "source": "Level 2 · API Security"
+      "source": "Level 2 · API Security",
+      "keywords": [
+        "REST API",
+        "GraphQL",
+        "SOAP",
+        "OWASP API Top 10",
+        "API testing",
+        "authorization testing"
+      ]
     },
     {
       "id": "bola",
@@ -220,7 +336,15 @@
       "level": "API1:2023",
       "href": "/level-2/02-api-security/",
       "summary": "Test whether an authenticated user can access another user's object by changing an object reference. The lesson includes a request-level testing example.",
-      "source": "API Security · OWASP API1:2023"
+      "source": "API Security · OWASP API1:2023",
+      "keywords": [
+        "BOLA",
+        "IDOR",
+        "API1:2023",
+        "object-level authorization",
+        "object identifier",
+        "horizontal privilege escalation"
+      ]
     },
     {
       "id": "ssrf",
@@ -233,7 +357,15 @@
       "level": "Web / API",
       "href": "/level-2/01-web-advanced/",
       "summary": "Investigate server-side URL fetching and the way trust boundaries can expose internal services or metadata endpoints.",
-      "source": "Advanced Web Security"
+      "source": "Advanced Web Security",
+      "keywords": [
+        "SSRF",
+        "server-side request forgery",
+        "webhooks",
+        "URL fetching",
+        "cloud metadata",
+        "internal services"
+      ]
     },
     {
       "id": "injection",
@@ -246,7 +378,16 @@
       "level": "OWASP",
       "href": "/level-1/04-owasp-top10/",
       "summary": "Understand injection classes, input handling, execution context and practical validation.",
-      "source": "OWASP Top 10 · Basic Exploitation"
+      "source": "OWASP Top 10 · Basic Exploitation",
+      "keywords": [
+        "SQL injection",
+        "SQLi",
+        "cross-site scripting",
+        "XSS",
+        "command injection",
+        "LDAP injection",
+        "XPath injection"
+      ]
     },
     {
       "id": "source-review",
@@ -259,7 +400,14 @@
       "level": "Level 2",
       "href": "/level-2/06-source-code-review/",
       "summary": "Trace data flow, identify dangerous patterns and reason about taint analysis and static-analysis findings.",
-      "source": "Level 2 · Source Code Review"
+      "source": "Level 2 · Source Code Review",
+      "keywords": [
+        "source code review",
+        "SAST",
+        "taint analysis",
+        "data flow",
+        "static analysis"
+      ]
     },
     {
       "id": "infrastructure",
@@ -272,7 +420,14 @@
       "level": "Level 2",
       "href": "/level-2/04-infrastructure/",
       "summary": "Assess internal networks, host exposure, credential paths and infrastructure protocols.",
-      "source": "Level 2 · Infrastructure Pentesting"
+      "source": "Level 2 · Infrastructure Pentesting",
+      "keywords": [
+        "infrastructure pentesting",
+        "internal network",
+        "services",
+        "host enumeration",
+        "network assessment"
+      ]
     },
     {
       "id": "active-directory",
@@ -285,7 +440,16 @@
       "level": "Level 2",
       "href": "/level-2/05-active-directory/",
       "summary": "Understand AD architecture, objects, authentication and post-authentication enumeration.",
-      "source": "Level 2 · Active Directory"
+      "source": "Level 2 · Active Directory",
+      "keywords": [
+        "Active Directory",
+        "AD",
+        "Windows domain",
+        "LDAP",
+        "NTLM",
+        "domain controller",
+        "identity"
+      ]
     },
     {
       "id": "kerberos",
@@ -298,7 +462,15 @@
       "level": "Protocol",
       "href": "/level-2/05-active-directory/",
       "summary": "Ticket-based authentication, TGTs, service tickets and the security properties that shape AD assessments.",
-      "source": "Active Directory · Kerberos"
+      "source": "Active Directory · Kerberos",
+      "keywords": [
+        "Kerberos",
+        "TGT",
+        "TGS",
+        "service ticket",
+        "SPN",
+        "ticket-based authentication"
+      ]
     },
     {
       "id": "segmentation",
@@ -311,7 +483,15 @@
       "level": "Level 2",
       "href": "/level-2/08-segmentation-testing/",
       "summary": "Verify whether intended trust boundaries and network access controls actually prevent prohibited communication.",
-      "source": "Level 2 · Segmentation Testing"
+      "source": "Level 2 · Segmentation Testing",
+      "keywords": [
+        "network segmentation",
+        "VLAN",
+        "ACL",
+        "firewall rules",
+        "trust boundaries",
+        "PCI segmentation"
+      ]
     },
     {
       "id": "android",
@@ -324,7 +504,17 @@
       "level": "Level 2",
       "href": "/level-2/03-mobile-android/",
       "summary": "Explore Android architecture, APK structure, storage, cryptography and OWASP MASTG testing categories.",
-      "source": "Level 2 · Mobile Security — Android"
+      "source": "Level 2 · Mobile Security — Android",
+      "keywords": [
+        "Android",
+        "APK",
+        "MASVS",
+        "MASTG",
+        "mobile application security",
+        "Frida",
+        "ADB",
+        "SSL pinning"
+      ]
     },
     {
       "id": "cloud",
@@ -337,7 +527,16 @@
       "level": "Level 3",
       "href": "/level-3/03-cloud-security/",
       "summary": "Assess AWS, Azure and GCP identity, infrastructure, metadata services and privilege paths.",
-      "source": "Level 3 · Cloud Security"
+      "source": "Level 3 · Cloud Security",
+      "keywords": [
+        "AWS",
+        "Azure",
+        "GCP",
+        "IAM",
+        "cloud metadata",
+        "instance metadata",
+        "cloud privilege escalation"
+      ]
     },
     {
       "id": "exploit-dev",
@@ -350,7 +549,15 @@
       "level": "Level 3",
       "href": "/level-3/05-exploit-dev/",
       "summary": "Study debugging, memory corruption and the steps involved in analyzing and reproducing a stack-based overflow.",
-      "source": "Level 3 · Exploit Development"
+      "source": "Level 3 · Exploit Development",
+      "keywords": [
+        "exploit development",
+        "buffer overflow",
+        "memory corruption",
+        "stack",
+        "debugging",
+        "fuzzing"
+      ]
     },
     {
       "id": "threat-model",
@@ -363,7 +570,14 @@
       "level": "Level 4",
       "href": "/level-4/02-threat-modeling/",
       "summary": "Use structured methods such as STRIDE and PASTA to identify design-level threats and security requirements.",
-      "source": "Level 4 · Threat Modeling"
+      "source": "Level 4 · Threat Modeling",
+      "keywords": [
+        "threat modeling",
+        "STRIDE",
+        "PASTA",
+        "attack surface",
+        "security requirements"
+      ]
     },
     {
       "id": "research",
@@ -376,7 +590,16 @@
       "level": "Research",
       "href": "/research/",
       "summary": "A home for original analysis, responsible disclosures, advisory work and technical write-ups. Publication collection is being organized.",
-      "source": "Zero2Root Research"
+      "source": "Zero2Root Research",
+      "keywords": [
+        "security research",
+        "CVE",
+        "CWE",
+        "GHSA",
+        "GitHub Security Advisories",
+        "responsible disclosure",
+        "technical writeups"
+      ]
     },
     {
       "id": "recon-tools",
@@ -389,7 +612,15 @@
       "level": "Tools",
       "href": "/tools/01-recon-tools/",
       "summary": "Reference commands and workflows for domain discovery, DNS enumeration, certificate transparency and intelligence gathering.",
-      "source": "Tools Reference · Recon Tools"
+      "source": "Tools Reference · Recon Tools",
+      "keywords": [
+        "Subfinder",
+        "Amass",
+        "Assetfinder",
+        "OSINT tools",
+        "certificate transparency",
+        "theHarvester"
+      ]
     },
     {
       "id": "scan-tools",
@@ -402,7 +633,15 @@
       "level": "Tools",
       "href": "/tools/02-scanning-tools/",
       "summary": "Nmap, Masscan, Nessus, OpenVAS, Nuclei and TLS assessment references.",
-      "source": "Tools Reference · Scanning Tools"
+      "source": "Tools Reference · Scanning Tools",
+      "keywords": [
+        "Nmap",
+        "Nessus",
+        "Nuclei",
+        "OpenVAS",
+        "Masscan",
+        "testssl.sh"
+      ]
     },
     {
       "id": "web-tools",
@@ -415,7 +654,16 @@
       "level": "Tools",
       "href": "/tools/03-web-tools/",
       "summary": "Burp Suite, OWASP ZAP, directory discovery and practical web testing references.",
-      "source": "Tools Reference · Web Application Tools"
+      "source": "Tools Reference · Web Application Tools",
+      "keywords": [
+        "Burp Suite",
+        "OWASP ZAP",
+        "ffuf",
+        "Gobuster",
+        "sqlmap",
+        "web proxy",
+        "API testing tools"
+      ]
     },
     {
       "id": "network-tools",
@@ -428,7 +676,14 @@
       "level": "Tools",
       "href": "/tools/04-network-tools/",
       "summary": "Wireshark, tshark, tcpdump and network traffic inspection references.",
-      "source": "Tools Reference · Network & Infrastructure Tools"
+      "source": "Tools Reference · Network & Infrastructure Tools",
+      "keywords": [
+        "Wireshark",
+        "tcpdump",
+        "tshark",
+        "packet capture",
+        "network protocol analysis"
+      ]
     }
   ],
   "edges": [
@@ -722,5 +977,22 @@
         "network-tools"
       ]
     }
-  ]
+  ],
+  "meta": {
+    "edition": "01",
+    "asOf": "2026-11-16",
+    "nodeCount": 30,
+    "relationshipCount": 42,
+    "routeCount": 3,
+    "description": "A manually curated, source-linked index of Zero2Root learning material. Relationships describe documented prerequisites, coverage and tool references; they are not an automatically inferred attack graph.",
+    "relationshipKinds": [
+      "contains",
+      "prerequisite",
+      "foundation",
+      "extends",
+      "related",
+      "tested_with",
+      "uses"
+    ]
+  }
 }

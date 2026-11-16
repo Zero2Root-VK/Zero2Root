@@ -6,7 +6,6 @@ hide:
 <div class="z2r-library" data-z2r-library>
   <main class="z2r-library-experience">
     <section class="z2r-library-copy" aria-label="Zero2Root knowledge library">
-      <div class="z2r-library-overline"><span>ZERO2ROOT</span><i></i><span>THE EXISTING KNOWLEDGE LIBRARY</span></div>
       <p class="z2r-library-kicker">A FIELD GUIDE TO THE SECURITY LANDSCAPE</p>
       <h1>Cybersecurity,<br><em>mapped.</em></h1>
       <p class="z2r-library-intro">A connected path through the craft of security. Explore the learning levels, practical lessons, tools and field resources already inside Zero2Root.</p>
@@ -31,16 +30,6 @@ hide:
     </section>
 
     <section class="z2r-library-map-stage" aria-label="Interactive Zero2Root knowledge map">
-      <div class="z2r-library-map-topline">
-        <span><b>01</b> / KNOWLEDGE NETWORK</span>
-        <span>HOVER TO TRACE <i>·</i> SELECT TO EXPLORE</span>
-      </div>
-      <div class="z2r-library-map-tools" role="group" aria-label="Map controls">
-        <button type="button" data-library-zoom-out aria-label="Zoom out" title="Zoom out">−</button>
-        <output data-library-zoom-label aria-live="polite">100%</output>
-        <button type="button" data-library-zoom-in aria-label="Zoom in" title="Zoom in">+</button>
-        <button type="button" data-library-zoom-reset aria-label="Reset map view" title="Reset map view">RESET</button>
-      </div>
       <div class="z2r-library-radial-wrap">
         <svg class="z2r-library-radial" data-library-radial viewBox="0 0 860 860" role="group" aria-label="Interactive radial knowledge map. Select an inner category or outer lesson segment to explore existing Zero2Root pages.">
           <defs>
@@ -70,7 +59,6 @@ hide:
         </div>
       </div>
       <div class="z2r-library-map-legend" data-library-legend></div>
-      <div class="z2r-library-map-caption"><span>THE INNER RING DEFINES THE PATH.</span><span>THE OUTER RING HOLDS THE KNOWLEDGE.</span></div>
     </section>
   </main>
 

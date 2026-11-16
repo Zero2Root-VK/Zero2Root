@@ -17,6 +17,15 @@
   const routeStops = $("[data-atlas-route-stops]");
   const nodeCount = $("[data-atlas-node-count]");
   const fallback = $("[data-atlas-fallback]");
+  const compareDock = $("[data-atlas-compare]");
+  const compareSlots = $("[data-atlas-compare-slots]");
+  const compareRun = $("[data-atlas-compare-run]");
+  const compareClear = $("[data-atlas-compare-clear]");
+  const compareStatus = $("[data-atlas-compare-status]");
+  const compareResults = $("[data-atlas-compare-results]");
+  const directory = $("[data-atlas-directory]");
+  const directoryCount = $("[data-atlas-directory-count]");
+  const shareStatus = $("[data-atlas-share-status]");
   const colors = {
     copper: "#C77C55",
     copperLight: "#D99973",
@@ -29,7 +38,7 @@
     raised: "#1B2222"
   };
   const view = { x: 0, y: 0, width: 1400, height: 820 };
-  const state = { selected: null, filter: "all", mode: "terrain", route: null, pointer: null };
+  const state = { selected: null, filter: "all", mode: "terrain", route: null, pointer: null, compare: [] };
   let data;
 
   const svgElement = (tag, attrs = {}, text = null) => {
@@ -171,7 +180,7 @@
       const element = svgElement("g", {
         class: "atlas-node atlas-node--" + node.type,
         transform: "translate(" + node.x + " " + node.y + ")",
-        tabindex: "0",
+        tabindex: "-1",
         role: "button",
         "aria-label": node.label + ", " + typeLabel(node.type),
         "aria-pressed": "false",
@@ -202,7 +211,21 @@
       element.addEventListener("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          selectNode(node.id, true);
+          selectNode(node.id, false);
+          return;
+        }
+        if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)) {
+          event.preventDefault();
+          focusDirectionalNeighbor(node.id, event.key);
+          return;
+        }
+        if (event.key === "Home" || event.key === "End") {
+          event.preventDefault();
+          const target = event.key === "Home" ? data.nodes[0] : data.nodes[data.nodes.length - 1];
+          if (target) {
+            selectNode(target.id, false);
+            $("[data-atlas-node='" + target.id + "']", scene)?.focus();
+          }
         }
       });
       group.appendChild(element);
@@ -271,31 +294,293 @@
       open.appendChild(htmlElement("span", "", "↗"));
       inspector.appendChild(open);
     }
+
+    const actions = htmlElement("div", "atlas-inspector-actions");
+    const compareButton = htmlElement("button", "atlas-inspector-compare", "Add to comparison");
+    compareButton.type = "button";
+    compareButton.addEventListener("click", () => addToCompare(node.id));
+    actions.appendChild(compareButton);
+
+    const shareButton = htmlElement("button", "atlas-inspector-share", "Copy field-note link");
+    shareButton.type = "button";
+    shareButton.addEventListener("click", () => shareNode(node.id));
+    actions.appendChild(shareButton);
+    inspector.appendChild(actions);
+  }
+
+  function compareNeighbors(nodeId) {
+    return data.edges
+      .filter((edge) => edge.source === nodeId || edge.target === nodeId)
+      .map((edge) => ({
+        edge,
+        node: getNode(edge.source === nodeId ? edge.target : edge.source),
+        direction: edge.source === nodeId ? "OUT" : "IN"
+      }))
+      .filter((entry) => entry.node);
+  }
+
+  function renderCompareCard(node) {
+    const card = htmlElement("article", "atlas-compare-card");
+    card.appendChild(htmlElement("span", "atlas-compare-type", typeLabel(node.type)));
+    card.appendChild(htmlElement("h3", "", node.label));
+    card.appendChild(htmlElement("p", "atlas-compare-summary", node.summary));
+    const meta = htmlElement("div", "atlas-compare-meta");
+    meta.appendChild(htmlElement("span", "", node.level || "Knowledge point"));
+    const region = data.regions.find((item) => item.id === node.region);
+    meta.appendChild(htmlElement("span", "", region ? region.label.replace(/^\d+\s*\/\s*/, "") : node.region));
+    card.appendChild(meta);
+
+    const source = htmlElement("div", "atlas-compare-source");
+    source.appendChild(htmlElement("span", "", "SOURCE MATERIAL"));
+    if (node.href) {
+      const link = htmlElement("a", "", node.source || "Open source lesson");
+      link.href = node.href;
+      source.appendChild(link);
+    } else {
+      source.appendChild(htmlElement("span", "", node.source || "Zero2Root index"));
+    }
+    card.appendChild(source);
+
+    const connections = compareNeighbors(node.id);
+    const connectionList = htmlElement("div", "atlas-compare-connections");
+    connectionList.appendChild(htmlElement("span", "atlas-compare-subhead", "CONNECTED POINTS"));
+    if (!connections.length) {
+      connectionList.appendChild(htmlElement("p", "", "No curated relationships recorded."));
+    } else {
+      connections.forEach((entry) => {
+        const row = htmlElement("div", "atlas-compare-connection");
+        row.appendChild(htmlElement("span", "atlas-compare-direction", entry.direction));
+        const details = htmlElement("span", "");
+        details.appendChild(htmlElement("strong", "", entry.node.short));
+        details.appendChild(htmlElement("small", "", entry.edge.label));
+        row.appendChild(details);
+        connectionList.appendChild(row);
+      });
+    }
+    card.appendChild(connectionList);
+    return card;
+  }
+
+  function renderComparison() {
+    if (state.compare.length !== 2 || !compareResults) return;
+    const left = getNode(state.compare[0]);
+    const right = getNode(state.compare[1]);
+    if (!left || !right) return;
+
+    compareResults.replaceChildren();
+    const grid = htmlElement("div", "atlas-compare-result-grid");
+    grid.appendChild(renderCompareCard(left));
+    grid.appendChild(renderCompareCard(right));
+    compareResults.appendChild(grid);
+
+    const leftNeighbors = new Map(compareNeighbors(left.id).map((entry) => [entry.node.id, entry]));
+    const rightNeighbors = new Map(compareNeighbors(right.id).map((entry) => [entry.node.id, entry]));
+    const sharedIds = [...leftNeighbors.keys()].filter((id) => rightNeighbors.has(id));
+    const leftOnly = [...leftNeighbors.keys()].filter((id) => !rightNeighbors.has(id));
+    const rightOnly = [...rightNeighbors.keys()].filter((id) => !leftNeighbors.has(id));
+
+    const shared = htmlElement("section", "atlas-compare-shared");
+    shared.appendChild(htmlElement("span", "atlas-compare-subhead", "RELATIONSHIP OVERLAP"));
+    shared.appendChild(htmlElement("p", "atlas-compare-overlap-summary",
+      sharedIds.length
+        ? sharedIds.length + " shared connection" + (sharedIds.length === 1 ? "" : "s") + " link these concepts to common knowledge points."
+        : "No shared neighboring concepts are currently documented."
+    ));
+    const sharedList = htmlElement("div", "atlas-compare-shared-list");
+    sharedIds.forEach((id) => {
+      const row = htmlElement("div", "atlas-compare-shared-item");
+      row.appendChild(htmlElement("strong", "", getNode(id).short));
+      row.appendChild(htmlElement("small", "", leftNeighbors.get(id).edge.label + " / " + rightNeighbors.get(id).edge.label));
+      sharedList.appendChild(row);
+    });
+    shared.appendChild(sharedList);
+
+    if (leftOnly.length || rightOnly.length) {
+      const unique = htmlElement("div", "atlas-compare-unique");
+      const leftList = htmlElement("div", "atlas-compare-unique-column");
+      leftList.appendChild(htmlElement("span", "atlas-compare-subhead", "ONLY CONNECTED TO " + left.short.toUpperCase()));
+      leftOnly.forEach((id) => leftList.appendChild(htmlElement("span", "", getNode(id).short)));
+      const rightList = htmlElement("div", "atlas-compare-unique-column");
+      rightList.appendChild(htmlElement("span", "atlas-compare-subhead", "ONLY CONNECTED TO " + right.short.toUpperCase()));
+      rightOnly.forEach((id) => rightList.appendChild(htmlElement("span", "", getNode(id).short)));
+      unique.append(leftList, rightList);
+      shared.appendChild(unique);
+    }
+    compareResults.appendChild(shared);
+    compareResults.hidden = false;
+  }
+
+  function renderCompareTray() {
+    if (!compareDock || !compareSlots) return;
+    compareDock.hidden = state.compare.length === 0;
+    compareSlots.replaceChildren();
+
+    for (let index = 0; index < 2; index += 1) {
+      const id = state.compare[index];
+      const slot = htmlElement("div", "atlas-compare-slot");
+      slot.appendChild(htmlElement("span", "atlas-compare-slot-index", "0" + (index + 1)));
+      if (id) {
+        const node = getNode(id);
+        slot.appendChild(htmlElement("strong", "", node.label));
+        slot.appendChild(htmlElement("small", "", typeLabel(node.type)));
+        const remove = htmlElement("button", "atlas-compare-remove", "Remove");
+        remove.type = "button";
+        remove.setAttribute("aria-label", "Remove " + node.label + " from comparison");
+        remove.addEventListener("click", () => {
+          state.compare = state.compare.filter((item) => item !== id);
+          if (compareResults) compareResults.hidden = true;
+          renderCompareTray();
+        });
+        slot.appendChild(remove);
+      } else {
+        slot.appendChild(htmlElement("strong", "", "Awaiting a concept"));
+        slot.appendChild(htmlElement("small", "", "Choose a point from the map"));
+      }
+      compareSlots.appendChild(slot);
+    }
+
+    if (compareRun) compareRun.disabled = state.compare.length !== 2;
+    if (compareStatus) {
+      compareStatus.textContent = state.compare.length === 2
+        ? "Two concepts selected. Compare their shared and distinct connections."
+        : "Select one more concept from the map or its inspector.";
+    }
+  }
+
+  function addToCompare(id) {
+    if (!getNode(id)) return;
+    if (state.compare.includes(id)) {
+      if (compareStatus) compareStatus.textContent = "That concept is already in the comparison.";
+      return;
+    }
+    state.compare = state.compare.length >= 2
+      ? [state.compare[1], id]
+      : [...state.compare, id];
+    if (compareResults) compareResults.hidden = true;
+    renderCompareTray();
+    compareDock?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function clearComparison() {
+    state.compare = [];
+    if (compareResults) {
+      compareResults.replaceChildren();
+      compareResults.hidden = true;
+    }
+    renderCompareTray();
+  }
+
+  async function shareNode(id) {
+    const node = getNode(id);
+    if (!node || !shareStatus) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("node", id);
+    try {
+      await navigator.clipboard.writeText(url.toString());
+      shareStatus.textContent = "Field-note link copied for " + node.short + ".";
+    } catch {
+      shareStatus.textContent = "Share this field note: " + url.toString();
+    }
+  }
+
+  function syncNodeAddress(id) {
+    try {
+      const url = new URL(window.location.href);
+      url.searchParams.set("node", id);
+      window.history.replaceState(null, "", url);
+    } catch {
+      // Keep the map usable in restricted preview or embedded contexts.
+    }
+  }
+
+  function renderDirectory() {
+    if (!directory) return;
+    directory.replaceChildren();
+    data.regions.forEach((region) => {
+      const members = data.nodes.filter((node) => node.region === region.id);
+      if (!members.length) return;
+      const section = htmlElement("section", "atlas-directory-region");
+      section.appendChild(htmlElement("h3", "", region.label));
+      section.appendChild(htmlElement("p", "", region.note));
+      const list = htmlElement("div", "atlas-directory-list");
+      members.forEach((node) => {
+        const button = htmlElement("button", "atlas-directory-item");
+        button.type = "button";
+        button.appendChild(htmlElement("span", "atlas-directory-type", typeLabel(node.type)));
+        button.appendChild(htmlElement("strong", "", node.label));
+        button.appendChild(htmlElement("small", "", node.level || node.source || "Knowledge point"));
+        button.addEventListener("click", () => {
+          selectNode(node.id, true);
+          directory.closest("details")?.removeAttribute("open");
+          $(".atlas-map-frame")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        list.appendChild(button);
+      });
+      section.appendChild(list);
+      directory.appendChild(section);
+    });
+    if (directoryCount) directoryCount.textContent = data.nodes.length + " points / " + data.edges.length + " relationships";
+  }
+
+  function focusDirectionalNeighbor(id, key) {
+    const current = getNode(id);
+    if (!current) return;
+    const direction = {
+      ArrowUp: { x: 0, y: -1 },
+      ArrowDown: { x: 0, y: 1 },
+      ArrowLeft: { x: -1, y: 0 },
+      ArrowRight: { x: 1, y: 0 }
+    }[key];
+    let best = null;
+    let bestScore = Infinity;
+    data.nodes.forEach((candidate) => {
+      if (candidate.id === id) return;
+      const dx = candidate.x - current.x;
+      const dy = candidate.y - current.y;
+      const forward = dx * direction.x + dy * direction.y;
+      if (forward <= 0) return;
+      const lateral = Math.abs(dx * direction.y - dy * direction.x);
+      const score = forward + lateral * 1.7 + (lateral / Math.max(forward, 1)) * 18;
+      if (score < bestScore) {
+        best = candidate;
+        bestScore = score;
+      }
+    });
+    if (!best) return;
+    selectNode(best.id, false);
+    $("[data-atlas-node='" + best.id + "']", scene)?.focus();
   }
 
   function clearRoute() {
     state.route = null;
     routeStops.replaceChildren();
     root.classList.remove("has-active-route");
+    if (data && scene) applyViewFilter();
   }
 
-  function selectNode(id, focusMap) {
+  function selectNode(id, focusMap, updateUrl = true) {
     const node = getNode(id);
     if (!node) return;
     if (state.route && !state.route.nodes.includes(id)) clearRoute();
-    const hiddenByType = state.filter !== "all" && node.type !== state.filter;
-    const hiddenByView = state.mode === "learning" && !["lesson","protocol","framework"].includes(node.type)
-      || state.mode === "testing" && !["lesson","weakness","toolset","protocol"].includes(node.type);
+    const isRouteNode = Boolean(state.route && state.route.nodes.includes(id));
+    const hiddenByType = !isRouteNode && state.filter !== "all" && node.type !== state.filter;
+    const hiddenByView = !isRouteNode && (
+      state.mode === "learning" && !["lesson","protocol","framework"].includes(node.type)
+      || state.mode === "testing" && !["lesson","weakness","toolset","protocol"].includes(node.type)
+    );
     if (hiddenByType) applyFilter("all");
     if (hiddenByView) setMode("terrain", true);
     state.selected = id;
     nodeCount.textContent = String(data.nodes.findIndex((entry) => entry.id === id) + 1).padStart(2,"0") + " / " + String(data.nodes.length).padStart(2,"0");
     renderInspector(node);
-    $$(".atlas-node", scene).forEach((element) => {
+    renderCompareTray();
+    $(".atlas-node", scene).forEach((element) => {
       const active = element.getAttribute("data-atlas-node") === id;
       element.classList.toggle("is-selected", active);
       element.setAttribute("aria-pressed", String(active));
+      element.setAttribute("tabindex", active ? "0" : "-1");
     });
+    if (updateUrl) syncNodeAddress(id);
     const relatedIds = new Set([id]);
     data.edges.forEach((edge) => {
       if (edge.source === id) relatedIds.add(edge.target);
@@ -336,18 +621,22 @@
     $$(".atlas-node", scene).forEach((element) => {
       const id = element.getAttribute("data-atlas-node");
       const node = getNode(id);
-      const filterMismatch = state.filter !== "all" && node.type !== state.filter;
-      const viewMismatch = state.mode === "learning" && !["lesson","protocol","framework"].includes(node.type)
-        || state.mode === "testing" && !["lesson","weakness","toolset","protocol"].includes(node.type);
-      const routeMismatch = routeSet && !routeSet.has(id);
+      const isRouteNode = Boolean(routeSet && routeSet.has(id));
+      const filterMismatch = !isRouteNode && state.filter !== "all" && node.type !== state.filter;
+      const viewMismatch = !isRouteNode && (
+        state.mode === "learning" && !["lesson","protocol","framework"].includes(node.type)
+        || state.mode === "testing" && !["lesson","weakness","toolset","protocol"].includes(node.type)
+      );
+      const routeMismatch = routeSet && !isRouteNode;
       element.classList.toggle("is-filtered", filterMismatch || viewMismatch || routeMismatch);
     });
     $$(".atlas-edge", scene).forEach((element) => {
       const source = element.getAttribute("data-edge-source");
       const target = element.getAttribute("data-edge-target");
       const kind = element.getAttribute("data-edge-kind");
-      const typeMismatch = allowedKinds && !allowedKinds.has(kind);
-      const routeMismatch = routeSet && !routePairs.has(edgeKey(source,target));
+      const isRouteEdge = Boolean(routeSet && routePairs.has(edgeKey(source,target)));
+      const typeMismatch = allowedKinds && !allowedKinds.has(kind) && !isRouteEdge;
+      const routeMismatch = routeSet && !isRouteEdge;
       element.classList.toggle("is-filtered", Boolean(typeMismatch || routeMismatch));
       element.classList.toggle("is-route", Boolean(routeSet && routePairs.has(edgeKey(source,target))));
     });
@@ -360,9 +649,22 @@
       searchResults.hidden = true;
       return [];
     }
-    const matches = data.nodes.filter((node) =>
-      (node.label + " " + node.short + " " + (node.level || "") + " " + typeLabel(node.type)).toLowerCase().includes(term)
-    ).slice(0,8);
+    const matches = data.nodes
+      .map((node) => {
+        const haystack = [
+          node.label, node.short, node.level, node.source, node.summary,
+          typeLabel(node.type), ...(node.keywords || [])
+        ].join(" ").toLowerCase();
+        const exact = [node.label, node.short, ...(node.keywords || [])]
+          .some((value) => String(value).toLowerCase() === term);
+        const starts = [node.label, node.short, ...(node.keywords || [])]
+          .some((value) => String(value).toLowerCase().startsWith(term));
+        return { node, haystack, score: exact ? 0 : starts ? 1 : 2 };
+      })
+      .filter((entry) => entry.haystack.includes(term))
+      .sort((a, b) => a.score - b.score)
+      .slice(0, 8)
+      .map((entry) => entry.node);
     if (!matches.length) {
       searchResults.appendChild(htmlElement("div","atlas-search-empty","No matching field notes. Try a broader term."));
     } else {
@@ -371,7 +673,7 @@
         button.type = "button";
         button.appendChild(htmlElement("span","atlas-search-type",typeLabel(node.type)));
         button.appendChild(htmlElement("strong","",node.label));
-        button.appendChild(htmlElement("small","",node.source || node.region));
+        button.appendChild(htmlElement("small","",(node.source || node.region) + (node.keywords?.length ? " · " + node.keywords.slice(0,3).join(", ") : "")));
         button.addEventListener("click",()=>{
           search.value = node.label;
           searchResults.hidden = true;
@@ -482,6 +784,19 @@
     $$("[data-atlas-filter]").forEach((button)=>button.addEventListener("click",()=>applyFilter(button.getAttribute("data-atlas-filter"))));
     $("[data-atlas-view]").forEach((button)=>button.addEventListener("click",()=>setMode(button.getAttribute("data-atlas-view"))));
     search.addEventListener("input",()=>renderSearchResults(search.value));
+
+    compareRun?.addEventListener("click", () => {
+      renderComparison();
+      compareResults?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+    compareClear?.addEventListener("click", clearComparison);
+
+    const nodeTotal = root.querySelectorAll("[data-atlas-node-total], [data-atlas-node-count-total]");
+    nodeTotal.forEach((element) => { element.textContent = String(data.nodes.length); });
+    const edgeTotal = $("[data-atlas-edge-total]");
+    if (edgeTotal) edgeTotal.textContent = String(data.edges.length);
+    const edition = $("[data-atlas-edition]");
+    if (edition && data.meta?.edition) edition.textContent = data.meta.edition;
     search.addEventListener("keydown",(event)=>{
       if(event.key==="Escape"){search.value="";searchResults.hidden=true;return;}
       if(event.key==="Enter"){
@@ -534,8 +849,11 @@
       drawNodes();
       bindControls();
       bindMapControls();
-      const first=getNode("api")||data.nodes[0];
-      selectNode(first.id,true);
+      renderDirectory();
+      renderCompareTray();
+      const requestedId = new URL(window.location.href).searchParams.get("node");
+      const first=getNode(requestedId)||getNode("api")||data.nodes[0];
+      selectNode(first.id,false,false);
       fallback.hidden=true;
       root.classList.add("is-ready");
     } catch(error) {

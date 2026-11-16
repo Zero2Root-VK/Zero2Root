@@ -83,7 +83,7 @@ hide:
 </div>
 
 <div class="z2r-module-grid">
-  <a class="z2r-module-card" href="tools/index.md">
+  <a class="z2r-module-card" href="tools/">
     <span class="z2r-module-icon">⌘</span>
     <span class="z2r-module-status z2r-status-live">Available now</span>
     <strong>Security Toolkit</strong>

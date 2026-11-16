@@ -57,8 +57,8 @@ hide:
           <rect width="860" height="860" fill="url(#z2r-library-vignette)"/>
           <g data-library-viewport>
             <g data-library-rings></g>
-            <g data-library-connections></g>
             <g data-library-segments></g>
+            <g data-library-connections></g>
             <g data-library-labels></g>
             <g data-library-center></g>
           </g>

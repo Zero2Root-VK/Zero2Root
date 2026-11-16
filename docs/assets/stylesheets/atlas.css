@@ -1,0 +1,883 @@
+/* ZERO2ROOT FIELD ATLAS — editorial cartography / interactive knowledge terrain */
+
+.md-container:has(.z2r-atlas) .md-main__inner {
+  max-width: 1660px;
+  padding-top: 20px;
+}
+.md-container:has(.z2r-atlas) .md-content__inner {
+  max-width: 1520px !important;
+  padding: 0 clamp(16px, 2.4vw, 34px) 64px !important;
+}
+.md-container:has(.z2r-atlas) .md-content__inner > h1:first-child {
+  display: none !important;
+}
+
+.z2r-atlas {
+  --atlas-bg: #0B0D0E;
+  --atlas-panel: #14191A;
+  --atlas-raised: #1B2222;
+  --atlas-line: #303A38;
+  --atlas-ivory: #E9E5DC;
+  --atlas-muted: #AAA99F;
+  --atlas-copper: #C77C55;
+  --atlas-copper-light: #D99973;
+  --atlas-mineral: #8EA99A;
+  --atlas-brass: #D2AA70;
+  --atlas-danger: #C66A5E;
+  color: var(--atlas-ivory);
+  padding: 12px 0 28px;
+  font-family: "IBM Plex Sans", Inter, sans-serif;
+}
+.z2r-atlas * { box-sizing: border-box; }
+
+.atlas-heading {
+  padding: clamp(24px, 4vw, 48px) 0 24px;
+  border-bottom: 1px solid var(--atlas-line);
+}
+.atlas-overline {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--atlas-muted);
+  font: 600 10px/1.4 "IBM Plex Mono", monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.atlas-overline span:first-child { color: var(--atlas-copper-light); }
+.atlas-overline i {
+  width: 22px;
+  height: 1px;
+  background: var(--atlas-copper);
+}
+.atlas-heading-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 36px;
+  margin-top: 16px;
+}
+.atlas-heading h1 {
+  margin: 0 !important;
+  color: var(--atlas-ivory) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  font-size: clamp(40px, 6vw, 76px) !important;
+  font-weight: 760 !important;
+  letter-spacing: -.065em !important;
+  line-height: .98 !important;
+}
+.atlas-heading-period { color: var(--atlas-copper); }
+.atlas-lede {
+  max-width: 760px;
+  margin: 17px 0 0 !important;
+  color: var(--atlas-muted) !important;
+  font-size: clamp(14px, 1.3vw, 17px) !important;
+  line-height: 1.75 !important;
+}
+.atlas-edition {
+  flex: 0 0 174px;
+  padding: 12px 0 4px 17px;
+  border-left: 1px solid var(--atlas-line);
+  font-family: "IBM Plex Mono", monospace;
+}
+.atlas-edition > span,
+.atlas-edition small {
+  display: block;
+  color: var(--atlas-muted);
+  font-size: 9px;
+  letter-spacing: .13em;
+}
+.atlas-edition strong {
+  display: block;
+  margin: 6px 0 5px;
+  color: var(--atlas-ivory);
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -.05em;
+}
+.atlas-edition strong span { color: var(--atlas-copper); }
+.atlas-edition small { font-size: 8px; }
+
+.atlas-command {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 22px 0 18px;
+}
+.atlas-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(600px, 58%);
+  min-height: 47px;
+  padding: 0 14px;
+  border: 1px solid var(--atlas-line);
+  border-radius: 7px;
+  background: var(--atlas-panel);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.atlas-search-wrap:focus-within {
+  border-color: rgba(199,124,85,.75);
+  box-shadow: 0 0 0 3px rgba(199,124,85,.08);
+}
+.atlas-search-mark {
+  color: var(--atlas-copper-light);
+  font: 26px/1 "IBM Plex Sans", sans-serif;
+}
+.atlas-search-wrap input {
+  width: 100%;
+  min-width: 0;
+  color: var(--atlas-ivory);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  font: 14px "IBM Plex Sans", sans-serif;
+}
+.atlas-search-wrap input::placeholder { color: #858B83; opacity: 1; }
+.atlas-search-wrap kbd {
+  flex: 0 0 auto;
+  color: var(--atlas-muted);
+  background: var(--atlas-raised);
+  border: 1px solid var(--atlas-line);
+  border-radius: 4px;
+  font: 10px "IBM Plex Mono", monospace;
+}
+.atlas-command-note {
+  color: #8D958B;
+  font: 9px "IBM Plex Mono", monospace;
+  letter-spacing: .12em;
+  text-align: right;
+  white-space: nowrap;
+}
+.atlas-command-note span { color: #56645B; padding: 0 5px; }
+.atlas-live-mark {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  vertical-align: 1px;
+  background: var(--atlas-mineral);
+  border-radius: 50%;
+}
+.atlas-search-results {
+  position: absolute;
+  z-index: 20;
+  top: 54px;
+  left: 0;
+  width: min(600px, 100%);
+  max-height: 330px;
+  overflow-y: auto;
+  padding: 6px;
+  background: #111615;
+  border: 1px solid #46514B;
+  border-radius: 8px;
+  box-shadow: 0 18px 45px rgba(0,0,0,.45);
+}
+.atlas-search-results[hidden] { display: none; }
+.atlas-search-result {
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: 3px 10px;
+  width: 100%;
+  padding: 11px 12px;
+  color: var(--atlas-ivory);
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+}
+.atlas-search-result:hover,
+.atlas-search-result:focus-visible { background: rgba(199,124,85,.10); outline: 0; }
+.atlas-search-type {
+  grid-row: span 2;
+  align-self: center;
+  color: var(--atlas-copper-light);
+  font: 9px "IBM Plex Mono", monospace;
+  letter-spacing: .08em;
+}
+.atlas-search-result strong { font-size: 13px; font-weight: 650; }
+.atlas-search-result small { color: var(--atlas-muted); font-size: 11px; }
+.atlas-search-empty { padding: 16px; color: var(--atlas-muted); font-size: 13px; }
+
+.atlas-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 326px;
+  gap: 14px;
+  align-items: stretch;
+}
+.atlas-map-column,
+.atlas-inspector {
+  min-width: 0;
+  background: var(--atlas-panel);
+  border: 1px solid var(--atlas-line);
+  border-radius: 9px;
+}
+.atlas-map-column { overflow: hidden; }
+.atlas-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 8px 13px;
+  border-bottom: 1px solid var(--atlas-line);
+  background: #111615;
+}
+.atlas-view-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  background: #0C1110;
+  border: 1px solid #29312D;
+  border-radius: 6px;
+}
+.atlas-view-switch button {
+  min-height: 31px;
+  padding: 0 12px;
+  color: #8F9A90;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font: 600 10px "IBM Plex Mono", monospace;
+  letter-spacing: .035em;
+  cursor: pointer;
+}
+.atlas-view-switch button:hover { color: var(--atlas-ivory); }
+.atlas-view-switch button.is-active {
+  color: var(--atlas-ivory);
+  background: #202725;
+  border-color: #46514B;
+}
+.atlas-map-actions { display: flex; align-items: center; gap: 4px; }
+.atlas-map-actions button {
+  min-width: 33px;
+  min-height: 30px;
+  padding: 0 9px;
+  color: #C1C5B9;
+  background: transparent;
+  border: 1px solid #36413B;
+  border-radius: 4px;
+  font: 11px "IBM Plex Mono", monospace;
+  cursor: pointer;
+}
+.atlas-map-actions button:hover {
+  color: var(--atlas-copper-light);
+  border-color: var(--atlas-copper);
+}
+.atlas-map-actions button[data-atlas-zoom="reset"] { font-size: 8px; letter-spacing: .11em; }
+
+.atlas-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 13px;
+  background: #111615;
+  border-bottom: 1px solid var(--atlas-line);
+}
+.atlas-filter-row button {
+  min-height: 27px;
+  padding: 0 10px;
+  color: #959C91;
+  background: transparent;
+  border: 1px solid #35403A;
+  border-radius: 4px;
+  font: 9px "IBM Plex Mono", monospace;
+  letter-spacing: .04em;
+  cursor: pointer;
+}
+.atlas-filter-row button:hover { color: var(--atlas-ivory); border-color: #65756A; }
+.atlas-filter-row button.is-active {
+  color: var(--atlas-copper-light);
+  background: rgba(199,124,85,.08);
+  border-color: rgba(199,124,85,.48);
+}
+
+.atlas-map-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.58 / 1;
+  min-height: 410px;
+  overflow: hidden;
+  background: var(--atlas-bg);
+}
+.atlas-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 410px;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+.atlas-map.is-panning { cursor: grabbing; }
+.atlas-map-topline {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  color: #727D73;
+  font: 8px "IBM Plex Mono", monospace;
+  letter-spacing: .13em;
+  pointer-events: none;
+}
+.atlas-map-topline span:first-child { color: var(--atlas-copper); }
+.atlas-map-scale {
+  position: absolute;
+  z-index: 2;
+  left: 16px;
+  bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #879188;
+  font: 8px "IBM Plex Mono", monospace;
+  pointer-events: none;
+}
+.atlas-map-scale i {
+  width: 17px;
+  height: 1px;
+  background: #7E8C7F;
+}
+.atlas-scale-note {
+  margin-left: 11px;
+  color: #59655D;
+  letter-spacing: .08em;
+}
+.atlas-map-corner {
+  position: absolute;
+  top: 35px;
+  right: 17px;
+  display: grid;
+  gap: 1px;
+  justify-items: center;
+  color: #9AA397;
+  font: 8px "IBM Plex Mono", monospace;
+  pointer-events: none;
+}
+.atlas-map-corner b { color: var(--atlas-copper-light); font-size: 15px; font-weight: 400; }
+
+.atlas-zone-shape { vector-effect: non-scaling-stroke; }
+.atlas-contours ellipse { vector-effect: non-scaling-stroke; }
+.atlas-region-name {
+  fill: #D99973;
+  font: 600 10px "IBM Plex Mono", monospace;
+  letter-spacing: 1.4px;
+}
+.atlas-region-note {
+  fill: #758176;
+  font: 10px "IBM Plex Sans", sans-serif;
+}
+.atlas-coordinate {
+  fill: #5E6B61;
+  font: 8px "IBM Plex Mono", monospace;
+  letter-spacing: 1px;
+}
+.atlas-edge {
+  fill: none;
+  stroke: #647268;
+  stroke-width: 1.2;
+  stroke-opacity: .45;
+  vector-effect: non-scaling-stroke;
+  transition: opacity .18s ease, stroke .18s ease, stroke-width .18s ease;
+}
+.atlas-edge--prerequisite,
+.atlas-edge--extends {
+  stroke: #AAA99F;
+  stroke-dasharray: 3.5 5;
+  stroke-opacity: .54;
+}
+.atlas-edge--contains {
+  stroke: #C77C55;
+  stroke-opacity: .5;
+}
+.atlas-edge--tested-with,
+.atlas-edge--uses {
+  stroke: #8EA99A;
+  stroke-dasharray: 1.5 4;
+  stroke-linecap: round;
+  stroke-opacity: .7;
+}
+.atlas-edge--related,
+.atlas-edge--foundation {
+  stroke: #D2AA70;
+  stroke-dasharray: 5 6;
+  stroke-opacity: .35;
+}
+.atlas-edge.is-connected {
+  stroke: var(--atlas-copper-light);
+  stroke-width: 2;
+  stroke-opacity: .95;
+}
+.atlas-edge.is-route {
+  stroke: var(--atlas-copper);
+  stroke-width: 3;
+  stroke-dasharray: none;
+  stroke-opacity: 1;
+  animation: atlas-route-trace 1.2s ease-out both;
+}
+.atlas-edge.is-dimmed,
+.atlas-edge.is-filtered { opacity: .055; }
+.atlas-node {
+  cursor: pointer;
+  outline: none;
+  transition: opacity .18s ease;
+}
+.atlas-node-body {
+  fill: #18201D;
+  stroke: #647268;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  transition: fill .18s ease, stroke .18s ease, stroke-width .18s ease;
+}
+.atlas-node-mark { fill: #35433A; stroke: #7E927F; stroke-width: .6; }
+.atlas-node-symbol {
+  fill: #D8D9CC;
+  font: 700 9px "IBM Plex Mono", monospace;
+}
+.atlas-node-label {
+  fill: #D7D7CB;
+  font: 600 11px "IBM Plex Sans", sans-serif;
+  pointer-events: none;
+}
+.atlas-node--weakness .atlas-node-body { stroke: #C77C55; fill: #211A16; }
+.atlas-node--weakness .atlas-node-mark { fill: #6D402E; stroke: #D99973; }
+.atlas-node--protocol .atlas-node-body { stroke: #8EA99A; }
+.atlas-node--protocol .atlas-node-mark { fill: #34453A; stroke: #A6BBA8; }
+.atlas-node--toolset .atlas-node-body { stroke: #A89468; }
+.atlas-node--toolset .atlas-node-mark { fill: #594D35; stroke: #D2AA70; }
+.atlas-node--framework .atlas-node-body { stroke: #D2AA70; }
+.atlas-node--research .atlas-node-body { stroke: #C0B9A6; stroke-dasharray: 3 2; }
+.atlas-node:hover .atlas-node-body,
+.atlas-node:focus-visible .atlas-node-body {
+  stroke: var(--atlas-copper-light);
+  stroke-width: 2;
+}
+.atlas-node.is-selected .atlas-node-body {
+  fill: #33251E;
+  stroke: var(--atlas-copper-light);
+  stroke-width: 2.2;
+}
+.atlas-node.is-selected .atlas-node-mark {
+  fill: var(--atlas-copper);
+  stroke: var(--atlas-copper-light);
+}
+.atlas-node.is-selected .atlas-node-symbol { fill: #17110D; }
+.atlas-node.is-nearby:not(.is-selected) .atlas-node-body { stroke: #B7A17F; }
+.atlas-node.is-dimmed { opacity: .22; }
+.atlas-node.is-filtered { opacity: .055; pointer-events: none; }
+
+.atlas-legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--atlas-line);
+  background: #111615;
+}
+.atlas-legend > span:not(.atlas-legend-title) {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #9AA397;
+  font: 9px "IBM Plex Mono", monospace;
+}
+.atlas-legend-title {
+  color: var(--atlas-copper-light);
+  font: 600 8px "IBM Plex Mono", monospace;
+  letter-spacing: .13em;
+}
+.legend-line { display: inline-block; width: 21px; height: 0; border-top: 1px solid #AAA99F; }
+.legend-prerequisite { border-top-style: dashed; }
+.legend-covered { border-color: var(--atlas-copper); }
+.legend-tool { border-color: var(--atlas-mineral); border-top-style: dotted; }
+.legend-related { border-color: var(--atlas-brass); border-top-style: dashed; }
+
+.atlas-inspector {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 0 17px 18px;
+}
+.atlas-inspector-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 17px 0 14px;
+  border-bottom: 1px solid var(--atlas-line);
+  color: #939D91;
+  font: 8px "IBM Plex Mono", monospace;
+  letter-spacing: .11em;
+}
+.atlas-inspector-top span:last-child { color: var(--atlas-copper-light); }
+.atlas-inspector-kicker {
+  margin-top: 23px;
+  color: var(--atlas-copper-light);
+  font: 600 9px "IBM Plex Mono", monospace;
+  letter-spacing: .14em;
+}
+.atlas-inspector-title {
+  margin: 10px 0 10px !important;
+  color: var(--atlas-ivory) !important;
+  font-size: 24px !important;
+  font-weight: 720 !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.045em !important;
+}
+.atlas-inspector-summary {
+  margin: 0 !important;
+  color: #ABB2A7 !important;
+  font-size: 13px !important;
+  line-height: 1.72 !important;
+}
+.atlas-inspector-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 15px 0 19px;
+}
+.atlas-meta-level,
+.atlas-meta-region {
+  padding: 5px 7px;
+  color: #B7BAAD;
+  background: #1A211E;
+  border: 1px solid #354139;
+  border-radius: 4px;
+  font: 8px "IBM Plex Mono", monospace;
+  letter-spacing: .04em;
+}
+.atlas-meta-level { color: var(--atlas-copper-light); border-color: rgba(199,124,85,.38); }
+.atlas-source-block {
+  margin: 0 0 19px;
+  padding: 13px;
+  background: #101514;
+  border: 1px solid #303A38;
+  border-radius: 6px;
+}
+.atlas-source-label,
+.atlas-section-label {
+  display: block;
+  color: #879288;
+  font: 600 8px "IBM Plex Mono", monospace;
+  letter-spacing: .14em;
+}
+.atlas-source-title {
+  margin: 7px 0 10px !important;
+  color: #E0DED3 !important;
+  font-size: 12px !important;
+  font-weight: 600;
+}
+.atlas-open-source {
+  color: var(--atlas-copper-light) !important;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none !important;
+}
+.atlas-open-source:hover { color: #E7AD88 !important; text-decoration: underline !important; }
+.atlas-open-source span { padding-left: 5px; }
+.atlas-connections { margin-top: 1px; }
+.atlas-connection-list {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+.atlas-connection {
+  display: grid;
+  grid-template-columns: 28px minmax(0,1fr) 15px;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  padding: 9px 8px;
+  color: var(--atlas-ivory);
+  background: transparent;
+  border: 1px solid #303A38;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+}
+.atlas-connection:hover {
+  background: rgba(199,124,85,.065);
+  border-color: rgba(199,124,85,.48);
+}
+.atlas-connection-direction {
+  color: var(--atlas-copper-light);
+  font: 8px "IBM Plex Mono", monospace;
+}
+.atlas-connection-text { display: grid; gap: 3px; min-width: 0; }
+.atlas-connection-text strong {
+  overflow: hidden;
+  color: #DDDCD2;
+  font-size: 11px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.atlas-connection-text small { color: #89958A; font-size: 10px; }
+.atlas-connection-arrow { color: #8B9B8D; font-size: 12px; }
+.atlas-no-connections { color: var(--atlas-muted); font-size: 12px; }
+.atlas-inspector-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding: 12px 13px;
+  color: #17110D !important;
+  background: var(--atlas-copper);
+  border: 1px solid var(--atlas-copper);
+  border-radius: 5px;
+  font: 700 10px "IBM Plex Mono", monospace;
+  letter-spacing: .06em;
+  text-decoration: none !important;
+}
+.atlas-inspector-cta:hover {
+  color: #17110D !important;
+  background: var(--atlas-copper-light);
+  border-color: var(--atlas-copper-light);
+}
+.atlas-inspector-empty {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 11px;
+  flex: 1;
+  min-height: 290px;
+  color: var(--atlas-muted);
+}
+.atlas-crosshair { color: var(--atlas-copper); font-size: 27px; }
+.atlas-inspector-empty strong { color: var(--atlas-ivory); font-size: 15px; }
+.atlas-inspector-empty p { max-width: 220px; margin: 0; font-size: 12px; line-height: 1.65; }
+.atlas-load-error {
+  position: absolute;
+  left: 20px;
+  bottom: 50px;
+  right: 20px;
+  z-index: 5;
+  padding: 14px;
+  color: #F2D4C4;
+  background: #251B17;
+  border: 1px solid #89563C;
+  font-size: 12px;
+}
+.atlas-fallback { display: none; }
+.atlas-noscript {
+  margin-top: 14px;
+  padding: 12px;
+  color: var(--atlas-muted);
+  background: var(--atlas-panel);
+  border: 1px solid var(--atlas-line);
+  font-size: 12px;
+}
+.atlas-noscript a { color: var(--atlas-copper-light); }
+
+.atlas-expedition {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, .72fr);
+  gap: clamp(24px, 5vw, 76px);
+  margin: 26px 0 0;
+  padding: clamp(22px, 3vw, 34px);
+  background:
+    linear-gradient(105deg, rgba(199,124,85,.055), transparent 65%),
+    #14191A;
+  border: 1px solid var(--atlas-line);
+  border-radius: 9px;
+}
+.atlas-expedition-copy h2 {
+  margin: 13px 0 10px !important;
+  color: var(--atlas-ivory) !important;
+  font-size: clamp(24px, 3vw, 34px) !important;
+  font-weight: 730 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -.05em !important;
+}
+.atlas-expedition-copy h2 em {
+  color: var(--atlas-copper-light);
+  font-style: normal;
+}
+.atlas-expedition-copy p {
+  max-width: 490px;
+  margin: 0 !important;
+  color: var(--atlas-muted) !important;
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+}
+.atlas-expedition-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+}
+.atlas-expedition-controls > label {
+  margin-bottom: 7px;
+  color: var(--atlas-muted);
+  font: 600 8px "IBM Plex Mono", monospace;
+  letter-spacing: .13em;
+}
+.atlas-expedition-controls select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 11px;
+  color: var(--atlas-ivory);
+  background: #0E1311;
+  border: 1px solid #46514B;
+  border-radius: 5px;
+  font: 12px "IBM Plex Sans", sans-serif;
+}
+.atlas-expedition-controls > p {
+  min-height: 43px;
+  margin: 10px 0 !important;
+  color: var(--atlas-muted) !important;
+  font-size: 11px !important;
+  line-height: 1.6 !important;
+}
+.atlas-route-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 13px;
+  color: #17110D;
+  background: var(--atlas-copper);
+  border: 1px solid var(--atlas-copper);
+  border-radius: 5px;
+  font: 700 10px "IBM Plex Mono", monospace;
+  letter-spacing: .06em;
+  cursor: pointer;
+}
+.atlas-route-button:hover { background: var(--atlas-copper-light); border-color: var(--atlas-copper-light); }
+.atlas-route-stops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 0 10px;
+}
+.atlas-route-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 7px;
+  color: #D5D5C9;
+  background: #202725;
+  border: 1px solid #46514B;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.atlas-route-stop:hover { border-color: var(--atlas-copper); }
+.atlas-route-index { color: var(--atlas-copper-light); font: 8px "IBM Plex Mono", monospace; }
+.atlas-route-stop strong { font: 10px "IBM Plex Sans", sans-serif; font-weight: 550; }
+
+.atlas-footnote {
+  display: grid;
+  grid-template-columns: 195px minmax(0,1fr) auto;
+  gap: 18px;
+  align-items: start;
+  margin-top: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--atlas-line);
+}
+.atlas-footnote > span {
+  color: var(--atlas-copper-light);
+  font: 600 8px "IBM Plex Mono", monospace;
+  letter-spacing: .13em;
+}
+.atlas-footnote p {
+  margin: 0 !important;
+  color: var(--atlas-muted) !important;
+  font-size: 11px !important;
+  line-height: 1.65 !important;
+}
+.atlas-footnote a {
+  color: var(--atlas-copper-light) !important;
+  font-size: 11px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+@keyframes atlas-route-trace {
+  from { stroke-dasharray: 2 10; stroke-dashoffset: 28; }
+  to { stroke-dasharray: 2 10; stroke-dashoffset: 0; }
+}
+
+[data-md-color-scheme="default"] .z2r-atlas {
+  --atlas-bg: #F1EEE7;
+  --atlas-panel: #E7E2D8;
+  --atlas-raised: #FFFDF8;
+  --atlas-line: #D2CABE;
+  --atlas-ivory: #242A27;
+  --atlas-muted: #62665F;
+  --atlas-copper: #8C482D;
+  --atlas-copper-light: #8D4B30;
+  --atlas-mineral: #4C6B58;
+  --atlas-brass: #7C4B2E;
+  --atlas-danger: #94433D;
+}
+[data-md-color-scheme="default"] .atlas-map,
+[data-md-color-scheme="default"] .atlas-map-frame {
+  background: #111615;
+}
+[data-md-color-scheme="default"] .atlas-edition strong,
+[data-md-color-scheme="default"] .atlas-inspector-title,
+[data-md-color-scheme="default"] .atlas-expedition-copy h2 {
+  color: #242A27 !important;
+}
+
+@media (max-width: 1100px) {
+  .atlas-workbench { grid-template-columns: minmax(0, 1fr) 292px; }
+  .atlas-map-frame, .atlas-map { min-height: 380px; }
+  .atlas-footnote { grid-template-columns: 150px minmax(0,1fr); }
+  .atlas-footnote a { grid-column: 2; }
+}
+@media (max-width: 850px) {
+  .atlas-workbench { grid-template-columns: 1fr; }
+  .atlas-inspector { min-height: 0; }
+  .atlas-inspector-cta { margin-top: 18px; }
+  .atlas-expedition { grid-template-columns: 1fr; gap: 20px; }
+  .atlas-expedition-controls > p { min-height: 0; }
+}
+@media (max-width: 600px) {
+  .md-container:has(.z2r-atlas) .md-content__inner {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  .z2r-atlas { padding-top: 0; }
+  .atlas-heading { padding: 24px 2px 20px; }
+  .atlas-heading-row { align-items: flex-start; gap: 15px; }
+  .atlas-heading h1 { font-size: 42px !important; }
+  .atlas-lede { font-size: 13px !important; line-height: 1.65 !important; }
+  .atlas-edition { flex: 0 0 95px; padding-left: 10px; }
+  .atlas-edition strong { font-size: 22px; }
+  .atlas-edition small { font-size: 7px; line-height: 1.4; }
+  .atlas-command { display: grid; gap: 10px; margin: 17px 0 13px; }
+  .atlas-search-wrap { width: 100%; min-height: 46px; }
+  .atlas-command-note { text-align: left; font-size: 8px; }
+  .atlas-search-results { top: 49px; }
+  .atlas-toolbar { flex-wrap: wrap; padding: 8px; }
+  .atlas-view-switch { max-width: 100%; }
+  .atlas-view-switch button { padding: 0 8px; font-size: 9px; }
+  .atlas-filter-row { gap: 5px; padding: 9px; }
+  .atlas-filter-row button { padding: 0 8px; font-size: 8px; }
+  .atlas-map-frame { min-height: 285px; aspect-ratio: 1.1 / 1; }
+  .atlas-map { min-height: 285px; }
+  .atlas-map-topline { font-size: 7px; }
+  .atlas-map-scale { left: 9px; bottom: 9px; font-size: 7px; }
+  .atlas-scale-note { display: none; }
+  .atlas-legend { gap: 9px 12px; padding: 10px; }
+  .atlas-legend-title { width: 100%; }
+  .atlas-legend > span:not(.atlas-legend-title) { font-size: 8px; }
+  .atlas-inspector { padding: 0 13px 14px; }
+  .atlas-inspector-title { font-size: 22px !important; }
+  .atlas-expedition { margin-top: 15px; padding: 17px; }
+  .atlas-footnote { grid-template-columns: 1fr; gap: 8px; }
+  .atlas-footnote a { grid-column: 1; white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-edge, .atlas-node, .atlas-node-body, .atlas-route-trace { transition: none !important; animation: none !important; }
+}

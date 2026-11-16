@@ -49,7 +49,16 @@ hide:
     <section class="z2r-library-map-panel" aria-label="Radial map of existing Zero2Root pages">
       <div class="z2r-library-panel-heading">
         <span><b>FIG. 01</b> / CONTENT STRUCTURE</span>
-        <span>SELECT A SEGMENT TO INSPECT</span>
+        <span>HOVER TO REVEAL · SELECT TO FOCUS</span>
+      </div>
+      <div class="z2r-library-map-toolbar" role="group" aria-label="Radial map zoom controls">
+        <span>MAP SCALE</span>
+        <div>
+          <button type="button" data-library-zoom-out aria-label="Zoom out" title="Zoom out">−</button>
+          <output data-library-zoom-label aria-live="polite">100%</output>
+          <button type="button" data-library-zoom-in aria-label="Zoom in" title="Zoom in">+</button>
+          <button type="button" data-library-zoom-reset aria-label="Reset zoom" title="Reset zoom">RESET</button>
+        </div>
       </div>
       <div class="z2r-library-radial-wrap">
         <svg class="z2r-library-radial" data-library-radial viewBox="0 0 860 860" role="group" aria-label="Radial map. Inner segments represent existing learning levels, tools and resources. Outer segments represent their existing Markdown pages.">
@@ -61,11 +70,18 @@ hide:
           </defs>
           <rect width="860" height="860" fill="#0B0D0E"/>
           <rect width="860" height="860" fill="url(#z2r-library-grid)"/>
+<g data-library-viewport>
           <g data-library-rings></g>
           <g data-library-segments></g>
           <g data-library-labels></g>
           <g data-library-center></g>
+        </g>
         </svg>
+        <div class="z2r-library-hovercard" data-library-hovercard hidden role="status" aria-live="polite">
+          <span data-library-hover-type>EXISTING PAGE</span>
+          <strong data-library-hover-title></strong>
+          <small data-library-hover-meta></small>
+        </div>
         <div class="z2r-library-map-coordinates"><span>RADIUS / CONTENT HIERARCHY</span><span>ZERO2ROOT / 001</span></div>
       </div>
       <div class="z2r-library-legend" data-library-legend></div>

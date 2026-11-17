@@ -7,7 +7,8 @@
     "lessonCount": 34,
     "toolGuideCount": 5,
     "resourceCount": 3,
-    "collectionCount": 10
+    "collectionCount": 6,
+    "groupCount": 10
   },
   "groups": [
     {
@@ -783,6 +784,79 @@
       "groupLabel": "Bug Bounty & Research",
       "groupCode": "RESEARCH",
       "index": 1
+    }
+  ],
+  "collections": [
+    {
+      "id": "learning-paths",
+      "code": "LEARN",
+      "label": "Learning Paths",
+      "name": "Learning Paths",
+      "kind": "learning",
+      "color": "#8EA99A",
+      "groupIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4"
+      ],
+      "summary": "Five structured stages, from cybersecurity foundations through lead and architect practice."
+    },
+    {
+      "id": "tools",
+      "code": "TOOLS",
+      "label": "Tools",
+      "name": "Tools Reference",
+      "kind": "reference",
+      "color": "#8E9A88",
+      "groupIds": [
+        "tools"
+      ]
+    },
+    {
+      "id": "resources",
+      "code": "REF",
+      "label": "Resources",
+      "name": "Career & Practice",
+      "kind": "resources",
+      "color": "#A99D84",
+      "groupIds": [
+        "resources"
+      ]
+    },
+    {
+      "id": "ai-intelligence",
+      "code": "AI",
+      "label": "AI",
+      "name": "AI & Security Intelligence",
+      "kind": "reference",
+      "color": "#8EA99A",
+      "groupIds": [
+        "ai-intelligence"
+      ]
+    },
+    {
+      "id": "offensive-arsenal",
+      "code": "OFFSEC",
+      "label": "Offensive Security",
+      "name": "Offensive Security Arsenal",
+      "kind": "reference",
+      "color": "#C77C55",
+      "groupIds": [
+        "offensive-arsenal"
+      ]
+    },
+    {
+      "id": "research-bounty",
+      "code": "RESEARCH",
+      "label": "Research",
+      "name": "Bug Bounty & Research",
+      "kind": "resources",
+      "color": "#D2AA70",
+      "groupIds": [
+        "research-bounty"
+      ]
     }
   ]
 }

@@ -2253,3 +2253,121 @@
     padding-bottom:8px!important;
   }
 }
+
+
+/* ZERO2ROOT 2.7 — make the destination directory visibly actionable.
+   The entire summary row remains the native <details> disclosure control. */
+.z2r-library-directory {
+  border:1px solid rgba(199,124,85,.34);
+  border-left:3px solid var(--lib-copper);
+  background:
+    linear-gradient(100deg,rgba(199,124,85,.095),rgba(199,124,85,.025) 48%,transparent 82%),
+    var(--lib-panel);
+  box-shadow:0 5px 18px rgba(0,0,0,.12);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.z2r-library-directory > summary {
+  min-height:58px;
+  gap:14px;
+  padding:0 16px;
+  cursor:pointer;
+  user-select:none;
+  outline:none;
+  position:relative;
+}
+.z2r-library-directory > summary span {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  color:var(--lib-ivory);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.z2r-library-directory > summary span::after {
+  content:"CLICK TO EXPLORE THE FULL DIRECTORY";
+  display:block;
+  color:var(--lib-copper-light);
+  font:600 7px/1.2 "IBM Plex Mono",ui-monospace,monospace;
+  letter-spacing:.13em;
+}
+.z2r-library-directory > summary small {
+  color:#B7A99B;
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.09em;
+}
+.z2r-library-directory > summary b {
+  display:grid;
+  place-items:center;
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+  color:#F0D8C8;
+  background:rgba(199,124,85,.15);
+  border:1px solid rgba(199,124,85,.48);
+  border-radius:50%;
+  font:500 18px/1 "IBM Plex Mono",monospace;
+  transition:transform .2s ease,background .2s ease,border-color .2s ease;
+}
+.z2r-library-directory > summary:hover {
+  background:rgba(199,124,85,.075);
+}
+.z2r-library-directory > summary:hover b {
+  background:rgba(199,124,85,.28);
+  border-color:var(--lib-copper-light);
+}
+.z2r-library-directory > summary:focus-visible {
+  outline:2px solid var(--lib-copper-light);
+  outline-offset:3px;
+  border-radius:4px;
+}
+.z2r-library-directory[open] {
+  border-color:rgba(199,124,85,.52);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.z2r-library-directory[open] > summary {
+  border-bottom:1px solid rgba(199,124,85,.20);
+  background:rgba(199,124,85,.055);
+}
+.z2r-library-directory[open] > summary span::after {
+  content:"DIRECTORY OPEN · SELECT A DESTINATION";
+}
+.z2r-library-directory[open] > summary b {
+  transform:rotate(45deg);
+  background:rgba(199,124,85,.23);
+}
+@media (max-width:600px) {
+  .z2r-library-directory > summary {
+    min-height:56px;
+    gap:9px;
+    padding:0 10px;
+  }
+  .z2r-library-directory > summary span {
+    font-size:10px;
+    letter-spacing:.035em;
+  }
+  .z2r-library-directory > summary span::after {
+    content:"TAP TO EXPAND";
+    font-size:6.5px;
+    letter-spacing:.11em;
+  }
+  .z2r-library-directory[open] > summary span::after {
+    content:"OPEN · CHOOSE A DESTINATION";
+  }
+  .z2r-library-directory > summary small {
+    font-size:7px;
+  }
+  .z2r-library-directory > summary b {
+    flex-basis:27px;
+    width:27px;
+    height:27px;
+    font-size:16px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-directory,
+  .z2r-library-directory > summary b {
+    transition:none!important;
+  }
+}

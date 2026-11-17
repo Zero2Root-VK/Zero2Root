@@ -58,7 +58,7 @@ hide:
       </div>
       <span class="z2r-library-inspector-type" data-library-inspector-type>KNOWLEDGE LIBRARY</span>
       <h2 data-library-inspector-title>Explore Zero2Root</h2>
-      <div class="z2r-library-inspector-group" data-library-inspector-group>10 COLLECTIONS · 62 PAGES</div>
+      <div class="z2r-library-inspector-group" data-library-inspector-group>6 COLLECTIONS · 62 PAGES</div>
       <p data-library-inspector-summary>Explore learning paths, AI and security intelligence, offensive-security skills, tools, bug bounty and research. Open any collection to explore its pages.</p>
       <div class="z2r-library-child-list" data-library-child-list></div>
       <a class="z2r-library-open-link" data-library-open href="#" hidden>Open original page <span aria-hidden="true">↗</span></a>
@@ -71,15 +71,14 @@ hide:
       <input type="search" data-library-search autocomplete="off" placeholder="Find a lesson, tool or resource…" aria-label="Search existing Zero2Root pages">
       <kbd>/</kbd>
     </label>
-    <div class="z2r-library-filters" role="group" aria-label="Filter by existing section">
+    <div class="z2r-library-filters" role="group" aria-label="Filter by collection">
       <button type="button" class="is-active" data-library-filter="all" aria-pressed="true">ALL</button>
-      <button type="button" data-library-filter="level-0" aria-pressed="false">L0</button>
-      <button type="button" data-library-filter="level-1" aria-pressed="false">L1</button>
-      <button type="button" data-library-filter="level-2" aria-pressed="false">L2</button>
-      <button type="button" data-library-filter="level-3" aria-pressed="false">L3</button>
-      <button type="button" data-library-filter="level-4" aria-pressed="false">L4</button>
+      <button type="button" data-library-filter="learning-paths" aria-pressed="false">LEARNING PATHS</button>
       <button type="button" data-library-filter="tools" aria-pressed="false">TOOLS</button>
-      <button type="button" data-library-filter="resources" aria-pressed="false">RESOURCES</button>
+      <button type="button" data-library-filter="ai-intelligence" aria-pressed="false">AI SECURITY</button>
+      <button type="button" data-library-filter="offensive-arsenal" aria-pressed="false">OFFENSIVE</button>
+      <button type="button" data-library-filter="research-bounty" aria-pressed="false">RESEARCH</button>
+      <button type="button" data-library-filter="resources" aria-pressed="false">CAREER</button>
     </div>
     <span class="z2r-library-result-count" data-library-result-count aria-live="polite">62 / 62 PAGES</span>
     <div class="z2r-library-search-results" data-library-search-results hidden></div>

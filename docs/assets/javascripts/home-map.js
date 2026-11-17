@@ -113,7 +113,13 @@
       "reference-overview": "TOOLS REFERENCE",
       reference: "EXISTING TOOL GUIDE",
       "resource-overview": "RESOURCES OVERVIEW",
-      resource: "EXISTING RESOURCE"
+      resource: "EXISTING RESOURCE",
+      "ai-overview": "AI INTELLIGENCE OVERVIEW",
+      "ai-reference": "AI SECURITY RESOURCE",
+      "offsec-overview": "OFFENSIVE SECURITY OVERVIEW",
+      "offsec-reference": "OFFENSIVE SECURITY GUIDE",
+      "research-overview": "RESEARCH COLLECTION",
+      "research-reference": "RESEARCH RESOURCE"
     })[type] || "EXISTING PAGE";
   }
 
@@ -129,6 +135,9 @@
   function groupKindLabel(group) {
     if (group.kind === "learning") return "LEARNING PATH";
     if (group.id === "tools") return "TOOLS COLLECTION";
+    if (group.id === "ai-intelligence") return "AI & SECURITY INTELLIGENCE";
+    if (group.id === "offensive-arsenal") return "OFFENSIVE SECURITY";
+    if (group.id === "research-bounty") return "RESEARCH & BUG BOUNTY";
     return "CAREER & PRACTICE";
   }
 

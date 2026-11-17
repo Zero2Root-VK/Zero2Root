@@ -2176,3 +2176,64 @@
     font-size:10px;
   }
 }
+
+
+/* ZERO2ROOT 2.5 — compact homepage lower navigation
+   Keep search, filters and the destination-directory control unchanged.
+   Tighten only the small content-index caption and the Material next/prev band. */
+.md-container:has(.z2r-library) .z2r-library-footer {
+  margin:2px 0 0;
+  padding:8px 0 6px;
+  line-height:1.35;
+}
+
+.md-container:has(.z2r-library) .md-footer {
+  margin-top:0!important;
+}
+
+.md-container:has(.z2r-library) .md-footer__inner {
+  min-height:0!important;
+  padding-top:7px!important;
+  padding-bottom:7px!important;
+  align-items:center;
+}
+
+.md-container:has(.z2r-library) .md-footer__link {
+  min-height:0!important;
+  padding:1.45rem 1.5rem!important;
+  align-items:center;
+}
+
+.md-container:has(.z2r-library) .md-footer__title {
+  line-height:1.25!important;
+}
+
+.md-container:has(.z2r-library) .md-footer__direction {
+  margin-bottom:.12rem;
+  font-size:.68rem;
+  line-height:1.2;
+}
+
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .z2r-library-footer {
+    gap:8px;
+    padding:7px 0 5px;
+    font-size:6.5px;
+  }
+  .md-container:has(.z2r-library) .md-footer__inner {
+    padding-top:5px!important;
+    padding-bottom:5px!important;
+  }
+  .md-container:has(.z2r-library) .md-footer__link {
+    padding:1.05rem .9rem!important;
+  }
+  .md-container:has(.z2r-library) .md-footer__direction {
+    font-size:.62rem;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .md-container:has(.z2r-library) .md-footer__link {
+    transition:none!important;
+  }
+}

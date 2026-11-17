@@ -455,11 +455,14 @@
     const group = state.data.groups.find((item) => item.id === state.activeGroup);
     if (!group) return;
     const pages = groupPages(group.id);
-    heading.appendChild(makeHtml("span", "", state.view === "group" ? "EXISTING PAGES" : "MORE IN THIS COLLECTION"));
-    heading.appendChild(makeHtml("small", "", pages.length + " PAGES"));
+    const visiblePages = state.view === "page"
+      ? pages.filter((page) => page.id !== state.activePage)
+      : pages;
+    heading.appendChild(makeHtml("span", "", state.view === "group" ? "PAGES IN THIS COLLECTION" : "MORE IN THIS COLLECTION"));
+    heading.appendChild(makeHtml("small", "", visiblePages.length + " PAGES"));
     childList.appendChild(heading);
 
-    pages.forEach((page, i) => {
+    visiblePages.forEach((page, i) => {
       addChildButton(
         childList,
         page.title,
@@ -589,6 +592,7 @@
     state.activePage = page.id;
     state.query = "";
     if (search) search.value = "";
+    applySearch();
     clearHover();
     renderMap();
     renderInspector();

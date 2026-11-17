@@ -462,11 +462,12 @@
     heading.appendChild(makeHtml("small", "", visiblePages.length + " PAGES"));
     childList.appendChild(heading);
 
-    visiblePages.forEach((page, i) => {
+    visiblePages.forEach((page) => {
+      const pageIndex = pages.findIndex((item) => item.id === page.id) + 1;
       addChildButton(
         childList,
         page.title,
-        String(i + 1).padStart(2, "0") + " · " + typeLabel(page.type),
+        String(pageIndex).padStart(2, "0") + " · " + typeLabel(page.type),
         group.color,
         () => openPage(page.id),
         state.activePage === page.id

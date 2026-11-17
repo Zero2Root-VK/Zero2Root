@@ -781,3 +781,53 @@
     box-shadow:none!important;
   }
 }
+
+
+/* ZERO2ROOT 2.2 — prevent Material table wrappers from shrink-wrapping.
+   The panel should use the full article width; the table must fill that panel
+   instead of leaving a large empty strip on the right. */
+.md-typeset .md-typeset__scrollwrap {
+  display:block;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+}
+
+.md-typeset .md-typeset__scrollwrap > .md-typeset__table {
+  display:block;
+  width:100%;
+  max-width:100%;
+  box-sizing:border-box;
+  overflow-x:auto;
+}
+
+.md-typeset .md-typeset__scrollwrap > .md-typeset__table > table:not([class]),
+.md-typeset .md-typeset__scrollwrap > table:not([class]),
+.md-typeset .md-typeset__table > table:not([class]) {
+  display:table;
+  width:100%!important;
+  min-width:100%;
+  max-width:100%;
+  table-layout:auto;
+  box-sizing:border-box;
+}
+
+/* Some Material versions add the scroll wrapper directly around the table;
+   keep that form full-width as well. */
+.md-typeset .md-typeset__scrollwrap > table:not([class]) {
+  margin:0;
+}
+
+@media (max-width:760px) {
+  .md-typeset .md-typeset__scrollwrap {
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .md-typeset .md-typeset__table {
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+}

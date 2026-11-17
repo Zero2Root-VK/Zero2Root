@@ -58,8 +58,8 @@ hide:
       </div>
       <span class="z2r-library-inspector-type" data-library-inspector-type>KNOWLEDGE LIBRARY</span>
       <h2 data-library-inspector-title>Explore Zero2Root</h2>
-      <div class="z2r-library-inspector-group" data-library-inspector-group>7 COLLECTIONS · 49 EXISTING PAGES</div>
-      <p data-library-inspector-summary>Choose a learning level, tool collection or career resource to explore its existing pages.</p>
+      <div class="z2r-library-inspector-group" data-library-inspector-group>10 COLLECTIONS · 62 PAGES</div>
+      <p data-library-inspector-summary>Explore learning paths, AI and security intelligence, offensive-security skills, tools, bug bounty and research. Open any collection to explore its pages.</p>
       <div class="z2r-library-child-list" data-library-child-list></div>
       <a class="z2r-library-open-link" data-library-open href="#" hidden>Open original page <span aria-hidden="true">↗</span></a>
     </aside>
@@ -81,12 +81,12 @@ hide:
       <button type="button" data-library-filter="tools" aria-pressed="false">TOOLS</button>
       <button type="button" data-library-filter="resources" aria-pressed="false">RESOURCES</button>
     </div>
-    <span class="z2r-library-result-count" data-library-result-count aria-live="polite">49 / 49 PAGES</span>
+    <span class="z2r-library-result-count" data-library-result-count aria-live="polite">62 / 62 PAGES</span>
     <div class="z2r-library-search-results" data-library-search-results hidden></div>
   </section>
 
   <details class="z2r-library-directory">
-    <summary><span>Browse all existing destinations</span><small data-library-directory-count>49 PAGES</small><b aria-hidden="true">＋</b></summary>
+    <summary><span>Browse all existing destinations</span><small data-library-directory-count>62 PAGES</small><b aria-hidden="true">＋</b></summary>
     <p>The directory contains the same existing Markdown pages represented in the map.</p>
     <div class="z2r-library-directory-grid" data-library-directory></div>
   </details>

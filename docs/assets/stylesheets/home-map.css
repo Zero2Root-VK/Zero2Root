@@ -2371,3 +2371,231 @@
     transition:none!important;
   }
 }
+
+
+/* ZERO2ROOT 2.8 — cinematic neural atmosphere for the homepage.
+   The effects sit behind the existing interactive SVG and never intercept
+   pointer input. Motion is deliberately slow and low-contrast. */
+.z2r-library-radial-wrap {
+  isolation:isolate;
+}
+.z2r-library-radial-wrap::before,
+.z2r-library-radial-wrap::after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:50%;
+  left:50%;
+  width:min(94%,760px);
+  aspect-ratio:1;
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+}
+.z2r-library-radial-wrap::before {
+  background:
+    radial-gradient(circle at 13% 29%,rgba(217,153,115,.92) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 23% 13%,rgba(142,169,154,.9) 0 1.2px,transparent 3px),
+    radial-gradient(circle at 37% 8%,rgba(210,170,112,.8) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 67% 11%,rgba(142,169,154,.85) 0 1px,transparent 3px),
+    radial-gradient(circle at 85% 24%,rgba(217,153,115,.85) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 91% 48%,rgba(142,169,154,.9) 0 1.2px,transparent 3px),
+    radial-gradient(circle at 82% 76%,rgba(210,170,112,.85) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 62% 91%,rgba(142,169,154,.9) 0 1px,transparent 3px),
+    radial-gradient(circle at 34% 89%,rgba(217,153,115,.82) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 9% 69%,rgba(142,169,154,.9) 0 1px,transparent 3px),
+    radial-gradient(circle at 50% 50%,transparent 56%,rgba(142,169,154,.12) 56.15%,transparent 56.55%),
+    radial-gradient(circle at 50% 50%,transparent 68%,rgba(217,153,115,.10) 68.15%,transparent 68.45%);
+  opacity:.48;
+  filter:drop-shadow(0 0 5px rgba(142,169,154,.14));
+  animation:z2r-neural-drift 82s linear infinite;
+}
+.z2r-library-radial-wrap::after {
+  background:
+    conic-gradient(from 18deg,
+      transparent 0deg 36deg,
+      rgba(217,153,115,.18) 37deg,
+      transparent 39deg 112deg,
+      rgba(142,169,154,.15) 113deg,
+      transparent 116deg 218deg,
+      rgba(210,170,112,.13) 219deg,
+      transparent 222deg 310deg,
+      rgba(142,169,154,.13) 311deg,
+      transparent 314deg 360deg);
+  opacity:.42;
+  filter:blur(.35px);
+  mask-image:radial-gradient(circle,transparent 0 43%,#000 48% 74%,transparent 79%);
+  animation:z2r-neural-counterdrift 112s linear infinite;
+}
+.z2r-library-radial {
+  position:relative;
+  z-index:1;
+}
+.z2r-library-hovercard {z-index:3}
+
+/* Signal pulses travel along the existing SVG connections. */
+.z2r-library-radial .library-link-group {
+  animation:library-link-flow 28s linear infinite,z2r-link-breathe 7s ease-in-out infinite;
+}
+.z2r-library-radial .library-link-page {
+  stroke:#9db5a6;
+  stroke-opacity:.13;
+  stroke-dasharray:1.5 8;
+  animation:z2r-page-signal 32s linear infinite;
+}
+.z2r-library-radial .library-overview-page-dot {
+  opacity:.55;
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:z2r-node-pulse 4.8s ease-in-out infinite;
+}
+.z2r-library-radial .library-overview-page-dot:nth-of-type(3n) {animation-delay:-1.6s}
+.z2r-library-radial .library-overview-page-dot:nth-of-type(3n + 1) {animation-delay:-3.2s}
+.z2r-library-radial .library-center-ring {
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:z2r-core-glow 5.5s ease-in-out infinite;
+}
+.z2r-library-radial .library-group-sector,
+.z2r-library-radial .library-page-sector {
+  transition:
+    opacity .42s cubic-bezier(.2,.75,.25,1),
+    filter .42s cubic-bezier(.2,.75,.25,1),
+    stroke-width .32s ease,
+    fill-opacity .42s ease;
+}
+.z2r-library-radial .library-group-sector:focus-visible,
+.z2r-library-radial .library-page-sector:focus-visible {
+  outline:none;
+  filter:brightness(1.65) drop-shadow(0 0 9px rgba(217,153,115,.58));
+  stroke:#fff0df;
+  stroke-width:3.5;
+}
+
+/* Gentle entrance sequence, only on the homepage's first render. */
+.z2r-library-copy {
+  animation:z2r-soft-rise .72s cubic-bezier(.2,.75,.25,1) both;
+}
+.z2r-library-map-stage {
+  animation:z2r-map-arrive .95s cubic-bezier(.2,.75,.25,1) .08s both;
+}
+.z2r-library-selection {
+  animation:z2r-soft-rise .78s cubic-bezier(.2,.75,.25,1) .18s both;
+}
+.z2r-library-kicker {
+  animation:z2r-kicker-light 5.8s ease-in-out 1s infinite;
+}
+.z2r-library-copy h1 em {
+  text-shadow:0 0 22px rgba(217,153,115,.13);
+  transition:text-shadow .35s ease;
+}
+.z2r-library-copy h1:hover em {
+  text-shadow:0 0 28px rgba(217,153,115,.26);
+}
+
+/* Tactile but restrained control transitions. */
+.z2r-library-map-tools button,
+.z2r-library-map-legend button,
+.z2r-library-filters button,
+.z2r-library-directory > summary,
+.z2r-library-open-link,
+.z2r-library-child-list a,
+.z2r-library-child-list button {
+  transition:
+    color .22s ease,
+    background-color .22s ease,
+    border-color .22s ease,
+    box-shadow .28s ease,
+    transform .28s cubic-bezier(.2,.75,.25,1);
+}
+.z2r-library-map-legend i {
+  box-shadow:0 0 0 0 rgba(217,153,115,0);
+  transition:box-shadow .28s ease,transform .28s ease;
+}
+.z2r-library-map-legend button:hover i,
+.z2r-library-map-legend button.is-active i {
+  box-shadow:0 0 0 4px rgba(217,153,115,.10),0 0 9px rgba(217,153,115,.28);
+  transform:scale(1.12);
+}
+.z2r-library-filters button:hover {
+  transform:translateY(-1px);
+}
+.z2r-library-directory > summary:hover {
+  box-shadow:inset 0 0 22px rgba(199,124,85,.055);
+}
+
+/* Ambient motion keyframes */
+@keyframes z2r-neural-drift {
+  from {transform:translate(-50%,-50%) rotate(0deg)}
+  to {transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes z2r-neural-counterdrift {
+  from {transform:translate(-50%,-50%) rotate(360deg) scale(.985)}
+  to {transform:translate(-50%,-50%) rotate(0deg) scale(1.015)}
+}
+@keyframes z2r-page-signal {
+  to {stroke-dashoffset:-96}
+}
+@keyframes z2r-link-breathe {
+  0%,100% {stroke-opacity:.16}
+  50% {stroke-opacity:.34}
+}
+@keyframes z2r-node-pulse {
+  0%,100% {opacity:.42;filter:drop-shadow(0 0 0 rgba(217,153,115,0))}
+  50% {opacity:1;filter:drop-shadow(0 0 4px rgba(217,153,115,.42))}
+}
+@keyframes z2r-core-glow {
+  0%,100% {stroke-opacity:.58;filter:drop-shadow(0 0 1px rgba(142,169,154,.08))}
+  50% {stroke-opacity:.98;filter:drop-shadow(0 0 7px rgba(142,169,154,.24))}
+}
+@keyframes z2r-soft-rise {
+  from {opacity:0;transform:translateY(12px)}
+  to {opacity:1;transform:translateY(0)}
+}
+@keyframes z2r-map-arrive {
+  from {opacity:0;transform:translateY(9px) scale(.986)}
+  to {opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes z2r-kicker-light {
+  0%,78%,100% {text-shadow:0 0 0 rgba(217,153,115,0)}
+  88% {text-shadow:0 0 10px rgba(217,153,115,.24)}
+}
+
+/* Keep the effects lightweight and calm on phones. */
+@media (max-width:760px) {
+  .z2r-library-radial-wrap::before,
+  .z2r-library-radial-wrap::after {
+    opacity:.22;
+    animation-duration:130s;
+  }
+  .z2r-library-copy,
+  .z2r-library-map-stage,
+  .z2r-library-selection {
+    animation:none;
+  }
+  .z2r-library-kicker {animation:none}
+  .z2r-library-radial .library-overview-page-dot {
+    animation-duration:6.5s;
+  }
+}
+
+/* Honor accessibility settings: no continuous/entrance movement on request. */
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-radial-wrap::before,
+  .z2r-library-radial-wrap::after,
+  .z2r-library-radial .library-link-group,
+  .z2r-library-radial .library-link-page,
+  .z2r-library-radial .library-overview-page-dot,
+  .z2r-library-radial .library-center-ring,
+  .z2r-library-copy,
+  .z2r-library-map-stage,
+  .z2r-library-selection,
+  .z2r-library-kicker {
+    animation:none!important;
+  }
+  .z2r-library *,
+  .z2r-library *::before,
+  .z2r-library *::after {
+    transition:none!important;
+  }
+}

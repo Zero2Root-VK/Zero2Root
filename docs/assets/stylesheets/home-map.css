@@ -2237,3 +2237,19 @@
     transition:none!important;
   }
 }
+
+
+/* ZERO2ROOT 2.6 — remove the dead space after the homepage content index.
+   This is the gap between the index labels and the Next / Overview band.
+   Keep the directory and navigation band styling themselves unchanged. */
+.md-container:has(.z2r-library) .z2r-library {
+  padding-bottom:0!important;
+}
+.md-container:has(.z2r-library) .md-content__inner {
+  padding-bottom:10px!important;
+}
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .md-content__inner {
+    padding-bottom:8px!important;
+  }
+}

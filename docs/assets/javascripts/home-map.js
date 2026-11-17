@@ -886,12 +886,12 @@
     searchResults.appendChild(heading);
     matches.slice(0, 8).forEach((page) => {
       const group = state.data.groups.find((item) => item.id === page.group);
-      addChildButton(
+      addChildLink(
         searchResults,
         page.title,
         group.name + " · " + typeLabel(page.type),
         group.color,
-        () => openPage(page.id)
+        page.href
       );
     });
   }

@@ -53,7 +53,7 @@ hide:
     <aside class="z2r-library-selection" data-library-inspector aria-live="polite" aria-label="Knowledge explorer details">
       <nav class="z2r-library-breadcrumbs" data-library-breadcrumbs aria-label="Explorer location"></nav>
       <div class="z2r-library-selection-index">
-        <span data-library-inspector-index>07 COLLECTIONS</span>
+        <span data-library-inspector-index>06 COLLECTIONS</span>
         <span data-library-inspector-status>LIBRARY VIEW</span>
       </div>
       <span class="z2r-library-inspector-type" data-library-inspector-type>KNOWLEDGE LIBRARY</span>

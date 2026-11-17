@@ -2083,3 +2083,96 @@
     max-height:76svh;
   }
 }
+
+
+/* ZERO2ROOT 2.4 — directory expansion density
+   Five learning levels lead the first wide-screen row; five remaining
+   collections follow on the next row. Cards size to their own content. */
+.z2r-library-directory {
+  margin-top:12px;
+}
+.z2r-library-directory > summary {
+  min-height:40px;
+}
+.z2r-library-directory > p {
+  padding-bottom:9px;
+}
+.z2r-library-directory-grid {
+  align-items:start;
+  grid-auto-flow:row;
+  gap:9px;
+  padding:0 12px 12px;
+}
+.z2r-library-directory-group {
+  align-self:start;
+  height:fit-content;
+  min-height:0;
+  padding:10px;
+}
+.z2r-library-directory-group h3 {
+  margin:0 0 6px!important;
+  font-size:10.5px;
+  line-height:1.3;
+}
+.z2r-library-directory-group a {
+  padding:5px 0;
+  font-size:10px;
+  line-height:1.35;
+}
+.z2r-library-directory-group a small {
+  margin-top:2px;
+  font-size:6.5px;
+  line-height:1.3;
+}
+
+/* Wide desktop: one visual row for the five learning levels and one
+   for the five remaining reference collections. */
+@media (min-width:1700px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:10px;
+  }
+  .z2r-library-directory-group {padding:11px}
+  .z2r-library-directory-group h3 {font-size:10.5px}
+  .z2r-library-directory-group a {padding:5.5px 0}
+}
+
+/* Standard desktop and laptops */
+@media (min-width:1200px) and (max-width:1699px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+@media (min-width:900px) and (max-width:1199px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (min-width:601px) and (max-width:899px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:0 10px 10px;
+  }
+  .z2r-library-directory-group {padding:9px}
+}
+
+/* Phone: a single readable column with compact link rows. */
+@media (max-width:600px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+    padding:0 9px 10px;
+  }
+  .z2r-library-directory-group {
+    padding:10px;
+  }
+  .z2r-library-directory-group h3 {
+    font-size:10px;
+    margin-bottom:5px!important;
+  }
+  .z2r-library-directory-group a {
+    padding:6px 0;
+    font-size:10px;
+  }
+}

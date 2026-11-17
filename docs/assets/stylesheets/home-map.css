@@ -1240,6 +1240,16 @@
   cursor:pointer;
   transition:background .18s,border-color .18s,transform .18s;
 }
+
+.z2r-explorer-child[href] {
+  color:#D7D5CA!important;
+  text-decoration:none!important;
+}
+.z2r-explorer-child[href]:hover,
+.z2r-explorer-child[href]:focus-visible {
+  color:#F1EDE4!important;
+  text-decoration:none!important;
+}
 .z2r-explorer-child:hover,
 .z2r-explorer-child:focus-visible,
 .z2r-explorer-child.is-active {

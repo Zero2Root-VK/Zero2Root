@@ -764,3 +764,20 @@
     transition:none!important;
   }
 }
+
+
+/* Navigation title safety fix: keep the current section label in normal flow.
+   A sticky title can overlap the first visible lesson link while the sidebar
+   scrolls, especially when several nested levels are expanded. */
+@media screen and (min-width:76.25em) {
+  .md-sidebar--primary .md-nav__title {
+    position:static!important;
+    top:auto!important;
+    z-index:auto!important;
+    isolation:auto!important;
+    min-height:0;
+    padding:8px 10px!important;
+    background:transparent!important;
+    box-shadow:none!important;
+  }
+}

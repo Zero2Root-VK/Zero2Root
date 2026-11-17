@@ -236,6 +236,14 @@
     hovercard.hidden = false;
   }
 
+  function readableRotation(angle) {
+    let degrees = angle * 180 / Math.PI + 90;
+    while (degrees < 0) degrees += 360;
+    while (degrees >= 360) degrees -= 360;
+    if (degrees > 90 && degrees < 270) degrees += 180;
+    return degrees;
+  }
+
   function renderMap() {
     segments.replaceChildren();
     labels.replaceChildren();

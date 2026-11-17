@@ -16,22 +16,11 @@ hide:
         <div><strong data-library-stat="tools">05</strong><span>TOOLS</span></div>
         <div><strong data-library-stat="resources">03</strong><span>RESOURCES</span></div>
       </div>
-
-      <section class="z2r-library-selection" data-library-inspector aria-live="polite" aria-label="Selected destination">
-        <div class="z2r-library-selection-index"><span>SELECTED DESTINATION</span><span data-library-inspector-index>01 / 49</span></div>
-        <span class="z2r-library-inspector-type" data-library-inspector-type>LEARNING LEVEL OVERVIEW</span>
-        <h2 data-library-inspector-title>Level 0 — Foundations</h2>
-        <div class="z2r-library-inspector-group" data-library-inspector-group>LEVEL 0 / FOUNDATIONS</div>
-        <p data-library-inspector-summary>Absolute beginners, IT graduates and career switchers with no prior security background.</p>
-        <a class="z2r-library-open-link" data-library-open href="level-0/">Explore this destination <span aria-hidden="true">↗</span></a>
-      </section>
-
-      <p class="z2r-library-copy-foot">49 DESTINATIONS <span>·</span> 5 LEARNING PATHS <span>·</span> TOOLS &amp; RESOURCES</p>
     </section>
 
     <section class="z2r-library-map-stage" aria-label="Interactive Zero2Root knowledge map">
       <div class="z2r-library-radial-wrap">
-        <svg class="z2r-library-radial" data-library-radial viewBox="0 0 860 860" role="group" aria-label="Interactive radial knowledge map. Select an inner category or outer lesson segment to explore existing Zero2Root pages.">
+        <svg class="z2r-library-radial" data-library-radial viewBox="0 0 860 860" role="group" aria-label="Interactive Zero2Root knowledge map. Explore collections, then their existing pages.">
           <defs>
             <pattern id="z2r-library-grid" width="28" height="28" patternUnits="userSpaceOnUse">
               <path d="M28 0H0V28" fill="none" stroke="#8EA99A" stroke-opacity=".045" stroke-width=".7"/>
@@ -46,20 +35,34 @@ hide:
           <rect width="860" height="860" fill="url(#z2r-library-vignette)"/>
           <g data-library-viewport>
             <g data-library-rings></g>
-            <g data-library-segments></g>
             <g data-library-connections></g>
+            <g data-library-segments></g>
             <g data-library-labels></g>
             <g data-library-center></g>
           </g>
         </svg>
         <div class="z2r-library-hovercard" data-library-hovercard hidden role="status" aria-live="polite">
-          <span data-library-hover-type>EXISTING PAGE</span>
+          <span data-library-hover-type>COLLECTION</span>
           <strong data-library-hover-title></strong>
           <small data-library-hover-meta></small>
         </div>
       </div>
-      <div class="z2r-library-map-legend" data-library-legend></div>
+      <div class="z2r-library-map-legend" data-library-legend aria-label="Knowledge collections"></div>
     </section>
+
+    <aside class="z2r-library-selection" data-library-inspector aria-live="polite" aria-label="Knowledge explorer details">
+      <nav class="z2r-library-breadcrumbs" data-library-breadcrumbs aria-label="Explorer location"></nav>
+      <div class="z2r-library-selection-index">
+        <span data-library-inspector-index>07 COLLECTIONS</span>
+        <span data-library-inspector-status>LIBRARY VIEW</span>
+      </div>
+      <span class="z2r-library-inspector-type" data-library-inspector-type>KNOWLEDGE LIBRARY</span>
+      <h2 data-library-inspector-title>Explore Zero2Root</h2>
+      <div class="z2r-library-inspector-group" data-library-inspector-group>7 COLLECTIONS · 49 EXISTING PAGES</div>
+      <p data-library-inspector-summary>Choose a learning level, tool collection or career resource to explore its existing pages.</p>
+      <div class="z2r-library-child-list" data-library-child-list></div>
+      <a class="z2r-library-open-link" data-library-open href="#" hidden>Open original page <span aria-hidden="true">↗</span></a>
+    </aside>
   </main>
 
   <section class="z2r-library-discovery" aria-label="Find and filter existing content">
@@ -79,6 +82,7 @@ hide:
       <button type="button" data-library-filter="resources" aria-pressed="false">RESOURCES</button>
     </div>
     <span class="z2r-library-result-count" data-library-result-count aria-live="polite">49 / 49 PAGES</span>
+    <div class="z2r-library-search-results" data-library-search-results hidden></div>
   </section>
 
   <details class="z2r-library-directory">

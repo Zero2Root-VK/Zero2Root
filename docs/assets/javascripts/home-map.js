@@ -376,7 +376,7 @@
     });
   }
 
-  function renderGroupMap() {
+  function renderCollectionMap() {
     const collection = state.data.collections.find((item) => item.id === state.activeCollection);
     if (!collection) return;
     const groups = collectionGroups(collection.id);
@@ -438,6 +438,68 @@
       });
       cursor += span + gap;
     });
+  }
+
+  function renderGroupMap() {
+    const group = state.data.groups.find((item) => item.id === state.activeGroup);
+    if (!group) return;
+    const pages = groupPages(group.id);
+    const gap = Math.min(.022, .11 / pages.length);
+    const step = TAU / pages.length;
+    const activePage = state.data.pages.find((page) => page.id === state.activePage);
+    const groupHub = polar(112, START);
+
+    pages.forEach((page, i) => {
+      const start = START + i * step + gap / 2;
+      const end = START + (i + 1) * step - gap / 2;
+      const mid = (start + end) / 2;
+      state.pageFocus.set(page.id, polar(260, mid));
+      const anchor = polar(186, mid);
+      const connector = makeSvg("path", {
+        d: "M " + polar(82, mid).x.toFixed(2) + " " + polar(82, mid).y.toFixed(2) +
+          " Q " + polar(135, mid).x.toFixed(2) + " " + polar(135, mid).y.toFixed(2) +
+          " " + anchor.x.toFixed(2) + " " + anchor.y.toFixed(2),
+        class: "library-link library-link-page"
+      });
+      connections.appendChild(connector);
+
+      const path = makeSvg("path", {
+        d: annularPath(190, 338, start, end),
+        class: "library-page-sector",
+        fill: group.color,
+        "fill-opacity": page.type.includes("overview") ? ".32" : String(.42 + (i % 3) * .045),
+        "data-library-page": page.id,
+        "data-library-group": group.id
+      });
+      accessibleSegment(path, page.title + ", " + group.name + ". Open page details.", () => openPage(page.id));
+      bindHover(path, "page", page.id);
+      segments.appendChild(path);
+      state.pageElements.set(page.id, path);
+
+      const numberPoint = polar(260, mid);
+      labels.appendChild(makeSvg("text", {
+        x: numberPoint.x, y: numberPoint.y,
+        class: "library-page-index",
+        transform: "rotate(" + readableRotation(mid) + " " + numberPoint.x + " " + numberPoint.y + ")"
+      }, String(i + 1).padStart(2, "0")));
+      connections.appendChild(makeSvg("circle", {
+        cx: polar(342, mid).x, cy: polar(342, mid).y, r: 2.5,
+        fill: group.color, "aria-hidden": "true"
+      }));
+    });
+
+    if (activePage) {
+      const midIndex = pages.findIndex((page) => page.id === activePage.id);
+      if (midIndex >= 0) {
+        const mid = START + (midIndex + .5) * step;
+        const source = polar(82, mid);
+        const target = polar(190, mid);
+        connections.appendChild(makeSvg("path", {
+          d: "M " + source.x + " " + source.y + " Q " + CX + " " + CY + " " + target.x + " " + target.y,
+          class: "library-link library-link-active"
+        }));
+      }
+    }
   }
 
   function renderLegend() {

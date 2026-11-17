@@ -1713,3 +1713,225 @@
   .z2r-library-map-stage {padding-top:0}
   .z2r-library-selection {padding-top:10px}
 }
+
+
+/* ZERO2ROOT 2.2 — responsive density and map scale refinement
+   Final overrides: retain the three-zone desktop concept while giving the
+   map and explorer enough room at common laptop/desktop viewport heights. */
+
+@media (min-width: 1440px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(285px,.82fr) minmax(0,1.62fr) minmax(330px,1fr);
+    gap:clamp(18px,1.7vw,30px);
+    min-height:min(690px,calc(100svh - 150px));
+    padding:8px 0 10px;
+  }
+  .z2r-library-copy {
+    max-width:440px;
+    padding-top:clamp(10px,1.8vh,20px);
+  }
+  .z2r-library-copy h1 {
+    font-size:clamp(42px,min(3.4vw,6.5vh),66px)!important;
+  }
+  .z2r-library-intro {
+    max-width:390px;
+    font-size:clamp(13px,1vw,15px)!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-radial {
+    width:min(100%,min(77svh,850px))!important;
+    max-height:77svh;
+  }
+  .z2r-library-selection {
+    max-height:min(74svh,700px);
+    margin-top:8px;
+    padding-left:clamp(18px,1.5vw,26px);
+  }
+  .z2r-library-selection-index,
+  .z2r-library-breadcrumbs {font-size:8px}
+  .z2r-library-selection h2 {font-size:clamp(21px,1.5vw,26px)!important}
+  .z2r-library-selection p {font-size:11.5px!important;line-height:1.6!important}
+  .z2r-explorer-child-list {max-height:min(52svh,500px);gap:5px}
+  .z2r-explorer-child {padding:8px 9px}
+  .z2r-explorer-child strong {font-size:10.5px}
+  .z2r-explorer-child small {font-size:7.5px}
+  .z2r-library-map-legend {gap:5px 13px}
+  .z2r-library-map-legend button {font-size:7px}
+}
+
+@media (min-width:1101px) and (max-width:1439px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(245px,.78fr) minmax(0,1.5fr) minmax(285px,.98fr);
+    gap:clamp(12px,1.35vw,20px);
+    min-height:min(650px,calc(100svh - 145px));
+    padding:8px 0;
+  }
+  .z2r-library-copy {padding-top:12px}
+  .z2r-library-copy h1 {font-size:clamp(36px,3.2vw,48px)!important}
+  .z2r-library-radial {
+    width:min(100%,min(74svh,700px))!important;
+    max-height:74svh;
+  }
+  .z2r-library-selection {
+    max-height:min(70svh,620px);
+    margin-top:6px;
+    padding-left:14px;
+  }
+  .z2r-library-selection p {font-size:10.5px!important}
+  .z2r-explorer-child-list {max-height:min(48svh,390px)}
+  .z2r-explorer-child {padding:7px}
+  .z2r-explorer-child strong {font-size:9.5px}
+  .z2r-explorer-child small {font-size:7px}
+}
+
+@media (min-width:761px) and (max-height:850px) {
+  .z2r-library-experience {
+    min-height:0;
+    padding-top:4px;
+    padding-bottom:6px;
+  }
+  .z2r-library-copy {padding-top:10px}
+  .z2r-library-kicker {margin-bottom:9px!important}
+  .z2r-library-intro {margin:10px 0 12px!important}
+  .z2r-library-metrics {padding:8px 0 9px}
+  .z2r-library-radial {
+    width:min(100%,min(76svh,760px))!important;
+    max-height:76svh;
+  }
+  .z2r-library-selection {
+    max-height:calc(100svh - 185px);
+    margin-top:4px;
+  }
+  .z2r-explorer-child-list {max-height:min(46svh,390px)}
+}
+
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(235px,.82fr) minmax(0,1.38fr);
+    grid-template-areas:"copy map" "inspector inspector";
+    gap:14px 20px;
+  }
+  .z2r-library-copy {padding-top:8px}
+  .z2r-library-radial {
+    width:min(100%,min(66svh,590px))!important;
+    max-height:66svh;
+  }
+  .z2r-library-selection {
+    display:flex;
+    flex-direction:column;
+    max-height:none;
+    padding:12px 0 0;
+  }
+  .z2r-explorer-child-list {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    max-height:260px;
+    overflow:auto;
+  }
+  .z2r-explorer-child-heading {grid-column:1/-1}
+  .z2r-explorer-child strong {font-size:10px}
+  .z2r-explorer-child small {font-size:7px}
+}
+
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .md-content__inner {
+    padding:0 14px 24px!important;
+  }
+  .z2r-library-experience {
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"copy" "map" "inspector";
+    gap:10px;
+    padding:8px 0 0;
+  }
+  .z2r-library-copy {max-width:100%;padding:0}
+  .z2r-library-kicker {margin:0 0 9px!important;font-size:7px!important}
+  .z2r-library-copy h1 {
+    max-width:100%;
+    white-space:normal;
+    font-size:clamp(38px,8.5vw,56px)!important;
+    line-height:1.02!important;
+  }
+  .z2r-library-intro {max-width:600px;margin:10px 0 12px!important}
+  .z2r-library-metrics {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    max-width:100%;
+    gap:6px;
+    padding:9px 0;
+  }
+  .z2r-library-metrics strong {font-size:17px}
+  .z2r-library-metrics span {font-size:7px}
+  .z2r-library-map-stage {padding:0}
+  .z2r-library-radial {
+    width:min(100%,min(88vw,600px))!important;
+    max-height:none;
+  }
+  .z2r-library-map-legend {
+    justify-content:flex-start;
+    gap:5px 12px;
+    padding:5px 2px 0;
+  }
+  .z2r-library-map-legend button {min-height:26px;font-size:7px}
+  .z2r-library-selection {
+    max-width:none;
+    max-height:none;
+    margin:0;
+    padding:13px 0 0;
+    border:0;
+    border-top:1px solid rgba(142,169,154,.22);
+    overflow:visible;
+  }
+  .z2r-library-selection h2 {font-size:21px!important}
+  .z2r-library-selection p {font-size:11px!important;line-height:1.6!important}
+  .z2r-explorer-child-list {max-height:280px;overflow:auto}
+  .z2r-explorer-child {padding:8px}
+  .z2r-explorer-child strong {font-size:10px}
+  .z2r-explorer-child small {font-size:7px}
+  .z2r-library-discovery {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+    padding:10px 0;
+  }
+  .z2r-library-filters {gap:5px}
+  .z2r-library-filters button {min-height:31px;padding:0 9px;font-size:7px}
+  .z2r-library-result-count {justify-self:start}
+  .z2r-library-search {height:40px}
+  .z2r-library-search input {font-size:12px}
+  .z2r-library-directory-grid {grid-template-columns:1fr}
+  .z2r-library-footer {flex-wrap:wrap;line-height:1.6}
+}
+
+@media (max-width:420px) {
+  .md-container:has(.z2r-library) .md-content__inner {padding:0 11px 20px!important}
+  .z2r-library-copy h1 {font-size:clamp(34px,9vw,42px)!important}
+  .z2r-library-intro {font-size:12px!important}
+  .z2r-library-metrics strong {font-size:15px}
+  .z2r-library-metrics span {font-size:6px}
+  .z2r-library-map-legend {gap:3px 9px}
+  .z2r-library-map-legend button {font-size:6.5px}
+  .z2r-library-search kbd {display:none}
+  .z2r-library-filters button {min-height:30px;padding:0 7px;font-size:6.5px}
+}
+
+@media (max-width:760px) {
+  .md-tabs {display:none}
+}
+@media (min-width:761px) and (max-width:1100px) {
+  .md-tabs__list {
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    white-space:nowrap;
+  }
+  .md-tabs__list::-webkit-scrollbar {display:none}
+  .md-tabs__item {flex:0 0 auto}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library *, .z2r-library *::before, .z2r-library *::after {
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}

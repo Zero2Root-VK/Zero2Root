@@ -587,6 +587,19 @@
     parent.appendChild(button);
   }
 
+  function addChildLink(parent, title, detail, color, href) {
+    const link = makeHtml("a", "z2r-explorer-child");
+    link.href = href;
+    link.setAttribute("aria-label", "Open " + title);
+    link.setAttribute("data-library-page-link", href);
+    if (color) link.style.setProperty("--child-accent", color);
+    const copy = makeHtml("span", "z2r-explorer-child-copy");
+    copy.appendChild(makeHtml("strong", "", title));
+    copy.appendChild(makeHtml("small", "", detail));
+    link.append(copy, makeHtml("span", "z2r-explorer-child-arrow", "↗"));
+    parent.appendChild(link);
+  }
+
   function renderChildList() {
     childList.replaceChildren();
     const heading = makeHtml("div", "z2r-explorer-child-heading");
@@ -643,13 +656,12 @@
 
     visiblePages.forEach((page) => {
       const pageIndex = pages.findIndex((item) => item.id === page.id) + 1;
-      addChildButton(
+      addChildLink(
         childList,
         page.title,
         String(pageIndex).padStart(2, "0") + " · " + typeLabel(page.type),
         group.color,
-        () => openPage(page.id),
-        state.activePage === page.id
+        page.href
       );
     });
   }

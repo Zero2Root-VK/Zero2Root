@@ -36,15 +36,19 @@
   const state = {
     data: null,
     view: "library",
+    activeCollection: null,
     activeGroup: null,
     activePage: null,
+    hoveredCollection: null,
     hoveredGroup: null,
     hoveredPage: null,
     query: "",
     visiblePages: [],
     zoom: 1,
+    collectionElements: new Map(),
     groupElements: new Map(),
     pageElements: new Map(),
+    collectionFocus: new Map(),
     groupFocus: new Map(),
     pageFocus: new Map()
   };
@@ -123,6 +127,33 @@
     })[type] || "EXISTING PAGE";
   }
 
+  function collectionGroups(collectionId) {
+    const collection = state.data.collections.find((item) => item.id === collectionId);
+    if (!collection) return [];
+    return collection.groupIds
+      .map((id) => state.data.groups.find((group) => group.id === id))
+      .filter(Boolean);
+  }
+
+  function collectionPages(collectionId) {
+    const groupIds = new Set(collectionGroups(collectionId).map((group) => group.id));
+    return state.data.pages.filter((page) => groupIds.has(page.group));
+  }
+
+  function groupCollection(groupId) {
+    return state.data.collections.find((collection) => collection.groupIds.includes(groupId)) || null;
+  }
+
+  function collectionKindLabel(collection) {
+    if (collection.id === "learning-paths") return "LEARNING PATHS";
+    if (collection.id === "tools") return "TOOLS REFERENCE";
+    if (collection.id === "resources") return "CAREER & PRACTICE";
+    if (collection.id === "ai-intelligence") return "AI & SECURITY INTELLIGENCE";
+    if (collection.id === "offensive-arsenal") return "OFFENSIVE SECURITY";
+    if (collection.id === "research-bounty") return "BUG BOUNTY & RESEARCH";
+    return "KNOWLEDGE COLLECTION";
+  }
+
   function groupPages(groupId) {
     return state.data.pages.filter((page) => page.group === groupId);
   }
@@ -182,6 +213,7 @@
   }
 
   function clearHover() {
+    state.hoveredCollection = null;
     state.hoveredGroup = null;
     state.hoveredPage = null;
     if (hovercard) hovercard.hidden = true;
@@ -201,18 +233,29 @@
     if (!hovercard || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     let title = "";
     let meta = "";
-    if (kind === "group") {
+    if (kind === "collection") {
+      const collection = state.data.collections.find((item) => item.id === id);
+      if (!collection) return;
+      state.hoveredCollection = id;
+      state.hoveredGroup = null;
+      state.hoveredPage = null;
+      title = collection.name;
+      meta = collectionPages(id).length + " EXISTING PAGES · OPEN COLLECTION";
+      hoverType.textContent = collectionKindLabel(collection);
+    } else if (kind === "group") {
       const group = state.data.groups.find((item) => item.id === id);
       if (!group) return;
+      state.hoveredCollection = null;
       state.hoveredGroup = id;
       state.hoveredPage = null;
       title = group.name;
-      meta = groupPages(id).length + " EXISTING PAGES · OPEN COLLECTION";
+      meta = groupPages(id).length + " EXISTING PAGES · OPEN LEVEL";
       hoverType.textContent = groupKindLabel(group);
     } else {
       const page = state.data.pages.find((item) => item.id === id);
       if (!page) return;
       const group = state.data.groups.find((item) => item.id === page.group);
+      state.hoveredCollection = null;
       state.hoveredPage = id;
       state.hoveredGroup = page.group;
       title = page.title;
@@ -248,16 +291,20 @@
     segments.replaceChildren();
     labels.replaceChildren();
     connections.replaceChildren();
+    state.collectionElements = new Map();
     state.groupElements = new Map();
     state.pageElements = new Map();
+    state.collectionFocus = new Map();
     state.groupFocus = new Map();
     state.pageFocus = new Map();
 
     if (state.view === "library") renderLibraryMap();
-    else renderCollectionMap();
+    else if (state.view === "collection") renderCollectionMap();
+    else renderGroupMap();
 
     addCenterText(
       state.view === "library" ? "KNOWLEDGE LIBRARY" :
+      state.view === "collection" ? "LEARNING PATHS" :
       state.view === "group" ? "COLLECTION VIEW" : "PAGE EXPLORER"
     );
     syncSegmentStates();
@@ -265,38 +312,103 @@
   }
 
   function renderLibraryMap() {
-    const groups = state.data.groups;
-    const total = state.data.pages.length;
+    const collections = state.data.collections;
+    const gap = .055;
+    const usable = TAU - collections.length * gap;
+    const span = usable / collections.length;
+    let cursor = START;
+
+    collections.forEach((collection) => {
+      const pages = collectionPages(collection.id);
+      const start = cursor + .003;
+      const end = cursor + span - .003;
+      const mid = (start + end) / 2;
+      const inner = polar(118, mid);
+      state.collectionFocus.set(collection.id, polar(220, mid));
+
+      connections.appendChild(makeSvg("path", {
+        d: "M " + polar(83, mid).x.toFixed(2) + " " + polar(83, mid).y.toFixed(2) +
+          " Q " + polar(105, mid - .08).x.toFixed(2) + " " + polar(105, mid - .08).y.toFixed(2) +
+          " " + inner.x.toFixed(2) + " " + inner.y.toFixed(2),
+        class: "library-link library-link-group"
+      }));
+
+      const path = makeSvg("path", {
+        d: annularPath(124, 336, start, end),
+        class: "library-group-sector",
+        fill: collection.color,
+        "fill-opacity": ".30",
+        "data-library-collection": collection.id
+      });
+      accessibleSegment(
+        path,
+        collection.name + ", " + pages.length + " existing pages. Open collection.",
+        () => openCollection(collection.id)
+      );
+      bindHover(path, "collection", collection.id);
+      segments.appendChild(path);
+      state.collectionElements.set(collection.id, path);
+
+      const labelPoint = polar(232, mid);
+      const countPoint = polar(267, mid);
+      const rotation = readableRotation(mid);
+      labels.appendChild(makeSvg("text", {
+        x: labelPoint.x, y: labelPoint.y,
+        class: "library-group-label",
+        transform: "rotate(" + rotation + " " + labelPoint.x + " " + labelPoint.y + ")"
+      }, collection.code));
+      labels.appendChild(makeSvg("text", {
+        x: countPoint.x, y: countPoint.y,
+        class: "library-group-count",
+        transform: "rotate(" + rotation + " " + countPoint.x + " " + countPoint.y + ")"
+      }, String(pages.length).padStart(2, "0")));
+
+      const pageStep = (end - start) / Math.max(pages.length, 1);
+      pages.forEach((page, i) => {
+        const dotPoint = polar(350, start + (i + .5) * pageStep);
+        connections.appendChild(makeSvg("circle", {
+          cx: dotPoint.x, cy: dotPoint.y, r: 2.6,
+          fill: collection.color, class: "library-overview-page-dot",
+          "aria-hidden": "true"
+        }));
+      });
+      cursor += span + gap;
+    });
+  }
+
+  function renderGroupMap() {
+    const collection = state.data.collections.find((item) => item.id === state.activeCollection);
+    if (!collection) return;
+    const groups = collectionGroups(collection.id);
+    const totalPages = collectionPages(collection.id).length;
     const gap = .045;
     const usable = TAU - groups.length * gap;
     let cursor = START;
 
     groups.forEach((group) => {
       const pages = groupPages(group.id);
-      const span = usable * pages.length / total;
+      const span = usable * pages.length / totalPages;
       const start = cursor + .003;
       const end = cursor + span - .003;
       const mid = (start + end) / 2;
       const inner = polar(118, mid);
-      const outer = polar(338, mid);
       state.groupFocus.set(group.id, polar(220, mid));
 
-      const connector = makeSvg("path", {
+      connections.appendChild(makeSvg("path", {
         d: "M " + polar(83, mid).x.toFixed(2) + " " + polar(83, mid).y.toFixed(2) +
           " Q " + polar(105, mid - .08).x.toFixed(2) + " " + polar(105, mid - .08).y.toFixed(2) +
           " " + inner.x.toFixed(2) + " " + inner.y.toFixed(2),
         class: "library-link library-link-group"
-      });
-      connections.appendChild(connector);
+      }));
 
       const path = makeSvg("path", {
         d: annularPath(124, 336, start, end),
         class: "library-group-sector",
         fill: group.color,
-        "fill-opacity": ".30",
+        "fill-opacity": ".32",
         "data-library-group": group.id
       });
-      accessibleSegment(path, group.name + ", " + pages.length + " existing pages. Open collection.", () => openGroup(group.id));
+      accessibleSegment(path, group.name + ", " + pages.length + " pages. Open learning level.", () => openGroup(group.id));
       bindHover(path, "group", group.id);
       segments.appendChild(path);
       state.groupElements.set(group.id, path);
@@ -315,7 +427,7 @@
         transform: "rotate(" + rotation + " " + countPoint.x + " " + countPoint.y + ")"
       }, String(pages.length).padStart(2, "0")));
 
-      const pageStep = (end - start) / pages.length;
+      const pageStep = (end - start) / Math.max(pages.length, 1);
       pages.forEach((page, i) => {
         const dotPoint = polar(350, start + (i + .5) * pageStep);
         connections.appendChild(makeSvg("circle", {
@@ -328,80 +440,39 @@
     });
   }
 
-  function renderCollectionMap() {
-    const group = state.data.groups.find((item) => item.id === state.activeGroup);
-    if (!group) return;
-    const pages = groupPages(group.id);
-    const gap = Math.min(.022, .11 / pages.length);
-    const step = TAU / pages.length;
-    const activePage = state.data.pages.find((page) => page.id === state.activePage);
-    const groupHub = polar(112, START);
-
-    pages.forEach((page, i) => {
-      const start = START + i * step + gap / 2;
-      const end = START + (i + 1) * step - gap / 2;
-      const mid = (start + end) / 2;
-      state.pageFocus.set(page.id, polar(260, mid));
-      const anchor = polar(186, mid);
-      const connector = makeSvg("path", {
-        d: "M " + polar(82, mid).x.toFixed(2) + " " + polar(82, mid).y.toFixed(2) +
-          " Q " + polar(135, mid).x.toFixed(2) + " " + polar(135, mid).y.toFixed(2) +
-          " " + anchor.x.toFixed(2) + " " + anchor.y.toFixed(2),
-        class: "library-link library-link-page"
-      });
-      connections.appendChild(connector);
-
-      const path = makeSvg("path", {
-        d: annularPath(190, 338, start, end),
-        class: "library-page-sector",
-        fill: group.color,
-        "fill-opacity": page.type.includes("overview") ? ".32" : String(.42 + (i % 3) * .045),
-        "data-library-page": page.id,
-        "data-library-group": group.id
-      });
-      accessibleSegment(path, page.title + ", " + group.name + ". Open page details.", () => openPage(page.id));
-      bindHover(path, "page", page.id);
-      segments.appendChild(path);
-      state.pageElements.set(page.id, path);
-
-      const numberPoint = polar(260, mid);
-      labels.appendChild(makeSvg("text", {
-        x: numberPoint.x, y: numberPoint.y,
-        class: "library-page-index",
-        transform: "rotate(" + readableRotation(mid) + " " + numberPoint.x + " " + numberPoint.y + ")"
-      }, String(i + 1).padStart(2, "0")));
-      connections.appendChild(makeSvg("circle", {
-        cx: polar(342, mid).x, cy: polar(342, mid).y, r: 2.5,
-        fill: group.color, "aria-hidden": "true"
-      }));
-    });
-
-    if (activePage) {
-      const midIndex = pages.findIndex((page) => page.id === activePage.id);
-      if (midIndex >= 0) {
-        const mid = START + (midIndex + .5) * step;
-        const source = polar(82, mid);
-        const target = polar(190, mid);
-        connections.appendChild(makeSvg("path", {
-          d: "M " + source.x + " " + source.y + " Q " + CX + " " + CY + " " + target.x + " " + target.y,
-          class: "library-link library-link-active"
-        }));
-      }
-    }
-  }
-
   function renderLegend() {
     legend.replaceChildren();
-    state.data.groups.forEach((group) => {
+    let items;
+    let kind;
+    if (state.view === "library") {
+      items = state.data.collections;
+      kind = "collection";
+    } else if (state.view === "collection" ||
+      (state.activeCollection && collectionGroups(state.activeCollection).length > 1)) {
+      items = collectionGroups(state.activeCollection);
+      kind = "group";
+    } else {
+      items = state.data.collections;
+      kind = "collection";
+    }
+
+    items.forEach((item) => {
       const button = makeHtml("button", "");
       button.type = "button";
-      button.dataset.libraryLegend = group.id;
-      if (state.activeGroup === group.id) button.classList.add("is-active");
+      button.setAttribute("data-library-legend", item.id);
+      button.setAttribute("data-library-legend-kind", kind);
+      const active = kind === "collection"
+        ? state.activeCollection === item.id
+        : state.activeGroup === item.id;
+      if (active) button.classList.add("is-active");
       const swatch = makeHtml("i", "");
-      swatch.style.background = group.color;
-      const label = makeHtml("span", "", group.code + " · " + group.name);
+      swatch.style.background = item.color;
+      const label = makeHtml("span", "", item.code + " · " + item.name);
       button.append(swatch, label);
-      button.addEventListener("click", () => openGroup(group.id));
+      button.addEventListener("click", () => {
+        if (kind === "collection") openCollection(item.id);
+        else openGroup(item.id);
+      });
       legend.appendChild(button);
     });
   }
@@ -417,11 +488,24 @@
   function renderBreadcrumbs() {
     breadcrumbs.replaceChildren();
     addBreadcrumb("Library", state.view === "library", goHome);
-    if (state.activeGroup) {
+
+    const collection = state.activeCollection
+      ? state.data.collections.find((item) => item.id === state.activeCollection)
+      : null;
+    if (collection && state.view !== "library") {
+      breadcrumbs.appendChild(makeHtml("span", "z2r-breadcrumb-divider", "/"));
+      const singleton = collection.groupIds.length === 1;
+      const collectionIsCurrent = state.view === "collection" || (state.view === "group" && singleton);
+      addBreadcrumb(collection.name, collectionIsCurrent, () => openCollection(collection.id));
+    }
+
+    if (state.activeGroup && collection && collection.groupIds.length > 1 &&
+      (state.view === "group" || state.view === "page")) {
       breadcrumbs.appendChild(makeHtml("span", "z2r-breadcrumb-divider", "/"));
       const group = state.data.groups.find((item) => item.id === state.activeGroup);
       addBreadcrumb(group.name, state.view === "group", () => openGroup(group.id));
     }
+
     if (state.view === "page" && state.activePage) {
       const page = state.data.pages.find((item) => item.id === state.activePage);
       breadcrumbs.appendChild(makeHtml("span", "z2r-breadcrumb-divider", "/"));
@@ -444,15 +528,40 @@
   function renderChildList() {
     childList.replaceChildren();
     const heading = makeHtml("div", "z2r-explorer-child-heading");
+
     if (state.view === "library") {
       heading.appendChild(makeHtml("span", "", "EXPLORE COLLECTIONS"));
-      heading.appendChild(makeHtml("small", "", state.data.groups.length + " COLLECTIONS"));
+      heading.appendChild(makeHtml("small", "", state.data.collections.length + " COLLECTIONS"));
       childList.appendChild(heading);
-      state.data.groups.forEach((group) => {
+      state.data.collections.forEach((collection) => {
+        const groups = collectionGroups(collection.id);
+        const pageCount = collectionPages(collection.id).length;
+        const detail = groups.length > 1
+          ? groups.length + " LEARNING LEVELS · " + pageCount + " PAGES"
+          : collectionKindLabel(collection) + " · " + pageCount + " PAGES";
+        addChildButton(
+          childList,
+          collection.name,
+          detail,
+          collection.color,
+          () => openCollection(collection.id)
+        );
+      });
+      return;
+    }
+
+    if (state.view === "collection") {
+      const collection = state.data.collections.find((item) => item.id === state.activeCollection);
+      if (!collection) return;
+      const groups = collectionGroups(collection.id);
+      heading.appendChild(makeHtml("span", "", "CHOOSE A LEARNING LEVEL"));
+      heading.appendChild(makeHtml("small", "", groups.length + " LEVELS"));
+      childList.appendChild(heading);
+      groups.forEach((group) => {
         addChildButton(
           childList,
           group.name,
-          groupKindLabel(group) + " · " + groupPages(group.id).length + " PAGES",
+          group.code + " · " + groupPages(group.id).length + " PAGES",
           group.color,
           () => openGroup(group.id)
         );
@@ -497,24 +606,42 @@
     if (state.view === "library") {
       type.textContent = "KNOWLEDGE LIBRARY";
       title.textContent = "Explore Zero2Root";
-      groupText.textContent = state.data.groups.length + " COLLECTIONS · " + state.data.pages.length + " EXISTING PAGES";
-      summary.textContent = "Start with a learning level, explore the tool references, or browse career and practice resources. Each collection opens into its existing pages.";
-      index.textContent = String(state.data.groups.length).padStart(2, "0") + " COLLECTIONS";
+      groupText.textContent = state.data.collections.length + " COLLECTIONS · " + state.data.pages.length + " EXISTING PAGES";
+      summary.textContent = "Start with Learning Paths, then choose one of five levels. Explore tools, AI security, offensive security, career resources and research alongside the learning library.";
+      index.textContent = String(state.data.collections.length).padStart(2, "0") + " COLLECTIONS";
       status.textContent = "LIBRARY VIEW";
+      openLink.hidden = true;
+    } else if (state.view === "collection") {
+      const collection = state.data.collections.find((item) => item.id === state.activeCollection);
+      if (!collection) return;
+      const groups = collectionGroups(collection.id);
+      const pages = collectionPages(collection.id);
+      type.textContent = collectionKindLabel(collection);
+      title.textContent = collection.name;
+      groupText.textContent = groups.length + " LEARNING LEVELS · " + pages.length + " EXISTING PAGES";
+      summary.textContent = collection.summary || "Choose a level to explore its existing pages and practical learning material.";
+      index.textContent = "01 / " + String(state.data.collections.length).padStart(2, "0");
+      status.textContent = "COLLECTION VIEW";
       openLink.hidden = true;
     } else if (state.view === "group") {
       const group = state.data.groups.find((item) => item.id === state.activeGroup);
+      const collection = groupCollection(group.id);
       const overview = groupOverview(group.id);
       const pages = groupPages(group.id);
-      type.textContent = groupKindLabel(group);
+      type.textContent = collection && collection.id === "learning-paths"
+        ? group.code + " · LEARNING LEVEL"
+        : groupKindLabel(group);
       title.textContent = group.name;
       groupText.textContent = group.label + " · " + pages.length + " EXISTING PAGES";
       summary.textContent = overview ? overview.summary : pages[0].summary;
-      index.textContent = String(state.data.groups.findIndex((item) => item.id === group.id) + 1).padStart(2, "0") + " / " + String(state.data.groups.length).padStart(2, "0");
-      status.textContent = "COLLECTION VIEW";
+      index.textContent = collection && collection.id === "learning-paths"
+        ? String(collectionGroups(collection.id).findIndex((item) => item.id === group.id) + 1).padStart(2, "0") + " / 05"
+        : String(state.data.collections.findIndex((item) => item.id === collection.id) + 1).padStart(2, "0") + " / " + String(state.data.collections.length).padStart(2, "0");
+      status.textContent = collection && collection.id === "learning-paths" ? "LEARNING LEVEL" : "COLLECTION VIEW";
       openLink.href = overview.href;
       openLink.hidden = false;
-      one("span", openLink).textContent = "↗";
+      const arrow = one("span", openLink);
+      if (arrow) arrow.textContent = "↗";
       openLink.firstChild.textContent = "Open collection overview ";
     } else {
       const page = state.data.pages.find((item) => item.id === state.activePage);
@@ -535,8 +662,16 @@
   }
 
   function syncSegmentStates() {
+    state.collectionElements.forEach((element, id) => {
+      const isActive = state.activeCollection === id;
+      const isHovered = state.hoveredCollection === id;
+      const matchesQuery = collectionPages(id).some((page) => state.visiblePages.some((item) => item.id === page.id));
+      element.classList.toggle("is-selected", isActive);
+      element.classList.toggle("is-hovered", isHovered);
+      element.classList.toggle("is-muted", Boolean(state.query) && !matchesQuery);
+      element.setAttribute("aria-pressed", String(isActive));
+    });
     state.groupElements.forEach((element, id) => {
-      const group = state.data.groups.find((item) => item.id === id);
       const isActive = state.activeGroup === id;
       const isHovered = state.hoveredGroup === id;
       const matchesQuery = state.visiblePages.some((page) => page.group === id);
@@ -548,7 +683,6 @@
     state.pageElements.forEach((element, id) => {
       const selected = state.activePage === id;
       const hovered = state.hoveredPage === id;
-      const page = state.data.pages.find((item) => item.id === id);
       const matchesQuery = !state.query || state.visiblePages.some((item) => item.id === id);
       element.classList.toggle("is-selected", selected);
       element.classList.toggle("is-hovered", hovered);
@@ -556,15 +690,21 @@
       element.setAttribute("aria-pressed", String(selected));
     });
     many("[data-library-legend]").forEach((button) => {
-      button.classList.toggle("is-active", button.getAttribute("data-library-legend") === state.activeGroup);
+      const kind = button.getAttribute("data-library-legend-kind");
+      const id = button.getAttribute("data-library-legend");
+      button.classList.toggle("is-active", kind === "collection"
+        ? id === state.activeCollection
+        : id === state.activeGroup);
     });
   }
 
   function updateURL(push = true) {
     try {
       const url = new URL(window.location.href);
+      url.searchParams.delete("collection");
       url.searchParams.delete("group");
       url.searchParams.delete("page");
+      if (state.view === "collection" && state.activeCollection) url.searchParams.set("collection", state.activeCollection);
       if (state.activeGroup) url.searchParams.set("group", state.activeGroup);
       if (state.activePage) url.searchParams.set("page", state.activePage);
       const method = push ? "pushState" : "replaceState";
@@ -580,9 +720,31 @@
     viewport.style.transform = "scale(" + state.zoom.toFixed(3) + ")";
   }
 
+  function openCollection(collectionId, push = true) {
+    const collection = state.data.collections.find((item) => item.id === collectionId);
+    if (!collection) return;
+    if (collection.groupIds.length === 1) {
+      openGroup(collection.groupIds[0], push);
+      return;
+    }
+    state.view = "collection";
+    state.activeCollection = collectionId;
+    state.activeGroup = null;
+    state.activePage = null;
+    clearHover();
+    renderMap();
+    renderInspector();
+    applyZoom(1.035);
+    syncFilterButtons();
+    updateURL(push);
+  }
+
   function openGroup(groupId, push = true) {
-    if (!state.data.groups.some((group) => group.id === groupId)) return;
+    const group = state.data.groups.find((item) => item.id === groupId);
+    if (!group) return;
     state.view = "group";
+    const collection = groupCollection(groupId);
+    state.activeCollection = collection ? collection.id : null;
     state.activeGroup = groupId;
     state.activePage = null;
     clearHover();
@@ -597,6 +759,8 @@
     const page = state.data.pages.find((item) => item.id === pageId);
     if (!page) return;
     state.view = "page";
+    const collection = groupCollection(page.group);
+    state.activeCollection = collection ? collection.id : null;
     state.activeGroup = page.group;
     state.activePage = page.id;
     state.query = "";
@@ -613,6 +777,7 @@
 
   function goHome(push = true) {
     state.view = "library";
+    state.activeCollection = null;
     state.activeGroup = null;
     state.activePage = null;
     clearHover();
@@ -626,7 +791,9 @@
   function syncFilterButtons() {
     many("[data-library-filter]").forEach((button) => {
       const id = button.getAttribute("data-library-filter");
-      const active = id === "all" ? state.view === "library" : state.activeGroup === id;
+      const active = id === "all"
+        ? state.view === "library"
+        : state.activeCollection === id && state.view !== "library";
       button.classList.toggle("is-active", active);
       button.setAttribute("aria-pressed", String(active));
     });
@@ -700,10 +867,13 @@
     const params = new URL(window.location.href).searchParams;
     const page = params.get("page");
     const group = params.get("group");
+    const collection = params.get("collection");
     if (page && state.data.pages.some((item) => item.id === page)) {
       openPage(page, false);
     } else if (group && state.data.groups.some((item) => item.id === group)) {
       openGroup(group, false);
+    } else if (collection && state.data.collections.some((item) => item.id === collection)) {
+      openCollection(collection, false);
     } else {
       goHome(false);
     }
@@ -726,7 +896,7 @@
       button.addEventListener("click", () => {
         const id = button.getAttribute("data-library-filter");
         if (id === "all") goHome();
-        else openGroup(id);
+        else openCollection(id);
       });
     });
     document.addEventListener("keydown", (event) => {
@@ -735,7 +905,11 @@
         search.focus();
       }
       if (event.key === "Escape" && state.view === "page") openGroup(state.activeGroup);
-      else if (event.key === "Escape" && state.view === "group") goHome();
+      else if (event.key === "Escape" && state.view === "group") {
+        const collection = groupCollection(state.activeGroup);
+        if (collection && collection.groupIds.length > 1) openCollection(collection.id);
+        else goHome();
+      } else if (event.key === "Escape" && state.view === "collection") goHome();
     });
     window.addEventListener("popstate", restoreFromURL);
     if (svg) {

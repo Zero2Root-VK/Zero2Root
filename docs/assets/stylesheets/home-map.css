@@ -1631,3 +1631,85 @@
   }
   .z2r-explorer-child-list {display:flex;max-height:260px}
 }
+
+
+/* ZERO2ROOT — COMPACT VIEWPORT SPACING PASS */
+@media (min-width:1101px) {
+  .z2r-library-experience {
+    min-height:min(620px,calc(100svh - 170px));
+    padding:6px 0 8px;
+    gap:clamp(12px,1.45vw,24px);
+    align-items:start;
+  }
+  .z2r-library-copy {
+    align-self:start;
+    padding-top:clamp(18px,3.2vh,30px);
+  }
+  .z2r-library-kicker {margin:0 0 12px!important}
+  .z2r-library-copy h1 {line-height:.98!important}
+  .z2r-library-intro {margin:12px 0 14px!important}
+  .z2r-library-metrics {margin-top:4px;padding:10px 0}
+  .z2r-library-map-stage {
+    align-self:center;
+    padding:0;
+    transform:translateY(-3px);
+  }
+  .z2r-library-radial {
+    width:min(100%,min(66svh,740px))!important;
+    max-height:66svh;
+  }
+  .z2r-library-map-legend {padding-top:2px}
+  .z2r-library-selection {
+    align-self:start;
+    max-height:min(620px,calc(100svh - 210px));
+    margin-top:clamp(12px,2.2vh,20px);
+    padding-top:0;
+  }
+  .z2r-library-breadcrumbs {margin-bottom:8px}
+  .z2r-library-selection-index {margin-bottom:7px}
+  .z2r-library-selection h2 {margin:5px 0 4px!important}
+  .z2r-library-selection p {margin-bottom:8px!important;line-height:1.5!important}
+  .z2r-explorer-child-list {
+    margin:7px 0 8px;
+    max-height:min(48svh,410px);
+  }
+  .z2r-explorer-child {padding:6px 8px}
+}
+@media (min-width:1500px) {
+  .z2r-library-experience {
+    gap:clamp(16px,1.6vw,26px);
+    min-height:min(640px,calc(100svh - 165px));
+  }
+  .z2r-library-copy {padding-top:clamp(18px,3.4vh,34px)}
+  .z2r-library-radial {width:min(100%,min(68svh,790px))!important}
+  .z2r-library-selection {margin-top:clamp(10px,2vh,18px)}
+}
+@media (min-width:1101px) and (max-height:850px) {
+  .z2r-library-experience {
+    min-height:min(580px,calc(100svh - 155px));
+    padding-top:2px;
+    padding-bottom:5px;
+  }
+  .z2r-library-copy {padding-top:14px}
+  .z2r-library-kicker {margin-bottom:9px!important}
+  .z2r-library-intro {margin:9px 0 11px!important}
+  .z2r-library-metrics {padding:8px 0}
+  .z2r-library-radial {width:min(100%,min(64svh,700px))!important;max-height:64svh}
+  .z2r-library-selection {margin-top:8px;max-height:calc(100svh - 195px)}
+  .z2r-explorer-child-list {max-height:min(43svh,350px)}
+}
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {gap:14px 18px;padding-top:8px;padding-bottom:6px}
+  .z2r-library-copy {align-self:start;padding-top:10px}
+  .z2r-library-map-stage {align-self:center}
+  .z2r-library-selection {padding-top:10px}
+}
+@media (max-width:760px) {
+  .z2r-library-experience {gap:9px;padding-top:6px}
+  .z2r-library-copy {padding-top:0}
+  .z2r-library-kicker {margin-bottom:8px!important}
+  .z2r-library-intro {margin:9px 0 11px!important}
+  .z2r-library-metrics {padding:8px 0}
+  .z2r-library-map-stage {padding-top:0}
+  .z2r-library-selection {padding-top:10px}
+}

@@ -78,6 +78,7 @@ extra_css:
   - assets/stylesheets/content-v2.css
   - assets/stylesheets/brand-v2.css
   - assets/stylesheets/home-map.css
+  - assets/stylesheets/model-explorer.css
 
 extra:
   social:
@@ -150,6 +151,7 @@ nav:
 
   - AI & Security Intelligence:
     - AI Lab: ai-lab/index.md
+    - AI Model Explorer: ai-lab/explorer.md
     - AI Model Directory: ai-lab/models/index.md
     - AI Benchmarks: ai-lab/benchmarks/index.md
     - AI & LLM Security: ai-security/index.md

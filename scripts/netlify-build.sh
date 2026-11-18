@@ -9,7 +9,7 @@ IS_ASTRO_PROTOTYPE=false
 # Netlify Deploy Previews expose REVIEW_ID and CONTEXT. Use the dedicated
 # prototype PR as a guarded fallback when BRANCH is absent or reports the
 # base branch instead of the PR head branch.
-if [[ "${BRANCH:-}" == "$ASTRO_BRANCH" ]]; then
+if [[ "$BUILD_BRANCH" == prototype/astro-knowledge-explorer* || "$BUILD_BRANCH" == fix/astro-explorer-* ]]; then
   IS_ASTRO_PROTOTYPE=true
 elif [[ "${CONTEXT:-}" == "deploy-preview" && "${REVIEW_ID:-}" == "5" ]]; then
   IS_ASTRO_PROTOTYPE=true
@@ -28,7 +28,7 @@ if [[ "$IS_ASTRO_PROTOTYPE" == "true" ]]; then
   printf '{"engine":"astro-starlight","branch":"%s","commit":"%s","built_at":"%s"}\n' \
     "$BUILD_BRANCH" "${COMMIT_REF:-unknown}" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     > "$SITE_DIR/prototype-build.json"
-elif [[ "${BRANCH:-}" == prototype/astro-knowledge-explorer* ]]; then
+elif [[ "${BRANCH:-}" == prototype/astro-* || "${BRANCH:-}" == fix/astro-explorer-* ]]; then
   echo "Refusing to silently publish MkDocs for an unexpected Astro prototype branch: ${BRANCH}" >&2
   exit 12
 else

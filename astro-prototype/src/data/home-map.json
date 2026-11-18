@@ -1,0 +1,918 @@
+{
+  "meta": {
+    "title": "Zero2Root — Cybersecurity Knowledge Library",
+    "source": "Existing and expanded Markdown pages coordinated with MkDocs navigation",
+    "pageCount": 67,
+    "learningLevels": 5,
+    "lessonCount": 34,
+    "toolGuideCount": 10,
+    "resourceCount": 3,
+    "collectionCount": 6,
+    "groupCount": 10
+  },
+  "groups": [
+    {
+      "id": "level-0",
+      "code": "L0",
+      "label": "Level 0",
+      "name": "Foundations",
+      "kind": "learning",
+      "color": "#8EA99A",
+      "pageCount": 6
+    },
+    {
+      "id": "level-1",
+      "code": "L1",
+      "label": "Level 1",
+      "name": "Junior Pentester",
+      "kind": "learning",
+      "color": "#C77C55",
+      "pageCount": 8
+    },
+    {
+      "id": "level-2",
+      "code": "L2",
+      "label": "Level 2",
+      "name": "Mid-Level Pentester",
+      "kind": "learning",
+      "color": "#D2AA70",
+      "pageCount": 10
+    },
+    {
+      "id": "level-3",
+      "code": "L3",
+      "label": "Level 3",
+      "name": "Senior Pentester",
+      "kind": "learning",
+      "color": "#A85F50",
+      "pageCount": 8
+    },
+    {
+      "id": "level-4",
+      "code": "L4",
+      "label": "Level 4",
+      "name": "Lead / Architect",
+      "kind": "learning",
+      "color": "#B58B66",
+      "pageCount": 7
+    },
+    {
+      "id": "tools",
+      "code": "TOOLS",
+      "label": "Tools & Automation",
+      "name": "Tools & Automation",
+      "kind": "reference",
+      "color": "#8E9A88",
+      "pageCount": 11
+    },
+    {
+      "id": "resources",
+      "code": "REF",
+      "label": "Resources",
+      "name": "Career & Practice",
+      "kind": "resources",
+      "color": "#A99D84",
+      "pageCount": 4
+    },
+    {
+      "id": "ai-intelligence",
+      "code": "AI",
+      "label": "AI Lab",
+      "name": "AI & Security Intelligence",
+      "kind": "reference",
+      "color": "#8EA99A",
+      "pageCount": 5
+    },
+    {
+      "id": "offensive-arsenal",
+      "code": "OFFSEC",
+      "label": "Offensive Security",
+      "name": "Offensive Security Arsenal",
+      "kind": "reference",
+      "color": "#C77C55",
+      "pageCount": 6
+    },
+    {
+      "id": "research-bounty",
+      "code": "RESEARCH",
+      "label": "Research",
+      "name": "Bug Bounty & Research",
+      "kind": "resources",
+      "color": "#D2AA70",
+      "pageCount": 2
+    }
+  ],
+  "pages": [
+    {
+      "id": "level-0-overview",
+      "title": "Overview",
+      "href": "level-0/",
+      "type": "learning-overview",
+      "summary": "Absolute beginners, IT graduates and career switchers with no prior security background.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 0
+    },
+    {
+      "id": "level-0-networking",
+      "title": "Networking Fundamentals",
+      "href": "level-0/01-networking/",
+      "type": "lesson",
+      "summary": "The networking foundation behind port scanning, HTTP testing, ARP, SSRF and traffic interception.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 1
+    },
+    {
+      "id": "level-0-os-fundamentals",
+      "title": "OS Fundamentals",
+      "href": "level-0/02-os-fundamentals/",
+      "type": "lesson",
+      "summary": "Operating-system knowledge for privilege escalation, lateral movement, persistence and evidence collection.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 2
+    },
+    {
+      "id": "level-0-security-concepts",
+      "title": "Core Security Concepts",
+      "href": "level-0/03-security-concepts/",
+      "type": "lesson",
+      "summary": "The core security vocabulary used across technical assessments, reports and stakeholder communication.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 3
+    },
+    {
+      "id": "level-0-intro-pentesting",
+      "title": "Introduction to Pentesting",
+      "href": "level-0/04-intro-pentesting/",
+      "type": "lesson",
+      "summary": "Penetration-testing scope, assessment types, rules of engagement and legal boundaries.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 4
+    },
+    {
+      "id": "level-0-interview-qa",
+      "title": "Interview Q&A — Fresher",
+      "href": "level-0/05-interview-qa/",
+      "type": "lesson",
+      "summary": "Three-layer interview questions covering concepts, what is being tested and model answers.",
+      "group": "level-0",
+      "groupLabel": "Foundations",
+      "groupCode": "L0",
+      "index": 5
+    },
+    {
+      "id": "level-1-overview",
+      "title": "Overview",
+      "href": "level-1/",
+      "type": "learning-overview",
+      "summary": "The entry-level pathway for junior pentest and security analyst roles.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 0
+    },
+    {
+      "id": "level-1-recon",
+      "title": "Reconnaissance",
+      "href": "level-1/01-reconnaissance/",
+      "type": "lesson",
+      "summary": "Passive and active information gathering to understand a target before testing.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 1
+    },
+    {
+      "id": "level-1-scanning",
+      "title": "Scanning & Enumeration",
+      "href": "level-1/02-scanning-enumeration/",
+      "type": "lesson",
+      "summary": "Move from reconnaissance into precise host, port, service and version enumeration.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 2
+    },
+    {
+      "id": "level-1-vulnerability-assessment",
+      "title": "Vulnerability Assessment",
+      "href": "level-1/03-vulnerability-assessment/",
+      "type": "lesson",
+      "summary": "Assessment methodology, CVSS scoring, scanner output validation and false-positive handling.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 3
+    },
+    {
+      "id": "level-1-owasp-top10",
+      "title": "OWASP Top 10",
+      "href": "level-1/04-owasp-top10/",
+      "type": "lesson",
+      "summary": "The web application vulnerability categories expected in practical security interviews.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 4
+    },
+    {
+      "id": "level-1-basic-exploitation",
+      "title": "Basic Exploitation",
+      "href": "level-1/05-basic-exploitation/",
+      "type": "lesson",
+      "summary": "Understand exploitation mechanics rather than relying only on automated modules.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 5
+    },
+    {
+      "id": "level-1-report-writing",
+      "title": "Report Writing",
+      "href": "level-1/06-report-writing/",
+      "type": "lesson",
+      "summary": "Turn validated technical findings into clear, useful client deliverables.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 6
+    },
+    {
+      "id": "level-1-interview-qa",
+      "title": "Interview Q&A — Junior",
+      "href": "level-1/07-interview-qa/",
+      "type": "lesson",
+      "summary": "Junior-level questions covering tools, techniques and end-to-end engagement reasoning.",
+      "group": "level-1",
+      "groupLabel": "Junior Pentester",
+      "groupCode": "L1",
+      "index": 7
+    },
+    {
+      "id": "level-2-overview",
+      "title": "Overview",
+      "href": "level-2/",
+      "type": "learning-overview",
+      "summary": "The mid-level pathway across advanced web, API, mobile, infrastructure and source review.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 0
+    },
+    {
+      "id": "level-2-web-advanced",
+      "title": "Web Application — Advanced",
+      "href": "level-2/01-web-advanced/",
+      "type": "lesson",
+      "summary": "Advanced web testing including logic flaws, OAuth, JWT, race conditions and HTTP request smuggling.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 1
+    },
+    {
+      "id": "level-2-api-security",
+      "title": "API Security",
+      "href": "level-2/02-api-security/",
+      "type": "lesson",
+      "summary": "REST, GraphQL and API-specific authentication, authorization and business-logic testing.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 2
+    },
+    {
+      "id": "level-2-mobile-android",
+      "title": "Mobile Security — Android",
+      "href": "level-2/03-mobile-android/",
+      "type": "lesson",
+      "summary": "Android application security testing aligned with OWASP mobile testing guidance.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 3
+    },
+    {
+      "id": "level-2-infrastructure",
+      "title": "Infrastructure Pentesting",
+      "href": "level-2/04-infrastructure/",
+      "type": "lesson",
+      "summary": "Internal infrastructure assessments, services, credentials and enterprise attack paths.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 4
+    },
+    {
+      "id": "level-2-active-directory",
+      "title": "Active Directory",
+      "href": "level-2/05-active-directory/",
+      "type": "lesson",
+      "summary": "Enterprise Windows identity, domain environments and Active Directory assessment.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 5
+    },
+    {
+      "id": "level-2-source-code-review",
+      "title": "Source Code Review",
+      "href": "level-2/06-source-code-review/",
+      "type": "lesson",
+      "summary": "Find code-level vulnerabilities, logic flaws and security anti-patterns missed by dynamic testing.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 6
+    },
+    {
+      "id": "level-2-config-review",
+      "title": "Configuration Review",
+      "href": "level-2/07-config-review/",
+      "type": "lesson",
+      "summary": "Systematic configuration assessment for common commercial and compliance-driven engagements.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 7
+    },
+    {
+      "id": "level-2-segmentation-testing",
+      "title": "Segmentation Testing",
+      "href": "level-2/08-segmentation-testing/",
+      "type": "lesson",
+      "summary": "Verify that network segmentation and trust boundaries prevent unintended lateral movement.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 8
+    },
+    {
+      "id": "level-2-interview-qa",
+      "title": "Interview Q&A — Mid-Level",
+      "href": "level-2/09-interview-qa/",
+      "type": "lesson",
+      "summary": "Scenario-driven questions that test real engagement experience and technical judgement.",
+      "group": "level-2",
+      "groupLabel": "Mid-Level Pentester",
+      "groupCode": "L2",
+      "index": 9
+    },
+    {
+      "id": "level-3-overview",
+      "title": "Overview",
+      "href": "level-3/",
+      "type": "learning-overview",
+      "summary": "The senior pathway covering advanced identity, red team, cloud, iOS and exploit development.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 0
+    },
+    {
+      "id": "level-3-ad-advanced",
+      "title": "Active Directory — Advanced",
+      "href": "level-3/01-ad-advanced/",
+      "type": "lesson",
+      "summary": "Advanced domain attack and defence techniques, including paths toward high-privilege access.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 1
+    },
+    {
+      "id": "level-3-red-team",
+      "title": "Red Team Concepts",
+      "href": "level-3/02-red-team/",
+      "type": "lesson",
+      "summary": "Adversary simulation methodology and how it differs from compliance-driven penetration testing.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 2
+    },
+    {
+      "id": "level-3-cloud-security",
+      "title": "Cloud Security",
+      "href": "level-3/03-cloud-security/",
+      "type": "lesson",
+      "summary": "Security assessment of AWS, Azure and other cloud environments.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 3
+    },
+    {
+      "id": "level-3-mobile-ios",
+      "title": "Mobile Security — iOS",
+      "href": "level-3/04-mobile-ios/",
+      "type": "lesson",
+      "summary": "iOS security architecture, assessment methods and mobile testing workflows.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 4
+    },
+    {
+      "id": "level-3-exploit-dev",
+      "title": "Exploit Development",
+      "href": "level-3/05-exploit-dev/",
+      "type": "lesson",
+      "summary": "Memory corruption, exploit mechanics and the technical reasoning behind vulnerability exploitability.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 5
+    },
+    {
+      "id": "level-3-engagement-management",
+      "title": "Engagement Management",
+      "href": "level-3/06-engagement-management/",
+      "type": "lesson",
+      "summary": "Manage clients, scope, delivery, communication and legal responsibilities across engagements.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 6
+    },
+    {
+      "id": "level-3-interview-qa",
+      "title": "Interview Q&A — Senior",
+      "href": "level-3/07-interview-qa/",
+      "type": "lesson",
+      "summary": "Senior-level technical and scenario-based interview questions.",
+      "group": "level-3",
+      "groupLabel": "Senior Pentester",
+      "groupCode": "L3",
+      "index": 7
+    },
+    {
+      "id": "level-4-overview",
+      "title": "Overview",
+      "href": "level-4/",
+      "type": "learning-overview",
+      "summary": "The lead and architect pathway for security program design, threat modeling, GRC and leadership.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 0
+    },
+    {
+      "id": "level-4-red-team-program",
+      "title": "Red Team Program Design",
+      "href": "level-4/01-red-team-program/",
+      "type": "lesson",
+      "summary": "Operational design, metrics, staffing and reporting for red team programs.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 1
+    },
+    {
+      "id": "level-4-threat-modeling",
+      "title": "Threat Modeling",
+      "href": "level-4/02-threat-modeling/",
+      "type": "lesson",
+      "summary": "Identify design-level security issues and model threats before implementation.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 2
+    },
+    {
+      "id": "level-4-grc-compliance",
+      "title": "GRC & Compliance",
+      "href": "level-4/03-grc-compliance/",
+      "type": "lesson",
+      "summary": "Governance, risk and compliance frameworks, gap assessments and translating technical risk.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 3
+    },
+    {
+      "id": "level-4-leadership",
+      "title": "Leadership & Team Management",
+      "href": "level-4/04-leadership/",
+      "type": "lesson",
+      "summary": "Build, develop and lead security teams while maintaining technical and delivery quality.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 4
+    },
+    {
+      "id": "level-4-business-development",
+      "title": "Business Development",
+      "href": "level-4/05-business-development/",
+      "type": "lesson",
+      "summary": "Positioning, proposals, commercial planning and client retention for security services.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 5
+    },
+    {
+      "id": "level-4-interview-qa",
+      "title": "Interview Q&A — Lead / Architect",
+      "href": "level-4/06-interview-qa/",
+      "type": "lesson",
+      "summary": "Leadership, prioritization, GRC strategy and executive communication interview preparation.",
+      "group": "level-4",
+      "groupLabel": "Lead / Architect",
+      "groupCode": "L4",
+      "index": 6
+    },
+    {
+      "id": "tools-overview",
+      "title": "Overview",
+      "href": "tools/",
+      "type": "reference-overview",
+      "summary": "A practitioner field reference for selecting, operating and connecting security tools with reproducible evidence.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 0
+    },
+    {
+      "id": "tools-recon-tools",
+      "title": "Reconnaissance & Attack-Surface Discovery",
+      "href": "tools/01-recon-tools/",
+      "type": "reference",
+      "summary": "Passive discovery, DNS resolution, approved asset verification, HTTP probing and controlled crawling.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 1
+    },
+    {
+      "id": "tools-scanning-tools",
+      "title": "Network Scanning & Vulnerability Assessment",
+      "href": "tools/02-scanning-tools/",
+      "type": "reference",
+      "summary": "Host discovery, TCP/UDP scanning, service identification, vulnerability scanners, TLS checks and manual validation.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 2
+    },
+    {
+      "id": "tools-web-tools",
+      "title": "Web & API Testing",
+      "href": "tools/03-web-tools/",
+      "type": "reference",
+      "summary": "Proxy analysis, request replay, controlled fuzzing, API testing, ZAP automation and evidence capture.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 3
+    },
+    {
+      "id": "tools-network-tools",
+      "title": "Network Traffic & Protocol Analysis",
+      "href": "tools/04-network-tools/",
+      "type": "reference",
+      "summary": "Wireshark, TShark, tcpdump, netcat and Scapy for bounded protocol testing and packet evidence.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 4
+    },
+    {
+      "id": "tools-ad-tools",
+      "title": "Windows, Active Directory & Identity",
+      "href": "tools/06-ad-tools/",
+      "type": "reference",
+      "summary": "NetExec, Impacket, BloodHound CE and LDAP tools for authorised identity and trust analysis.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 5
+    },
+    {
+      "id": "tools-mobile-tools",
+      "title": "Mobile Application Testing",
+      "href": "tools/05-mobile-tools/",
+      "type": "reference",
+      "summary": "ADB, JADX, Apktool, MobSF, Frida and Objection for static and runtime mobile analysis.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 6
+    },
+    {
+      "id": "tools-cloud-tools",
+      "title": "Cloud, Container & IaC Security",
+      "href": "tools/07-cloud-tools/",
+      "type": "reference",
+      "summary": "Prowler, Trivy, Checkov, Syft and Grype for cloud posture, container and infrastructure checks.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 7
+    },
+    {
+      "id": "tools-code-tools",
+      "title": "Source Code & Supply-Chain Security",
+      "href": "tools/08-code-tools/",
+      "type": "reference",
+      "summary": "Semgrep, Gitleaks, Trivy, SBOM generation, dependency analysis and SARIF integration.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 8
+    },
+    {
+      "id": "tools-scripting-automation",
+      "title": "Scripting & Security Automation",
+      "href": "tools/09-scripting-automation/",
+      "type": "reference",
+      "summary": "Python, Bash, structured data, HTTP clients, safe subprocess execution, retries, logging and tests.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 9
+    },
+    {
+      "id": "tools-workflows",
+      "title": "End-to-End Assessment Workflows",
+      "href": "tools/10-workflows/",
+      "type": "reference",
+      "summary": "Scope-gated tool pipelines, evidence normalisation, CI integration, validation and operational controls.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 10
+    },
+    {
+      "id": "resources-overview",
+      "title": "Overview",
+      "href": "resources/",
+      "type": "resource-overview",
+      "summary": "Supplementary material for certifications, behavioral preparation and resume building.",
+      "group": "resources",
+      "groupLabel": "Career & Practice",
+      "groupCode": "REF",
+      "index": 0
+    },
+    {
+      "id": "resources-certifications",
+      "title": "Certifications Roadmap",
+      "href": "certifications/",
+      "type": "resource",
+      "summary": "A practical certification roadmap focused on hands-on skills and preparation.",
+      "group": "resources",
+      "groupLabel": "Career & Practice",
+      "groupCode": "REF",
+      "index": 1
+    },
+    {
+      "id": "resources-behavioral",
+      "title": "Behavioral Interview Preparation",
+      "href": "behavioral/",
+      "type": "resource",
+      "summary": "Prepare for judgement, communication, professional maturity and behavioral interview rounds.",
+      "group": "resources",
+      "groupLabel": "Career & Practice",
+      "groupCode": "REF",
+      "index": 2
+    },
+    {
+      "id": "resources-resume",
+      "title": "Resume & Portfolio Guide",
+      "href": "resume-guide/",
+      "type": "resource",
+      "summary": "Make cybersecurity experience, technical depth and project evidence clear to recruiters.",
+      "group": "resources",
+      "groupLabel": "Career & Practice",
+      "groupCode": "REF",
+      "index": 3
+    },
+    {
+      "id": "ai-lab-overview",
+      "title": "AI Lab",
+      "href": "ai-lab/",
+      "type": "ai-overview",
+      "summary": "Cybersecurity-focused AI models, local deployment guidance, availability and model evaluation.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 0
+    },
+    {
+      "id": "ai-model-directory",
+      "title": "AI Model Directory",
+      "href": "ai-lab/models/",
+      "type": "ai-reference",
+      "summary": "Verified model cards, intended tasks, deployment options, license notes and official links.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 1
+    },
+    {
+      "id": "ai-benchmarks",
+      "title": "AI Benchmarks",
+      "href": "ai-lab/benchmarks/",
+      "type": "ai-reference",
+      "summary": "Transparent methodology for evaluating cybersecurity AI models without invented scores.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 2
+    },
+    {
+      "id": "ai-security-testing",
+      "title": "AI & LLM Security",
+      "href": "ai-security/",
+      "type": "ai-reference",
+      "summary": "Prompt injection, RAG, MCP, agent-tool boundaries and defensive validation.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 3
+    },
+    {
+      "id": "ai-workflows",
+      "title": "AI-Assisted Workflows",
+      "href": "ai-workflows/",
+      "type": "ai-reference",
+      "summary": "Human-reviewed AI workflows for authorized reconnaissance, code review and bug bounty.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 4
+    },
+    {
+      "id": "offensive-skills",
+      "title": "Offensive Security Skills",
+      "href": "offensive-security/",
+      "type": "offsec-overview",
+      "summary": "Structured offensive-security methodologies, prerequisites, evidence and remediation.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 0
+    },
+    {
+      "id": "web-app-testing",
+      "title": "Web Application Testing",
+      "href": "offensive-security/web-application/",
+      "type": "offsec-reference",
+      "summary": "Authentication, authorization, input handling, business logic and web testing methodology.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 1
+    },
+    {
+      "id": "api-security-testing",
+      "title": "API Security Testing",
+      "href": "offensive-security/api-security/",
+      "type": "offsec-reference",
+      "summary": "BOLA, BFLA, token validation, property-level authorization and API test workflows.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 2
+    },
+    {
+      "id": "infrastructure-testing",
+      "title": "Infrastructure Testing",
+      "href": "offensive-security/infrastructure/",
+      "type": "offsec-reference",
+      "summary": "Scoped asset discovery, service enumeration, segmentation and safe validation.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 3
+    },
+    {
+      "id": "source-code-review",
+      "title": "Source-Code Review",
+      "href": "offensive-security/source-code-review/",
+      "type": "offsec-reference",
+      "summary": "Trace untrusted data, inspect sensitive sinks, review dependencies and verify findings.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 4
+    },
+    {
+      "id": "payload-reference",
+      "title": "Payload & Fuzzing",
+      "href": "payloads/",
+      "type": "offsec-reference",
+      "summary": "Authorized test markers, payload categories, encoding context and curated upstream references.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 5
+    },
+    {
+      "id": "bug-bounty-intelligence",
+      "title": "Bug Bounty Intelligence",
+      "href": "bug-bounty/",
+      "type": "research-overview",
+      "summary": "Program discovery, scope review, responsible disclosure and high-quality report guidance.",
+      "group": "research-bounty",
+      "groupLabel": "Bug Bounty & Research",
+      "groupCode": "RESEARCH",
+      "index": 0
+    },
+    {
+      "id": "research-library",
+      "title": "Security Research Library",
+      "href": "research-library/",
+      "type": "research-reference",
+      "summary": "Curated standards, technical references, research and hands-on security labs.",
+      "group": "research-bounty",
+      "groupLabel": "Bug Bounty & Research",
+      "groupCode": "RESEARCH",
+      "index": 1
+    }
+  ],
+  "collections": [
+    {
+      "id": "learning-paths",
+      "code": "LEARN",
+      "label": "Learning Paths",
+      "name": "Learning Paths",
+      "kind": "learning",
+      "color": "#8EA99A",
+      "groupIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4"
+      ],
+      "summary": "Five structured stages, from cybersecurity foundations through lead and architect practice."
+    },
+    {
+      "id": "tools",
+      "code": "TOOLS",
+      "label": "Tools",
+      "name": "Tools & Automation",
+      "kind": "reference",
+      "color": "#8E9A88",
+      "groupIds": [
+        "tools"
+      ],
+      "summary": "Practical tools, automation patterns and reproducible workflows for authorised security assessments."
+    },
+    {
+      "id": "resources",
+      "code": "REF",
+      "label": "Resources",
+      "name": "Career & Practice",
+      "kind": "resources",
+      "color": "#A99D84",
+      "groupIds": [
+        "resources"
+      ]
+    },
+    {
+      "id": "ai-intelligence",
+      "code": "AI",
+      "label": "AI",
+      "name": "AI & Security Intelligence",
+      "kind": "reference",
+      "color": "#8EA99A",
+      "groupIds": [
+        "ai-intelligence"
+      ]
+    },
+    {
+      "id": "offensive-arsenal",
+      "code": "OFFSEC",
+      "label": "Offensive Security",
+      "name": "Offensive Security Arsenal",
+      "kind": "reference",
+      "color": "#C77C55",
+      "groupIds": [
+        "offensive-arsenal"
+      ]
+    },
+    {
+      "id": "research-bounty",
+      "code": "RESEARCH",
+      "label": "Research",
+      "name": "Bug Bounty & Research",
+      "kind": "resources",
+      "color": "#D2AA70",
+      "groupIds": [
+        "research-bounty"
+      ]
+    }
+  ]
+}

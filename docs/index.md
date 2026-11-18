@@ -84,11 +84,11 @@ hide:
     <div class="z2r-library-search-results" data-library-search-results hidden></div>
   </section>
 
-  <details class="z2r-library-directory" open>
-    <summary><span>Browse all existing destinations</span><small data-library-directory-count>62 PAGES</small><b aria-hidden="true">＋</b></summary>
+  <section class="z2r-library-directory" aria-label="Browse all existing destinations">
+    <div class="z2r-library-directory-heading"><span>Browse all existing destinations</span><small data-library-directory-count>62 PAGES</small><b aria-hidden="true">▦</b></div>
     <p>The directory contains the same existing Markdown pages represented in the map.</p>
     <div class="z2r-library-directory-grid" data-library-directory></div>
-  </details>
+  </section>
 
   <footer class="z2r-library-footer">
     <span>ZERO2ROOT / CURRENT CONTENT INDEX</span>

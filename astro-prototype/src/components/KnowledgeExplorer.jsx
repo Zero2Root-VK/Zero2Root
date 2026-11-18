@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
+import KnowledgeGraph from './KnowledgeGraph.jsx';
 
 const FLOW = [
   { id: 'scope', title: 'Scope & authorisation', detail: 'Set the rules of engagement before a single packet is sent. Confirm ownership, written permission, exclusions, test identities and stop conditions.', groups: ['level-0', 'tools'], pages: ['level-0-intro-pentesting', 'tools-overview'] },
@@ -267,80 +268,34 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
                   <div className="atlas-map-controls"><button onClick={resetAtlas} disabled={!activeCollection}>RESET <b>↺</b></button><span>GRID / 24</span></div>
                 </div>
                 <div className={'atlas-map-canvas layer-' + layer}>
-                  <div className="atlas-map-ambient" aria-hidden="true"><span /><span /><span /></div>
-                  <svg viewBox="0 0 940 690" role="group" aria-label="Interactive Zero2Root knowledge graph">
-                    <defs>
-                      <pattern id="atlas-micro-grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M22 0H0V22" fill="none" stroke="#b5c0b5" strokeOpacity=".075" strokeWidth=".6" /><circle cx="0" cy="0" r=".9" fill="#b5c0b5" fillOpacity=".13" /></pattern>
-                      <radialGradient id="atlas-wash"><stop stopColor="#c98c64" stopOpacity=".12" /><stop offset=".52" stopColor="#81988b" stopOpacity=".045" /><stop offset="1" stopColor="#0b1011" stopOpacity="0" /></radialGradient>
-                      <linearGradient id="atlas-edge-gradient" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#9aab9c" stopOpacity=".05" /><stop offset=".5" stopColor="#c88e68" stopOpacity=".65" /><stop offset="1" stopColor="#9aab9c" stopOpacity=".08" /></linearGradient>
-                      <radialGradient id="atlas-hub-fill"><stop stopColor="#29352f" /><stop offset="1" stopColor="#111818" /></radialGradient>
-                      <filter id="atlas-soft-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
-                    </defs>
-                    <rect width="940" height="690" fill="url(#atlas-micro-grid)" />
-                    <ellipse cx="470" cy="345" rx="400" ry="300" fill="url(#atlas-wash)" />
-                    <g className="atlas-contours" aria-hidden="true">
-                      <ellipse cx="470" cy="345" rx="354" ry="268" /><ellipse cx="470" cy="345" rx="300" ry="226" /><ellipse cx="470" cy="345" rx="246" ry="184" />
-                      <path d="M62 345H878M470 45V645" /><path d="M142 125 798 565M798 125 142 565" className="atlas-cross-grid" />
-                    </g>
-                    <g className="atlas-sweep" aria-hidden="true"><circle cx="470" cy="345" r="245" /></g>
-                    <g className="atlas-edges">
-                      {graphItems.map((item, index) => {
-                        const p = nodePosition(index, graphItems.length, layer);
-                        const bend = (index % 2 === 0 ? 1 : -1) * (28 + (index % 3) * 12);
-                        const mx = (470 + p.x) / 2 + bend;
-                        const my = (345 + p.y) / 2 - bend * 0.42;
-                        return <path key={'edge-' + item.id} d={'M470 345 Q' + mx + ' ' + my + ' ' + p.x + ' ' + p.y} className="atlas-link" style={{ '--edge-delay': (index * 95) + 'ms' }} />;
-                      })}
-                      {showConnections && layer === 'collections' && COLLECTION_LINKS.map(([from, to]) => {
-                        const aIndex = data.collections.findIndex((item) => item.id === from);
-                        const bIndex = data.collections.findIndex((item) => item.id === to);
-                        if (aIndex < 0 || bIndex < 0) return null;
-                        const a = nodePosition(aIndex, data.collections.length, 'collections');
-                        const b = nodePosition(bIndex, data.collections.length, 'collections');
-                        return <path key={from + to} d={'M' + a.x + ' ' + a.y + ' Q470 345 ' + b.x + ' ' + b.y} className="atlas-link atlas-link-cross" />;
-                      })}
-                      {showConnections && layer === 'pages' && inspectorPages.length > 1 && inspectorPages.slice(0, -1).map((page, index) => {
-                        const a = nodePosition(index, graphItems.length, layer);
-                        const b = nodePosition(index + 1, graphItems.length, layer);
-                        return <path key={'sequence-' + page.id} d={'M' + a.x + ' ' + a.y + ' Q470 345 ' + b.x + ' ' + b.y} className="atlas-link atlas-link-sequence" />;
-                      })}
-                    </g>
-                    <g className="atlas-nodes">
-                      {graphItems.map((item, index) => {
-                        const p = nodePosition(index, graphItems.length, layer);
-                        const label = nodeName(item, layer);
-                        const isSelected = (layer === 'collections' && selectedCollection === item.id) || (layer === 'groups' && selectedGroup === item.id) || (layer === 'pages' && selectedPage?.id === item.id);
-                        const isHovered = hoveredNode === item.id;
-                        const color = item.color || '#c98c64';
-                        const size = layer === 'collections' ? 30 : layer === 'groups' ? 25 : 19;
-                        return (
-                          <g key={item.id} className={'atlas-node ' + (isSelected ? 'selected' : '') + (isHovered ? ' hovered' : '')} role="button" tabIndex="0" aria-label={'Open ' + label} onMouseEnter={() => setHoveredNode(item.id)} onMouseLeave={() => setHoveredNode(null)} onFocus={() => setHoveredNode(item.id)} onBlur={() => setHoveredNode(null)} onClick={() => handleNodeClick(item)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); handleNodeClick(item); } }}>
-                            <circle className="atlas-node-aura" cx={p.x} cy={p.y} r={size + 16} style={{ '--node-color': color }} />
-                            <circle className="atlas-node-ring" cx={p.x} cy={p.y} r={size + 7} />
-                            <circle className="atlas-node-core" cx={p.x} cy={p.y} r={size} style={{ '--node-color': color }} />
-                            <path className="atlas-node-cross" d={'M' + (p.x - 5) + ' ' + p.y + 'h10M' + p.x + ' ' + (p.y - 5) + 'v10'} />
-                            <text x={p.x} y={p.y + size + 23} className="atlas-node-code">{nodeCode(item, layer)}</text>
-                            <text x={p.x} y={p.y + size + 39} className="atlas-node-label">{shortLabel(label, layer === 'pages' ? 19 : 21)}</text>
-                            {(layer !== 'pages' && item.pageCount !== undefined) && <text x={p.x} y={p.y + 4} className="atlas-node-count">{item.pageCount}</text>}
-                          </g>
-                        );
-                      })}
-                      <g className="atlas-hub">
-                        <circle cx="470" cy="345" r="91" className="atlas-hub-aura" />
-                        <circle cx="470" cy="345" r="75" className="atlas-hub-orbit" />
-                        <circle cx="470" cy="345" r="62" className="atlas-hub-core" />
-                        <path d="M470 291v-12m0 132v-12m-54-54h-12m132 0h-12" className="atlas-hub-ticks" />
-                        <text x="470" y="337" className="atlas-hub-title">{centerTitle}</text>
-                        <text x="470" y="357" className="atlas-hub-sub">{centerSub}</text>
-                        <text x="470" y="376" className="atlas-hub-count">{graphItems.length} {layer.toUpperCase()}</text>
-                      </g>
-                    </g>
-                  </svg>
-                  {hoveredNode && (
-                    <div className="atlas-hover-readout"><span>FOCUS / NODE</span><strong>{nodeName(graphItems.find((item) => item.id === hoveredNode) || {}, layer)}</strong><small>SELECT TO INSPECT ↗</small></div>
-                  )}
-                  <div className="atlas-map-coordinate coordinate-nw">N / 01<br /><span>FIELD MAP</span></div>
-                  <div className="atlas-map-coordinate coordinate-se">Z2R / {String(data.pages.length).padStart(3, '0')}<br /><span>INDEXED POINTS</span></div>
+                  <KnowledgeGraph
+                    data={data}
+                    activeCollectionId={selectedCollection}
+                    activeGroupId={selectedGroup}
+                    selectedPageId={selectedPage?.type === 'workflow-stage' ? null : selectedPage?.id || null}
+                    searchTerm={query}
+                    showConnections={showConnections}
+                    onSelect={(entity) => {
+                      if (entity.type === 'root') {
+                        resetAtlas();
+                      } else if (entity.type === 'domain') {
+                        chooseCollection(entity.id);
+                      } else if (entity.type === 'cluster') {
+                        setSelectedCollection(entity.collectionId);
+                        setSelectedGroup(entity.id);
+                        setSelectedPage(null);
+                        setView('atlas');
+                      } else if (entity.type === 'resource') {
+                        const page = data.pages.find((item) => item.id === entity.id);
+                        if (page) {
+                          setSelectedCollection(entity.collectionId);
+                          setSelectedGroup(entity.groupId);
+                          choosePage(page);
+                          setView('atlas');
+                        }
+                      }
+                    }}
+                  />
                 </div>
                 <div className="atlas-map-footer"><span><i className="legend-node" /> ENTITY</span><span><i className="legend-path" /> RELATION</span><span><i className="legend-active" /> FOCUS</span><strong>{layer === 'collections' ? 'SELECT A DOMAIN TO DESCEND' : layer === 'groups' ? 'SELECT A SUBDOMAIN TO OPEN ITS CLUSTER' : 'SELECT A RESOURCE TO INSPECT'}</strong></div>
               </div>

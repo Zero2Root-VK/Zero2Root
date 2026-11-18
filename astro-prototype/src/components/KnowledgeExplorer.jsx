@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 const FLOW = [
   { id: 'scope', title: 'Scope & authorisation', detail: 'Confirm written permission, assets, exclusions, test identities, windows and stop conditions.', groups: ['level-0', 'tools'], pages: ['level-0-intro-pentesting', 'tools-overview'] },
@@ -7,6 +7,13 @@ const FLOW = [
   { id: 'test', title: 'Targeted security testing', detail: 'Select techniques based on the target technology and engagement rules. Keep manual validation in the loop.', groups: ['level-2', 'tools', 'offensive-arsenal'], pages: ['tools-ad-tools', 'tools-mobile-tools', 'tools-cloud-tools', 'tools-code-tools'] },
   { id: 'validate', title: 'Validate & prioritise', detail: 'Confirm applicability, exploitability and impact. Separate scanner output from analyst-confirmed findings.', groups: ['level-2', 'level-3', 'tools'], pages: ['level-1-vulnerability-assessment', 'tools-workflows'] },
   { id: 'evidence', title: 'Evidence, report & retest', detail: 'Preserve reproducible evidence, communicate remediation and repeat the original test after changes.', groups: ['level-1', 'level-4', 'tools'], pages: ['level-1-report-writing', 'tools-scripting-automation', 'tools-workflows'] },
+];
+
+const COLLECTION_RELATIONS = [
+  ['learning-paths', 'offensive-arsenal'],
+  ['tools', 'offensive-arsenal'],
+  ['tools', 'ai-intelligence'],
+  ['ai-intelligence', 'research-bounty'],
 ];
 
 const RELATIONS = [
@@ -36,7 +43,7 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
   const [selectedPage, setSelectedPage] = useState(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [showRelations, setShowRelations] = useState(false);
+  const [showRelations, setShowRelations] = useState(false);\n  const searchInput = useRef(null);\n\n  useEffect(() => {\n    const onKeyDown = (event) => {\n      const target = event.target;\n      const editing = target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));\n      if (event.key === '/' && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {\n        event.preventDefault();\n        searchInput.current?.focus();\n      }\n      if (event.key === 'Escape') {\n        setQuery('');\n        searchInput.current?.blur();\n      }\n    };\n    window.addEventListener('keydown', onKeyDown);\n    return () => window.removeEventListener('keydown', onKeyDown);\n  }, []);
 
   const pageById = useMemo(() => new Map(data.pages.map((page) => [page.id, page])), [data]);
   const groupById = useMemo(() => new Map(data.groups.map((group) => [group.id, group])), [data]);
@@ -146,7 +153,7 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
           <div className="z2r-search-row">
             <label className="z2r-search">
               <span>⌕</span>
-              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search concepts, lessons, tools and guides…" aria-label="Search Zero2Root knowledge" />
+              <input ref={searchInput} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search concepts, lessons, tools and guides…" aria-label="Search Zero2Root knowledge" />
               <kbd>/</kbd>
               {query && <button aria-label="Clear search" onClick={() => setQuery('')}>×</button>}
             </label>
@@ -191,10 +198,13 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
                         const p = polar(index, graphItems.length, nodeRadius);
                         return <line key={item.id} x1={graphCenter.x} y1={graphCenter.y} x2={p.x} y2={p.y} />;
                       })}
-                      {showRelations && !selectedCollectionData && RELATIONS.slice(0, 4).map((relation, index) => {
-                        const a = polar(index % data.collections.length, data.collections.length, nodeRadius);
-                        const b = polar((index + 2) % data.collections.length, data.collections.length, nodeRadius);
-                        return <path key={relation.join('-')} d={'M ' + a.x + ' ' + a.y + ' Q 460 340 ' + b.x + ' ' + b.y} className="z2r-cross-edge" />;
+                      {showRelations && !selectedCollectionData && COLLECTION_RELATIONS.map(([from, to]) => {
+                        const fromIndex = data.collections.findIndex((item) => item.id === from);
+                        const toIndex = data.collections.findIndex((item) => item.id === to);
+                        if (fromIndex < 0 || toIndex < 0) return null;
+                        const a = polar(fromIndex, data.collections.length, nodeRadius);
+                        const b = polar(toIndex, data.collections.length, nodeRadius);
+                        return <path key={from + '-' + to} d={'M ' + a.x + ' ' + a.y + ' Q 460 340 ' + b.x + ' ' + b.y} className="z2r-cross-edge" />;
                       })}
                     </g>
                     <g className="z2r-map-nodes">

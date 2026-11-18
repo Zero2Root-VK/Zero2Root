@@ -2599,3 +2599,76 @@
     transition:none!important;
   }
 }
+
+
+/* LIGHT THEME — readable knowledge-map surfaces and labels */
+[data-md-color-scheme="default"] .z2r-library {
+  --lib-ink:#F1EEE7;
+  --lib-panel:#FFFDF8;
+  --lib-panel-2:#E7E2D8;
+  --lib-line:#D3CCBF;
+  --lib-ivory:#242A27;
+  --lib-muted:#555D56;
+  --lib-copper:#A85F3E;
+  --lib-copper-light:#87482F;
+  --lib-mineral:#486957;
+  --lib-brass:#86663A;
+  color:var(--lib-ivory);
+}
+[data-md-color-scheme="default"] .z2r-library-copy h1,
+[data-md-color-scheme="default"] .z2r-library-selection h2,
+[data-md-color-scheme="default"] .z2r-library-inspector-body h2 {
+  color:#242A27 !important;
+}
+[data-md-color-scheme="default"] .z2r-library-kicker,
+[data-md-color-scheme="default"] .z2r-library-inspector-type,
+[data-md-color-scheme="default"] .z2r-library-selection-index span:last-child {
+  color:#87482F !important;
+}
+[data-md-color-scheme="default"] .z2r-library-copy h1 em {color:#A85F3E}
+[data-md-color-scheme="default"] .z2r-library-intro,
+[data-md-color-scheme="default"] .z2r-library-selection p,
+[data-md-color-scheme="default"] .z2r-library-child-list,
+[data-md-color-scheme="default"] .z2r-library-child-list small {
+  color:#555D56 !important;
+}
+[data-md-color-scheme="default"] .z2r-library-selection,
+[data-md-color-scheme="default"] .z2r-library-discovery,
+[data-md-color-scheme="default"] .z2r-library-directory {
+  color:#242A27;
+}
+[data-md-color-scheme="default"] .z2r-library-child-list a,
+[data-md-color-scheme="default"] .z2r-library-child-list button {
+  background:#F8F5EE;
+  border-color:#D3CCBF;
+  color:#242A27;
+}
+[data-md-color-scheme="default"] .z2r-library-child-list a:hover,
+[data-md-color-scheme="default"] .z2r-library-child-list button:hover {
+  background:#EEE8DC;
+  border-color:#A85F3E;
+}
+[data-md-color-scheme="default"] .z2r-library-map-legend button,
+[data-md-color-scheme="default"] .z2r-library-filters button,
+[data-md-color-scheme="default"] .z2r-library-result-count,
+[data-md-color-scheme="default"] .z2r-library-directory summary,
+[data-md-color-scheme="default"] .z2r-library-directory p {
+  color:#4D554E;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-group-label {
+  fill:#343B35;
+  font-weight:700;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-group-count,
+[data-md-color-scheme="default"] .z2r-library-radial .library-page-index {
+  fill:#59635A;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-ring {
+  fill:#FFFDF8;
+  stroke:#8C958A;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-title {fill:#242A27}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-subtitle {fill:#59635A}
+[data-md-color-scheme="default"] .z2r-library-radial .library-link-group {stroke:#A85F3E;stroke-opacity:.3}
+[data-md-color-scheme="default"] .z2r-library-radial .library-link-page {stroke:#59635A;stroke-opacity:.25}
+[data-md-color-scheme="default"] .z2r-library-footer {color:#59635A}

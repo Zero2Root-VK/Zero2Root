@@ -21,6 +21,15 @@ Do not begin with maximum timing, every port, every plugin and every template. L
 
 ## 2. Nmap — network exploration and service discovery
 
+Create the output directory from the engagement workspace before running the examples:
+
+~~~bash
+umask 077
+mkdir -p evidence
+~~~
+
+The examples write files beneath `evidence/`; without the directory, Nmap and the other tools may fail to create their output files.
+
 [Nmap](https://nmap.org/docs.html) is used for host discovery, port scanning, service/version detection, OS fingerprinting and supported NSE scripts.
 
 ### Host discovery

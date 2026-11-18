@@ -53,9 +53,9 @@ Record dependencies in a requirements file and pin tested versions for repeatabl
 
 The module includes a reusable Python utility and its unit tests:
 
-- [HTTP inventory script](examples/http_inventory.py)
-- [Unit tests](examples/test_http_inventory.py)
-- [Runtime dependencies](examples/requirements.txt)
+- [HTTP inventory script](/downloads/tools/http_inventory.py)
+- [Unit tests](/downloads/tools/test_http_inventory.py)
+- [Runtime dependencies](/downloads/tools/requirements.txt)
 
 This is a metadata inventory tool, not a crawler or vulnerability scanner. It accepts one approved HTTP(S) URL per line and requires a separate file containing the exact hostnames or IP addresses allowed for the run.
 

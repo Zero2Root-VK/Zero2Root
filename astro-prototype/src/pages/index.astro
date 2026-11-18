@@ -1,0 +1,22 @@
+---
+import KnowledgeExplorer from '../components/KnowledgeExplorer.jsx';
+import library from '../data/home-map.json';
+import '../styles/explorer.css';
+
+const docsOrigin = 'https://deploy-preview-3--zero2root.netlify.app';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111416" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="description" content="Explore the Zero2Root cybersecurity knowledge system through an interactive map, assessment workflows and technical guides." />
+    <title>Zero2Root — Knowledge System Prototype</title>
+  </head>
+  <body>
+    <KnowledgeExplorer client:load data={library} docsOrigin={docsOrigin} />
+  </body>
+</html>

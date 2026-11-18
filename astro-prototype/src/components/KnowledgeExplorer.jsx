@@ -273,6 +273,7 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
                       <pattern id="atlas-micro-grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M22 0H0V22" fill="none" stroke="#b5c0b5" strokeOpacity=".075" strokeWidth=".6" /><circle cx="0" cy="0" r=".9" fill="#b5c0b5" fillOpacity=".13" /></pattern>
                       <radialGradient id="atlas-wash"><stop stopColor="#c98c64" stopOpacity=".12" /><stop offset=".52" stopColor="#81988b" stopOpacity=".045" /><stop offset="1" stopColor="#0b1011" stopOpacity="0" /></radialGradient>
                       <linearGradient id="atlas-edge-gradient" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#9aab9c" stopOpacity=".05" /><stop offset=".5" stopColor="#c88e68" stopOpacity=".65" /><stop offset="1" stopColor="#9aab9c" stopOpacity=".08" /></linearGradient>
+                      <radialGradient id="atlas-hub-fill"><stop stopColor="#29352f" /><stop offset="1" stopColor="#111818" /></radialGradient>
                       <filter id="atlas-soft-glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
                     </defs>
                     <rect width="940" height="690" fill="url(#atlas-micro-grid)" />

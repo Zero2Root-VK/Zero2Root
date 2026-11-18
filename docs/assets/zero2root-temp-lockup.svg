@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100" role="img" aria-labelledby="title desc">
+<title id="title">ZERO2ROOT</title>
+<desc id="desc">Temporary Z2R monogram and Zero2Root security research wordmark.</desc>
+<g transform="translate(3 4) scale(.2)">
+  <path fill="#8EA99A" d="M54 68H258V124H156L258 224V300H54V244H156L54 144V68Z"/>
+  <path fill="#0B0D0E" d="M86 83H100L86 106H72Z M113 83H127L113 106H99Z M140 83H154L140 106H126Z"/>
+  <path fill="#C77C55" d="M282 68H452C487 68 506 89 506 124V157C506 181 493 197 471 210L382 251H506V300H282V251L430 170C445 162 450 153 450 140V130C450 122 446 118 437 118H282V68Z"/>
+  <path fill="#F1EEE7" fill-rule="evenodd" d="M530 68H639C687 68 710 92 710 137V158C710 198 690 219 655 230L700 300H639L594 236H587V300H530V68ZM587 124V181H632C647 181 654 173 654 157V146C654 131 647 124 632 124H587Z"/>
+  <path d="M394 300V338M394 338L356 374M394 338V392M394 338L432 374" fill="none" stroke="#C77C55" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path fill="#C77C55" d="M342 370H368V380H342Z M420 370H446V380H420Z M385 388H403V402H385Z"/>
+</g>
+<path d="M166 15V85" stroke="#C77C55" stroke-width="1.5"/>
+<text x="188" y="53" fill="#E9E5DC" font-family="IBM Plex Sans,Inter,Arial,sans-serif" font-size="31" font-weight="700" letter-spacing="1.1">ZERO2ROOT</text>
+<path d="M189 64H490" stroke="#394540" stroke-width="1"/>
+<path d="M189 64H225" stroke="#C77C55" stroke-width="2"/>
+<text x="190" y="79" fill="#8EA99A" font-family="IBM Plex Mono,monospace" font-size="8" font-weight="500" letter-spacing="1.55">SECURITY RESEARCH / ENGINEERING</text>
+</svg>

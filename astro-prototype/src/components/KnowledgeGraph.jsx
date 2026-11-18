@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Graph from 'graphology';
-import forceAtlas2 from 'graphology-layout-forceatlas2';
 
 const RELATIONSHIPS = [
   ['level-1-recon', 'tools-recon-tools', 'Recon methods / toolchain'],
@@ -156,22 +155,6 @@ function buildGraph(data) {
       weight: 0.45,
     });
     relationCount += 1;
-  });
-
-  const settings = forceAtlas2.inferSettings(graph);
-  forceAtlas2.assign(graph, {
-    iterations: 260,
-    settings: {
-      ...settings,
-      gravity: 0.055,
-      scalingRatio: 5.2,
-      slowDown: 1.7,
-      barnesHutOptimize: true,
-      linLogMode: true,
-      outboundAttractionDistribution: true,
-      adjustSizes: true,
-      strongGravityMode: false,
-    },
   });
 
   const index = new Map();
@@ -420,7 +403,7 @@ export default function KnowledgeGraph({
       <div ref={hostRef} className="atlas-graph-stage" aria-label="Interactive WebGL cybersecurity knowledge graph" />
       <div className="atlas-graph-vignette" aria-hidden="true" />
       <div className="atlas-graph-hud atlas-graph-hud-top">
-        <span><i className="hud-live-dot" /> FORCE-DIRECTED TOPOLOGY</span>
+        <span><i className="hud-live-dot" /> STRUCTURED KNOWLEDGE TOPOLOGY</span>
         <span>{graphModel.graph.order} NODES / {graphModel.graph.size} EDGES</span>
       </div>
       <div className="atlas-graph-tools" aria-label="Graph controls">

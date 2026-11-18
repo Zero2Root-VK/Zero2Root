@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Graph from 'graphology';
 import forceAtlas2 from 'graphology-layout-forceatlas2';
-import Sigma, { DEFAULT_STYLES } from 'sigma';
 
 const RELATIONSHIPS = [
   ['level-1-recon', 'tools-recon-tools', 'Recon methods / toolchain'],
@@ -203,10 +202,16 @@ export default function KnowledgeGraph({
   useEffect(() => {
     if (!hostRef.current) return undefined;
     let renderer;
+    let cancelled = false;
 
-    try {
-      const graph = graphModel.graph;
-      renderer = new Sigma(graph, hostRef.current, {
+    const initialize = async () => {
+      try {
+        const sigmaModule = await import('sigma');
+        if (cancelled || !hostRef.current) return;
+        const Sigma = sigmaModule.default;
+        const DEFAULT_STYLES = sigmaModule.DEFAULT_STYLES;
+        const graph = graphModel.graph;
+        renderer = new Sigma(graph, hostRef.current, {
         styles: {
           nodes: [
             DEFAULT_STYLES.nodes,
@@ -326,12 +331,15 @@ export default function KnowledgeGraph({
           { duration: 760 },
         );
       });
-    } catch (error) {
-      console.error('Knowledge graph initialisation failed', error);
-      setEngineError('The WebGL graph could not initialise in this browser. The indexed directory remains available below.');
-    }
+      } catch (error) {
+        console.error('Knowledge graph initialisation failed', error);
+        if (!cancelled) setEngineError('The WebGL graph could not initialise in this browser. The indexed directory remains available below.');
+      }
+    };
 
+    initialize();
     return () => {
+      cancelled = true;
       renderer?.kill();
       rendererRef.current = null;
     };

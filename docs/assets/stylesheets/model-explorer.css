@@ -55,3 +55,29 @@
 .z2r-explorer .mx-dialog p{font-size:.84rem;line-height:1.7;color:var(--mx-muted)}
 @media(max-width:760px){.z2r-explorer .mx-toolbar{grid-template-columns:1fr 1fr}.z2r-explorer .mx-toolbar input{grid-column:1/-1}.z2r-explorer .mx-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.z2r-explorer .mx-stats{grid-template-columns:repeat(2,1fr)}.z2r-explorer .mx-toolbar{grid-template-columns:1fr}.z2r-explorer .mx-toolbar input{grid-column:auto}.z2r-explorer .mx-meta{grid-template-columns:1fr 1fr}.z2r-explorer .mx-detailgrid{grid-template-columns:1fr}}
+
+
+/* Theme-aware palette for the research-first model directory */
+[data-md-color-scheme="default"] .z2r-explorer {
+  --mx-bg:#F1EEE7;
+  --mx-panel:#FFFDF8;
+  --mx-raised:#E7E2D8;
+  --mx-line:#D3CCBF;
+  --mx-text:#242A27;
+  --mx-muted:#555D56;
+  --mx-accent:#A85F3E;
+  --mx-green:#486957;
+}
+[data-md-color-scheme="default"] .z2r-explorer .mx-card {
+  background:linear-gradient(145deg,#FFFDF8,#F3EFE7);
+}
+[data-md-color-scheme="default"] .z2r-explorer .mx-dialog {
+  background:#FFFDF8;
+}
+[data-md-color-scheme="default"] .z2r-explorer .mx-link {
+  color:#87482F;
+  border-color:#C9A28F;
+}
+[data-md-color-scheme="default"] .z2r-explorer .mx-note {
+  background:#F8F5EE;
+}

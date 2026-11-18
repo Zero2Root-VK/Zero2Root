@@ -51,15 +51,17 @@ Capture only traffic needed for the approved test. The interface and host below 
 
 ~~~bash
 sudo tcpdump -i eth0 -nn -s 0 \
-  -w evidence/app-https.pcapng \
+  -w evidence/app-https.pcap \
   'host 192.168.56.10 and tcp port 443'
 ~~~
 
 - `-i eth0` selects the capture interface.
 - `-nn` disables name and service resolution in the capture output.
 - `-s 0` requests the full packet snap length supported by the capture implementation.
-- `-w` writes a capture file.
+- `-w` writes a libpcap-format capture file (use the `.pcap` extension for this tcpdump example).
 - The final expression is a Berkeley Packet Filter (BPF) capture filter.
+
+The command above does not request PCAPNG output. If PCAPNG is specifically required, use Wireshark's `dumpcap` capture utility and follow its current command-line documentation rather than changing the extension of a tcpdump-generated file.
 
 Check the active interface with `ip -br address` and routing with `ip route`. Do not capture all interfaces by default. Captures can contain cookies, session tokens, personal data and other sensitive payloads.
 
@@ -68,13 +70,13 @@ Check the active interface with `ip -br address` and routing with `ip route`. Do
 Read a saved capture and display only DNS packets:
 
 ~~~bash
-tshark -r evidence/app-https.pcapng -Y dns
+tshark -r evidence/app-https.pcap -Y dns
 ~~~
 
 Extract selected DNS fields into a tabular result:
 
 ~~~bash
-tshark -r evidence/app-https.pcapng -Y dns -T fields \
+tshark -r evidence/app-https.pcap -Y dns -T fields \
   -e frame.time -e ip.src -e ip.dst -e dns.qry.name \
   > evidence/dns-queries.tsv
 ~~~

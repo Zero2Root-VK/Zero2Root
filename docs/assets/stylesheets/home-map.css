@@ -1128,3 +1128,1547 @@
   .z2r-library-metrics {gap:5px}
   .z2r-library-metrics span {font-size:6px}
 }
+
+
+/* ZERO2ROOT KNOWLEDGE EXPLORER v3 — three-level navigation */
+.z2r-library-experience {
+  grid-template-columns:minmax(320px,.82fr) minmax(0,2.18fr);
+  grid-template-rows:auto 1fr;
+  grid-template-areas:"copy map" "inspector map";
+  align-items:start;
+  gap:clamp(18px,2.5vw,42px);
+  min-height:min(760px,calc(100svh - 112px));
+  padding:clamp(14px,2vh,24px) 0 12px;
+}
+.z2r-library-copy {grid-area:copy;max-width:440px;padding:0;align-self:end}
+.z2r-library-map-stage {grid-area:map;align-self:center;min-width:0;width:100%;padding:0}
+.z2r-library-selection {
+  grid-area:inspector;
+  min-width:0;
+  max-width:440px;
+  min-height:0;
+  padding:15px 0 0;
+  background:transparent;
+  border:0;
+  border-top:1px solid rgba(142,169,154,.22);
+  border-radius:0;
+}
+.z2r-library-selection-index {margin-bottom:10px;font-size:7px}
+.z2r-library-selection h2 {
+  margin:7px 0 5px!important;
+  color:var(--lib-ivory)!important;
+  font-size:clamp(20px,1.55vw,25px)!important;
+  font-weight:650!important;
+  line-height:1.16!important;
+}
+.z2r-library-selection p {
+  max-width:420px;
+  margin:0 0 12px!important;
+  color:#A6AAA0!important;
+  font-size:11px!important;
+  line-height:1.65!important;
+}
+.z2r-library-inspector-type {
+  display:inline-block;
+  color:var(--lib-copper-light);
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.1em;
+}
+.z2r-library-inspector-group {
+  margin:0 0 10px;
+  color:var(--lib-mineral);
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.z2r-library-breadcrumbs {
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:7px;
+  min-height:22px;
+  margin-bottom:13px;
+}
+.z2r-library-breadcrumbs button {
+  padding:0;
+  color:#9DA49A;
+  background:transparent;
+  border:0;
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.055em;
+  cursor:pointer;
+  transition:color .18s;
+}
+.z2r-library-breadcrumbs button:hover:not(:disabled) {color:var(--lib-copper-light)}
+.z2r-library-breadcrumbs button:disabled {color:#E0D9CB;cursor:default}
+.z2r-breadcrumb-divider {color:#677268;font:9px "IBM Plex Mono",monospace}
+.z2r-explorer-child-list {
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  margin:12px 0 13px;
+  max-height:260px;
+  overflow:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#485249 transparent;
+}
+.z2r-explorer-child-heading {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:0 0 7px;
+  color:#858E84;
+  font:7px "IBM Plex Mono",monospace;
+  letter-spacing:.12em;
+}
+.z2r-explorer-child-heading small {color:var(--lib-copper-light);font:7px "IBM Plex Mono",monospace}
+.z2r-explorer-child {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  width:100%;
+  min-width:0;
+  padding:7px 9px;
+  color:#D7D5CA;
+  text-align:left;
+  background:rgba(142,169,154,.035);
+  border:1px solid rgba(142,169,154,.12);
+  border-left:2px solid var(--child-accent,#8EA99A);
+  border-radius:2px;
+  cursor:pointer;
+  transition:background .18s,border-color .18s,transform .18s;
+}
+
+.z2r-explorer-child[href] {
+  color:#D7D5CA!important;
+  text-decoration:none!important;
+}
+.z2r-explorer-child[href]:hover,
+.z2r-explorer-child[href]:focus-visible {
+  color:#F1EDE4!important;
+  text-decoration:none!important;
+}
+.z2r-explorer-child:hover,
+.z2r-explorer-child:focus-visible,
+.z2r-explorer-child.is-active {
+  background:rgba(199,124,85,.09);
+  border-color:rgba(199,124,85,.46);
+  outline:none;
+}
+.z2r-explorer-child:active {transform:translateX(2px)}
+.z2r-explorer-child-copy {display:flex;flex-direction:column;gap:3px;min-width:0}
+.z2r-explorer-child strong {
+  overflow:hidden;
+  color:#E8E5DA;
+  font-size:10px;
+  font-weight:600;
+  line-height:1.35;
+  text-overflow:ellipsis;
+}
+.z2r-explorer-child small {
+  overflow:hidden;
+  color:#879087;
+  font:7px "IBM Plex Mono",monospace;
+  letter-spacing:.035em;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.z2r-explorer-child-arrow {flex:0 0 auto;color:var(--lib-copper-light);font-size:12px}
+.z2r-library-open-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:34px;
+  padding:0 0 5px;
+  color:#E9E2D5!important;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid rgba(217,153,115,.65);
+  border-radius:0;
+  font:600 9px "IBM Plex Mono",monospace;
+  text-decoration:none!important;
+}
+.z2r-library-open-link:hover {color:var(--lib-copper-light)!important;background:transparent}
+.z2r-library-open-link[hidden] {display:none!important}
+.z2r-library-map-stage {position:relative}
+.z2r-library-radial-wrap {
+  position:relative;
+  display:grid;
+  place-items:center;
+  padding:0!important;
+  background:transparent!important;
+  border:0!important;
+  overflow:visible;
+}
+.z2r-library-radial {
+  display:block;
+  width:min(100%,min(76svh,790px))!important;
+  height:auto;
+  max-height:76svh;
+  overflow:visible;
+  touch-action:pan-y;
+  filter:drop-shadow(0 12px 42px rgba(0,0,0,.17));
+}
+.z2r-library-radial [data-library-viewport] {transform-origin:50% 50%;transition:transform .46s cubic-bezier(.2,.78,.2,1)}
+.z2r-library-radial .library-group-sector,
+.z2r-library-radial .library-page-sector {
+  cursor:pointer;
+  stroke:#0B0D0E;
+  stroke-width:2;
+  transition:opacity .24s ease,filter .28s ease,stroke-width .24s ease,fill-opacity .24s ease;
+}
+.z2r-library-radial .library-group-sector:hover,
+.z2r-library-radial .library-page-sector:hover,
+.z2r-library-radial .library-group-sector.is-hovered,
+.z2r-library-radial .library-page-sector.is-hovered {
+  filter:brightness(1.58) drop-shadow(0 0 7px rgba(217,153,115,.38));
+  stroke:#F1E8DA;
+  stroke-width:3;
+}
+.z2r-library-radial .library-group-sector.is-selected,
+.z2r-library-radial .library-page-sector.is-selected {
+  filter:brightness(1.55) drop-shadow(0 0 7px rgba(217,153,115,.28));
+  stroke:#F1E8DA;
+  stroke-width:2.7;
+}
+.z2r-library-radial .is-muted {opacity:.12!important}
+.z2r-library-radial .library-group-label {
+  fill:#E9E5DC;
+  font:650 13px "IBM Plex Mono",monospace;
+  letter-spacing:.09em;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  pointer-events:none;
+}
+.z2r-library-radial .library-group-count {
+  fill:#AAA99F;
+  font:8px "IBM Plex Mono",monospace;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  pointer-events:none;
+}
+.z2r-library-radial .library-page-index {
+  fill:#E8E0D2;
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.06em;
+  text-anchor:middle;
+  dominant-baseline:middle;
+  pointer-events:none;
+}
+.z2r-library-radial .library-link {
+  fill:none;
+  stroke:#C7BBA5;
+  stroke-width:1;
+  stroke-opacity:.18;
+  stroke-dasharray:2 7;
+  pointer-events:none;
+  transition:stroke-opacity .25s,stroke-width .25s;
+}
+.z2r-library-radial .library-link-group {stroke:#D99973;stroke-opacity:.28;stroke-width:1.3}
+.z2r-library-radial .library-link-active {stroke:#D99973;stroke-width:1.9;stroke-opacity:.85;stroke-dasharray:3 5}
+.z2r-library-radial .library-overview-page-dot {opacity:.85;pointer-events:none}
+.z2r-library-radial [tabindex]:focus-visible {outline:none;stroke:#F0E7D8;stroke-width:3.4;filter:brightness(1.65)}
+.z2r-library-map-legend {
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:5px 13px;
+  padding:5px 4px 0;
+}
+.z2r-library-map-legend button {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-height:21px;
+  padding:1px 0;
+  color:#92978C;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid transparent;
+  font:7px "IBM Plex Mono",monospace;
+  cursor:pointer;
+  transition:color .18s,border-color .18s;
+}
+.z2r-library-map-legend button:hover,
+.z2r-library-map-legend button.is-active {color:#F0E9DC;border-color:var(--lib-copper)}
+.z2r-library-map-legend i {width:6px;height:6px;border-radius:50%}
+.z2r-library-hovercard {
+  position:absolute;
+  z-index:5;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  width:max-content;
+  max-width:min(250px,calc(100% - 20px));
+  padding:9px 11px;
+  color:var(--lib-ivory);
+  background:rgba(13,17,16,.97);
+  border:1px solid rgba(199,124,85,.62);
+  border-left:2px solid var(--lib-copper);
+  border-radius:2px;
+  box-shadow:0 9px 25px rgba(0,0,0,.36);
+  pointer-events:none;
+  animation:library-reveal .16s ease both;
+}
+.z2r-library-hovercard[hidden] {display:none!important}
+.z2r-library-hovercard span {color:var(--lib-copper-light);font:7px "IBM Plex Mono",monospace;letter-spacing:.12em}
+.z2r-library-hovercard strong {color:#F0EDE4;font-size:11px;line-height:1.4}
+.z2r-library-hovercard small {color:#A8B0A5;font:7px/1.45 "IBM Plex Mono",monospace}
+.z2r-library-search-results {
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:4px;
+  padding-top:8px;
+  border-top:1px solid rgba(142,169,154,.14);
+}
+.z2r-library-search-results[hidden] {display:none!important}
+.z2r-library-search-results-heading {
+  grid-column:1/-1;
+  padding-bottom:3px;
+  color:var(--lib-copper-light);
+  font:7px "IBM Plex Mono",monospace;
+  letter-spacing:.12em;
+}
+.z2r-library-search-results .z2r-explorer-child {padding:6px 8px}
+.z2r-library-search-results .z2r-explorer-child strong {font-size:9px}
+.z2r-library-search-results .z2r-explorer-child small {font-size:6px}
+.z2r-library-radial .library-group-sector,
+.z2r-library-radial .library-page-sector {transform-origin:50% 50%}
+@media (min-width:1500px) {
+  .z2r-library-experience {grid-template-columns:minmax(350px,.78fr) minmax(0,2.22fr);gap:clamp(28px,3vw,54px)}
+  .z2r-library-copy {max-width:470px}
+  .z2r-library-radial {width:min(100%,min(78svh,840px))!important}
+}
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(290px,.9fr) minmax(0,1.7fr);
+    gap:18px;
+    min-height:calc(100svh - 112px);
+  }
+  .z2r-library-copy h1 {font-size:clamp(34px,min(3vw,6vh),48px)!important}
+  .z2r-library-intro {font-size:12px!important}
+  .z2r-library-radial {width:min(100%,min(72svh,640px))!important}
+  .z2r-library-selection {padding-top:12px}
+  .z2r-explorer-child-list {max-height:220px}
+}
+@media (max-height:800px) and (min-width:761px) {
+  .z2r-library-experience {min-height:0;padding-top:10px;padding-bottom:8px}
+  .z2r-library-radial {width:min(100%,min(68svh,630px))!important;max-height:68svh}
+  .z2r-library-kicker {margin-bottom:10px!important}
+  .z2r-library-intro {margin:11px 0 13px!important}
+  .z2r-library-metrics {padding:9px 0 10px}
+  .z2r-library-selection {padding-top:10px}
+  .z2r-explorer-child-list {max-height:190px}
+}
+@media (max-width:760px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"copy" "map" "inspector";
+    gap:12px;
+    min-height:0;
+    padding:10px 0 0;
+  }
+  .z2r-library-copy {max-width:620px;align-self:auto}
+  .z2r-library-copy h1 {font-size:clamp(40px,8.7vw,62px)!important;white-space:nowrap}
+  .z2r-library-intro {max-width:560px;margin:12px 0 15px!important}
+  .z2r-library-metrics {max-width:500px;padding:10px 0}
+  .z2r-library-map-stage {padding:2px 0 0}
+  .z2r-library-radial {width:min(100%,min(88vw,620px))!important;max-height:none}
+  .z2r-library-map-legend {justify-content:flex-start;gap:4px 11px;padding-top:3px}
+  .z2r-library-selection {max-width:none;padding:14px 0 0}
+  .z2r-explorer-child-list {max-height:240px}
+  .z2r-library-discovery {grid-template-columns:1fr;gap:9px}
+  .z2r-library-search-results {grid-template-columns:1fr}
+}
+@media (max-width:390px) {
+  .z2r-library-copy h1 {font-size:clamp(35px,9vw,40px)!important}
+  .z2r-library-metrics {gap:5px}
+  .z2r-library-metrics span {font-size:6px}
+  .z2r-explorer-child strong {font-size:9px}
+}
+@media (hover:none), (pointer:coarse) {
+  .z2r-library-hovercard {display:none!important}
+}
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library *, .z2r-library *::before, .z2r-library *::after {transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+
+
+/* ZERO2ROOT — THREE-ZONE DESKTOP EXPERIENCE */
+@media (min-width:1101px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(235px,.82fr) minmax(400px,1.58fr) minmax(285px,.98fr);
+    grid-template-rows:minmax(0,1fr);
+    grid-template-areas:"copy map inspector";
+    align-items:center;
+    gap:clamp(18px,2vw,34px);
+    min-height:min(720px,calc(100svh - 112px));
+    padding:clamp(14px,1.8vh,22px) 0 12px;
+  }
+  .z2r-library-copy {
+    grid-area:copy;
+    align-self:center;
+    width:100%;
+    max-width:370px;
+  }
+  .z2r-library-copy h1 {
+    font-size:clamp(36px,min(3.25vw,6.4vh),60px)!important;
+  }
+  .z2r-library-intro {max-width:350px}
+  .z2r-library-metrics {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px 14px;
+    max-width:320px;
+  }
+  .z2r-library-map-stage {
+    grid-area:map;
+    align-self:center;
+    min-width:0;
+    width:100%;
+  }
+  .z2r-library-radial {
+    width:min(100%,min(70svh,760px))!important;
+    max-height:70svh;
+  }
+  .z2r-library-map-legend {
+    justify-content:center;
+    gap:4px 10px;
+    max-width:720px;
+    margin:0 auto;
+  }
+  .z2r-library-map-legend button {font-size:6.5px}
+  .z2r-library-selection {
+    grid-area:inspector;
+    align-self:center;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    max-width:none;
+    max-height:min(68svh,650px);
+    min-height:0;
+    padding:0 0 0 clamp(14px,1.35vw,22px);
+    overflow:hidden;
+    border:0;
+    border-left:1px solid rgba(142,169,154,.22);
+    border-radius:0;
+  }
+  .z2r-library-breadcrumbs {margin-bottom:10px}
+  .z2r-library-selection-index {margin-bottom:9px}
+  .z2r-library-selection h2 {font-size:clamp(19px,1.35vw,23px)!important}
+  .z2r-library-selection p {max-width:100%;font-size:10px!important}
+  .z2r-explorer-child-list {
+    flex:0 1 auto;
+    min-height:0;
+    max-height:min(45svh,430px);
+    margin:9px 0 10px;
+    padding-right:4px;
+    overscroll-behavior:contain;
+  }
+  .z2r-explorer-child {padding:7px 8px}
+  .z2r-explorer-child strong {font-size:9.5px}
+  .z2r-explorer-child small {font-size:6.5px}
+}
+@media (min-width:1500px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(270px,.82fr) minmax(500px,1.62fr) minmax(310px,.98fr);
+    gap:clamp(28px,2.35vw,42px);
+  }
+  .z2r-library-radial {width:min(100%,min(73svh,820px))!important}
+  .z2r-library-selection {padding-left:clamp(18px,1.6vw,28px)}
+  .z2r-explorer-child-list {max-height:min(48svh,470px)}
+}
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(220px,.82fr) minmax(0,1.42fr);
+    grid-template-rows:auto auto;
+    grid-template-areas:"copy map" "inspector inspector";
+    align-items:center;
+    gap:18px 22px;
+    min-height:0;
+    padding:14px 0 10px;
+  }
+  .z2r-library-copy {max-width:100%;align-self:center}
+  .z2r-library-copy h1 {font-size:clamp(34px,3.2vw,46px)!important}
+  .z2r-library-metrics {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px 12px;
+    max-width:270px;
+  }
+  .z2r-library-map-stage {align-self:center}
+  .z2r-library-radial {width:min(100%,min(62svh,610px))!important;max-height:62svh}
+  .z2r-library-selection {
+    max-width:none;
+    padding:14px 0 0;
+    border:0;
+    border-top:1px solid rgba(142,169,154,.22);
+  }
+  .z2r-explorer-child-list {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:5px;
+    max-height:260px;
+    overflow:auto;
+  }
+  .z2r-explorer-child-heading {grid-column:1/-1}
+}
+@media (max-width:760px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"copy" "map" "inspector";
+  }
+  .z2r-library-copy {max-width:620px}
+  .z2r-library-metrics {grid-template-columns:repeat(4,minmax(0,1fr))}
+  .z2r-library-selection {
+    border:0;
+    border-top:1px solid rgba(142,169,154,.22);
+    padding:14px 0 0;
+  }
+  .z2r-explorer-child-list {display:flex;max-height:260px}
+}
+
+
+/* ZERO2ROOT — COMPACT VIEWPORT SPACING PASS */
+@media (min-width:1101px) {
+  .z2r-library-experience {
+    min-height:min(620px,calc(100svh - 170px));
+    padding:6px 0 8px;
+    gap:clamp(12px,1.45vw,24px);
+    align-items:start;
+  }
+  .z2r-library-copy {
+    align-self:start;
+    padding-top:clamp(18px,3.2vh,30px);
+  }
+  .z2r-library-kicker {margin:0 0 12px!important}
+  .z2r-library-copy h1 {line-height:.98!important}
+  .z2r-library-intro {margin:12px 0 14px!important}
+  .z2r-library-metrics {margin-top:4px;padding:10px 0}
+  .z2r-library-map-stage {
+    align-self:center;
+    padding:0;
+    transform:translateY(-3px);
+  }
+  .z2r-library-radial {
+    width:min(100%,min(66svh,740px))!important;
+    max-height:66svh;
+  }
+  .z2r-library-map-legend {padding-top:2px}
+  .z2r-library-selection {
+    align-self:start;
+    max-height:min(620px,calc(100svh - 210px));
+    margin-top:clamp(12px,2.2vh,20px);
+    padding-top:0;
+  }
+  .z2r-library-breadcrumbs {margin-bottom:8px}
+  .z2r-library-selection-index {margin-bottom:7px}
+  .z2r-library-selection h2 {margin:5px 0 4px!important}
+  .z2r-library-selection p {margin-bottom:8px!important;line-height:1.5!important}
+  .z2r-explorer-child-list {
+    margin:7px 0 8px;
+    max-height:min(48svh,410px);
+  }
+  .z2r-explorer-child {padding:6px 8px}
+}
+@media (min-width:1500px) {
+  .z2r-library-experience {
+    gap:clamp(16px,1.6vw,26px);
+    min-height:min(640px,calc(100svh - 165px));
+  }
+  .z2r-library-copy {padding-top:clamp(18px,3.4vh,34px)}
+  .z2r-library-radial {width:min(100%,min(68svh,790px))!important}
+  .z2r-library-selection {margin-top:clamp(10px,2vh,18px)}
+}
+@media (min-width:1101px) and (max-height:850px) {
+  .z2r-library-experience {
+    min-height:min(580px,calc(100svh - 155px));
+    padding-top:2px;
+    padding-bottom:5px;
+  }
+  .z2r-library-copy {padding-top:14px}
+  .z2r-library-kicker {margin-bottom:9px!important}
+  .z2r-library-intro {margin:9px 0 11px!important}
+  .z2r-library-metrics {padding:8px 0}
+  .z2r-library-radial {width:min(100%,min(64svh,700px))!important;max-height:64svh}
+  .z2r-library-selection {margin-top:8px;max-height:calc(100svh - 195px)}
+  .z2r-explorer-child-list {max-height:min(43svh,350px)}
+}
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {gap:14px 18px;padding-top:8px;padding-bottom:6px}
+  .z2r-library-copy {align-self:start;padding-top:10px}
+  .z2r-library-map-stage {align-self:center}
+  .z2r-library-selection {padding-top:10px}
+}
+@media (max-width:760px) {
+  .z2r-library-experience {gap:9px;padding-top:6px}
+  .z2r-library-copy {padding-top:0}
+  .z2r-library-kicker {margin-bottom:8px!important}
+  .z2r-library-intro {margin:9px 0 11px!important}
+  .z2r-library-metrics {padding:8px 0}
+  .z2r-library-map-stage {padding-top:0}
+  .z2r-library-selection {padding-top:10px}
+}
+
+
+/* ZERO2ROOT 2.2 — responsive density and map scale refinement
+   Final overrides: retain the three-zone desktop concept while giving the
+   map and explorer enough room at common laptop/desktop viewport heights. */
+
+@media (min-width: 1440px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(285px,.82fr) minmax(0,1.62fr) minmax(330px,1fr);
+    gap:clamp(18px,1.7vw,30px);
+    min-height:min(690px,calc(100svh - 150px));
+    padding:8px 0 10px;
+  }
+  .z2r-library-copy {
+    max-width:440px;
+    padding-top:clamp(10px,1.8vh,20px);
+  }
+  .z2r-library-copy h1 {
+    font-size:clamp(42px,min(3.4vw,6.5vh),66px)!important;
+  }
+  .z2r-library-intro {
+    max-width:390px;
+    font-size:clamp(13px,1vw,15px)!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-radial {
+    width:min(100%,min(77svh,850px))!important;
+    max-height:77svh;
+  }
+  .z2r-library-selection {
+    max-height:min(74svh,700px);
+    margin-top:8px;
+    padding-left:clamp(18px,1.5vw,26px);
+  }
+  .z2r-library-selection-index,
+  .z2r-library-breadcrumbs {font-size:8px}
+  .z2r-library-selection h2 {font-size:clamp(21px,1.5vw,26px)!important}
+  .z2r-library-selection p {font-size:11.5px!important;line-height:1.6!important}
+  .z2r-explorer-child-list {max-height:min(52svh,500px);gap:5px}
+  .z2r-explorer-child {padding:8px 9px}
+  .z2r-explorer-child strong {font-size:10.5px}
+  .z2r-explorer-child small {font-size:7.5px}
+  .z2r-library-map-legend {gap:5px 13px}
+  .z2r-library-map-legend button {font-size:7px}
+}
+
+@media (min-width:1101px) and (max-width:1439px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(245px,.78fr) minmax(0,1.5fr) minmax(285px,.98fr);
+    gap:clamp(12px,1.35vw,20px);
+    min-height:min(650px,calc(100svh - 145px));
+    padding:8px 0;
+  }
+  .z2r-library-copy {padding-top:12px}
+  .z2r-library-copy h1 {font-size:clamp(36px,3.2vw,48px)!important}
+  .z2r-library-radial {
+    width:min(100%,min(74svh,700px))!important;
+    max-height:74svh;
+  }
+  .z2r-library-selection {
+    max-height:min(70svh,620px);
+    margin-top:6px;
+    padding-left:14px;
+  }
+  .z2r-library-selection p {font-size:10.5px!important}
+  .z2r-explorer-child-list {max-height:min(48svh,390px)}
+  .z2r-explorer-child {padding:7px}
+  .z2r-explorer-child strong {font-size:9.5px}
+  .z2r-explorer-child small {font-size:7px}
+}
+
+@media (min-width:761px) and (max-height:850px) {
+  .z2r-library-experience {
+    min-height:0;
+    padding-top:4px;
+    padding-bottom:6px;
+  }
+  .z2r-library-copy {padding-top:10px}
+  .z2r-library-kicker {margin-bottom:9px!important}
+  .z2r-library-intro {margin:10px 0 12px!important}
+  .z2r-library-metrics {padding:8px 0 9px}
+  .z2r-library-radial {
+    width:min(100%,min(76svh,760px))!important;
+    max-height:76svh;
+  }
+  .z2r-library-selection {
+    max-height:calc(100svh - 185px);
+    margin-top:4px;
+  }
+  .z2r-explorer-child-list {max-height:min(46svh,390px)}
+}
+
+@media (max-width:1100px) and (min-width:761px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(235px,.82fr) minmax(0,1.38fr);
+    grid-template-areas:"copy map" "inspector inspector";
+    gap:14px 20px;
+  }
+  .z2r-library-copy {padding-top:8px}
+  .z2r-library-radial {
+    width:min(100%,min(66svh,590px))!important;
+    max-height:66svh;
+  }
+  .z2r-library-selection {
+    display:flex;
+    flex-direction:column;
+    max-height:none;
+    padding:12px 0 0;
+  }
+  .z2r-explorer-child-list {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    max-height:260px;
+    overflow:auto;
+  }
+  .z2r-explorer-child-heading {grid-column:1/-1}
+  .z2r-explorer-child strong {font-size:10px}
+  .z2r-explorer-child small {font-size:7px}
+}
+
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .md-content__inner {
+    padding:0 14px 24px!important;
+  }
+  .z2r-library-experience {
+    grid-template-columns:minmax(0,1fr);
+    grid-template-rows:auto auto auto;
+    grid-template-areas:"copy" "map" "inspector";
+    gap:10px;
+    padding:8px 0 0;
+  }
+  .z2r-library-copy {max-width:100%;padding:0}
+  .z2r-library-kicker {margin:0 0 9px!important;font-size:7px!important}
+  .z2r-library-copy h1 {
+    max-width:100%;
+    white-space:normal;
+    font-size:clamp(38px,8.5vw,56px)!important;
+    line-height:1.02!important;
+  }
+  .z2r-library-intro {max-width:600px;margin:10px 0 12px!important}
+  .z2r-library-metrics {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    max-width:100%;
+    gap:6px;
+    padding:9px 0;
+  }
+  .z2r-library-metrics strong {font-size:17px}
+  .z2r-library-metrics span {font-size:7px}
+  .z2r-library-map-stage {padding:0}
+  .z2r-library-radial {
+    width:min(100%,min(88vw,600px))!important;
+    max-height:none;
+  }
+  .z2r-library-map-legend {
+    justify-content:flex-start;
+    gap:5px 12px;
+    padding:5px 2px 0;
+  }
+  .z2r-library-map-legend button {min-height:26px;font-size:7px}
+  .z2r-library-selection {
+    max-width:none;
+    max-height:none;
+    margin:0;
+    padding:13px 0 0;
+    border:0;
+    border-top:1px solid rgba(142,169,154,.22);
+    overflow:visible;
+  }
+  .z2r-library-selection h2 {font-size:21px!important}
+  .z2r-library-selection p {font-size:11px!important;line-height:1.6!important}
+  .z2r-explorer-child-list {max-height:280px;overflow:auto}
+  .z2r-explorer-child {padding:8px}
+  .z2r-explorer-child strong {font-size:10px}
+  .z2r-explorer-child small {font-size:7px}
+  .z2r-library-discovery {
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+    padding:10px 0;
+  }
+  .z2r-library-filters {gap:5px}
+  .z2r-library-filters button {min-height:31px;padding:0 9px;font-size:7px}
+  .z2r-library-result-count {justify-self:start}
+  .z2r-library-search {height:40px}
+  .z2r-library-search input {font-size:12px}
+  .z2r-library-directory-grid {grid-template-columns:1fr}
+  .z2r-library-footer {flex-wrap:wrap;line-height:1.6}
+}
+
+@media (max-width:420px) {
+  .md-container:has(.z2r-library) .md-content__inner {padding:0 11px 20px!important}
+  .z2r-library-copy h1 {font-size:clamp(34px,9vw,42px)!important}
+  .z2r-library-intro {font-size:12px!important}
+  .z2r-library-metrics strong {font-size:15px}
+  .z2r-library-metrics span {font-size:6px}
+  .z2r-library-map-legend {gap:3px 9px}
+  .z2r-library-map-legend button {font-size:6.5px}
+  .z2r-library-search kbd {display:none}
+  .z2r-library-filters button {min-height:30px;padding:0 7px;font-size:6.5px}
+}
+
+@media (max-width:760px) {
+  .md-tabs {display:none}
+}
+@media (min-width:761px) and (max-width:1100px) {
+  .md-tabs__list {
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    white-space:nowrap;
+  }
+  .md-tabs__list::-webkit-scrollbar {display:none}
+  .md-tabs__item {flex:0 0 auto}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library *, .z2r-library *::before, .z2r-library *::after {
+    scroll-behavior:auto!important;
+    transition:none!important;
+    animation:none!important;
+  }
+}
+
+
+/* ZERO2ROOT 2.3 — stronger editorial scale and larger knowledge map */
+@media (min-width:1440px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(260px,.72fr) minmax(0,2.25fr) minmax(300px,.90fr);
+    gap:clamp(14px,1.3vw,22px);
+    min-height:min(720px,calc(100svh - 138px));
+    padding:6px 0 8px;
+  }
+  .z2r-library-copy {
+    max-width:470px;
+    padding-top:clamp(12px,2vh,22px);
+  }
+  .z2r-library-kicker {
+    margin-bottom:15px!important;
+    font-size:9px!important;
+    letter-spacing:.15em;
+  }
+  .z2r-library-copy h1 {
+    font-size:clamp(48px,min(4.2vw,8vh),78px)!important;
+    line-height:.99!important;
+    letter-spacing:-.075em!important;
+  }
+  .z2r-library-intro {
+    max-width:440px;
+    margin:17px 0 20px!important;
+    font-size:clamp(15px,1.08vw,18px)!important;
+    line-height:1.68!important;
+  }
+  .z2r-library-metrics {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px 20px;
+    max-width:370px;
+    padding:14px 0 16px;
+  }
+  .z2r-library-metrics strong {
+    font-size:clamp(24px,1.75vw,30px)!important;
+    line-height:1!important;
+  }
+  .z2r-library-metrics span {
+    font-size:9px!important;
+    letter-spacing:.12em;
+  }
+  .z2r-library-map-stage {
+    align-self:center;
+    padding:0;
+    transform:none;
+  }
+  .z2r-library-radial {
+    width:min(100%,min(82svh,900px))!important;
+    max-height:82svh;
+  }
+  .z2r-library-map-legend {
+    max-width:850px;
+    gap:6px 14px;
+    padding-top:7px;
+  }
+  .z2r-library-map-legend button {font-size:7.5px;min-height:24px}
+}
+@media (min-width:1101px) and (max-width:1439px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(245px,.70fr) minmax(0,2.05fr) minmax(285px,.90fr);
+    gap:clamp(12px,1.2vw,18px);
+    min-height:min(680px,calc(100svh - 140px));
+  }
+  .z2r-library-copy {padding-top:12px}
+  .z2r-library-kicker {margin-bottom:13px!important;font-size:8px!important}
+  .z2r-library-copy h1 {
+    font-size:clamp(44px,3.8vw,58px)!important;
+    line-height:1!important;
+  }
+  .z2r-library-intro {
+    max-width:390px;
+    margin:14px 0 16px!important;
+    font-size:clamp(14px,1.15vw,16px)!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-metrics {gap:12px 15px;padding:12px 0 14px}
+  .z2r-library-metrics strong {font-size:25px!important}
+  .z2r-library-metrics span {font-size:8px!important}
+  .z2r-library-radial {
+    width:min(100%,min(80svh,780px))!important;
+    max-height:80svh;
+  }
+}
+@media (min-width:761px) and (max-width:1100px) {
+  .z2r-library-experience {
+    grid-template-columns:minmax(220px,.72fr) minmax(0,1.72fr);
+    grid-template-areas:"copy map" "inspector inspector";
+    gap:12px 18px;
+  }
+  .z2r-library-copy h1 {
+    font-size:clamp(40px,4.5vw,56px)!important;
+    line-height:1!important;
+  }
+  .z2r-library-intro {
+    font-size:clamp(14px,1.5vw,16px)!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-metrics {gap:10px 12px;padding:10px 0 12px}
+  .z2r-library-metrics strong {font-size:23px!important}
+  .z2r-library-metrics span {font-size:8px!important}
+  .z2r-library-radial {
+    width:min(100%,min(78svh,700px))!important;
+    max-height:78svh;
+  }
+}
+@media (max-width:760px) {
+  .z2r-library-copy h1 {
+    font-size:clamp(42px,9.7vw,64px)!important;
+    line-height:1.02!important;
+  }
+  .z2r-library-intro {
+    font-size:clamp(13px,3.6vw,15px)!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-metrics {
+    gap:9px 6px;
+    padding:11px 0;
+  }
+  .z2r-library-metrics strong {font-size:clamp(17px,4.8vw,22px)!important}
+  .z2r-library-metrics span {font-size:7px!important}
+  .z2r-library-radial {
+    width:min(100%,min(94vw,680px))!important;
+    max-height:none;
+  }
+  .z2r-library-map-legend {gap:5px 12px;padding-top:7px}
+  .z2r-library-map-legend button {font-size:7px;min-height:25px}
+}
+@media (max-width:420px) {
+  .z2r-library-copy h1 {font-size:clamp(38px,10.2vw,44px)!important}
+  .z2r-library-intro {font-size:13px!important}
+  .z2r-library-radial {width:min(100%,96vw)!important}
+  .z2r-library-metrics strong {font-size:18px!important}
+  .z2r-library-metrics span {font-size:6.5px!important}
+}
+@media (min-width:761px) and (max-height:760px) {
+  .z2r-library-experience {min-height:0;padding-top:2px;padding-bottom:4px}
+  .z2r-library-copy {padding-top:4px}
+  .z2r-library-kicker {margin-bottom:9px!important}
+  .z2r-library-intro {margin:10px 0 12px!important}
+  .z2r-library-metrics {padding:8px 0}
+  .z2r-library-radial {
+    width:min(100%,min(76svh,720px))!important;
+    max-height:76svh;
+  }
+}
+
+
+/* ZERO2ROOT 2.4 — directory expansion density
+   Five learning levels lead the first wide-screen row; five remaining
+   collections follow on the next row. Cards size to their own content. */
+.z2r-library-directory {
+  margin-top:12px;
+}
+.z2r-library-directory > summary {
+  min-height:40px;
+}
+.z2r-library-directory > p {
+  padding-bottom:9px;
+}
+.z2r-library-directory-grid {
+  align-items:start;
+  grid-auto-flow:row;
+  gap:9px;
+  padding:0 12px 12px;
+}
+.z2r-library-directory-group {
+  align-self:start;
+  height:fit-content;
+  min-height:0;
+  padding:10px;
+}
+.z2r-library-directory-group h3 {
+  margin:0 0 6px!important;
+  font-size:10.5px;
+  line-height:1.3;
+}
+.z2r-library-directory-group a {
+  padding:5px 0;
+  font-size:10px;
+  line-height:1.35;
+}
+.z2r-library-directory-group a small {
+  margin-top:2px;
+  font-size:6.5px;
+  line-height:1.3;
+}
+
+/* Wide desktop: one visual row for the five learning levels and one
+   for the five remaining reference collections. */
+@media (min-width:1700px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:10px;
+  }
+  .z2r-library-directory-group {padding:11px}
+  .z2r-library-directory-group h3 {font-size:10.5px}
+  .z2r-library-directory-group a {padding:5.5px 0}
+}
+
+/* Standard desktop and laptops */
+@media (min-width:1200px) and (max-width:1699px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+@media (min-width:900px) and (max-width:1199px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (min-width:601px) and (max-width:899px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    padding:0 10px 10px;
+  }
+  .z2r-library-directory-group {padding:9px}
+}
+
+/* Phone: a single readable column with compact link rows. */
+@media (max-width:600px) {
+  .z2r-library-directory-grid {
+    grid-template-columns:minmax(0,1fr);
+    gap:7px;
+    padding:0 9px 10px;
+  }
+  .z2r-library-directory-group {
+    padding:10px;
+  }
+  .z2r-library-directory-group h3 {
+    font-size:10px;
+    margin-bottom:5px!important;
+  }
+  .z2r-library-directory-group a {
+    padding:6px 0;
+    font-size:10px;
+  }
+}
+
+
+/* ZERO2ROOT 2.5 — compact homepage lower navigation
+   Keep search, filters and the destination-directory control unchanged.
+   Tighten only the small content-index caption and the Material next/prev band. */
+.md-container:has(.z2r-library) .z2r-library-footer {
+  margin:2px 0 0;
+  padding:8px 0 6px;
+  line-height:1.35;
+}
+
+.md-container:has(.z2r-library) .md-footer {
+  margin-top:0!important;
+}
+
+.md-container:has(.z2r-library) .md-footer__inner {
+  min-height:0!important;
+  padding-top:7px!important;
+  padding-bottom:7px!important;
+  align-items:center;
+}
+
+.md-container:has(.z2r-library) .md-footer__link {
+  min-height:0!important;
+  padding:1.45rem 1.5rem!important;
+  align-items:center;
+}
+
+.md-container:has(.z2r-library) .md-footer__title {
+  line-height:1.25!important;
+}
+
+.md-container:has(.z2r-library) .md-footer__direction {
+  margin-bottom:.12rem;
+  font-size:.68rem;
+  line-height:1.2;
+}
+
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .z2r-library-footer {
+    gap:8px;
+    padding:7px 0 5px;
+    font-size:6.5px;
+  }
+  .md-container:has(.z2r-library) .md-footer__inner {
+    padding-top:5px!important;
+    padding-bottom:5px!important;
+  }
+  .md-container:has(.z2r-library) .md-footer__link {
+    padding:1.05rem .9rem!important;
+  }
+  .md-container:has(.z2r-library) .md-footer__direction {
+    font-size:.62rem;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .md-container:has(.z2r-library) .md-footer__link {
+    transition:none!important;
+  }
+}
+
+
+/* ZERO2ROOT 2.6 — remove the dead space after the homepage content index.
+   This is the gap between the index labels and the Next / Overview band.
+   Keep the directory and navigation band styling themselves unchanged. */
+.md-container:has(.z2r-library) .z2r-library {
+  padding-bottom:0!important;
+}
+.md-container:has(.z2r-library) .md-content__inner {
+  padding-bottom:10px!important;
+}
+@media (max-width:760px) {
+  .md-container:has(.z2r-library) .md-content__inner {
+    padding-bottom:8px!important;
+  }
+}
+
+
+/* ZERO2ROOT 2.7 — make the destination directory visibly actionable.
+   The entire summary row remains the native <details> disclosure control. */
+.z2r-library-directory {
+  border:1px solid rgba(199,124,85,.34);
+  border-left:3px solid var(--lib-copper);
+  background:
+    linear-gradient(100deg,rgba(199,124,85,.095),rgba(199,124,85,.025) 48%,transparent 82%),
+    var(--lib-panel);
+  box-shadow:0 5px 18px rgba(0,0,0,.12);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.z2r-library-directory > summary {
+  min-height:58px;
+  gap:14px;
+  padding:0 16px;
+  cursor:pointer;
+  user-select:none;
+  outline:none;
+  position:relative;
+}
+.z2r-library-directory > summary span {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  color:var(--lib-ivory);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+}
+.z2r-library-directory > summary span::after {
+  content:"CLICK TO EXPLORE THE FULL DIRECTORY";
+  display:block;
+  color:var(--lib-copper-light);
+  font:600 7px/1.2 "IBM Plex Mono",ui-monospace,monospace;
+  letter-spacing:.13em;
+}
+.z2r-library-directory > summary small {
+  color:#B7A99B;
+  font:8px "IBM Plex Mono",monospace;
+  letter-spacing:.09em;
+}
+.z2r-library-directory > summary b {
+  display:grid;
+  place-items:center;
+  flex:0 0 30px;
+  width:30px;
+  height:30px;
+  color:#F0D8C8;
+  background:rgba(199,124,85,.15);
+  border:1px solid rgba(199,124,85,.48);
+  border-radius:50%;
+  font:500 18px/1 "IBM Plex Mono",monospace;
+  transition:transform .2s ease,background .2s ease,border-color .2s ease;
+}
+.z2r-library-directory > summary:hover {
+  background:rgba(199,124,85,.075);
+}
+.z2r-library-directory > summary:hover b {
+  background:rgba(199,124,85,.28);
+  border-color:var(--lib-copper-light);
+}
+.z2r-library-directory > summary:focus-visible {
+  outline:2px solid var(--lib-copper-light);
+  outline-offset:3px;
+  border-radius:4px;
+}
+.z2r-library-directory[open] {
+  border-color:rgba(199,124,85,.52);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.z2r-library-directory[open] > summary {
+  border-bottom:1px solid rgba(199,124,85,.20);
+  background:rgba(199,124,85,.055);
+}
+.z2r-library-directory[open] > summary span::after {
+  content:"DIRECTORY OPEN · SELECT A DESTINATION";
+}
+.z2r-library-directory[open] > summary b {
+  transform:rotate(45deg);
+  background:rgba(199,124,85,.23);
+}
+@media (max-width:600px) {
+  .z2r-library-directory > summary {
+    min-height:56px;
+    gap:9px;
+    padding:0 10px;
+  }
+  .z2r-library-directory > summary span {
+    font-size:10px;
+    letter-spacing:.035em;
+  }
+  .z2r-library-directory > summary span::after {
+    content:"TAP TO EXPAND";
+    font-size:6.5px;
+    letter-spacing:.11em;
+  }
+  .z2r-library-directory[open] > summary span::after {
+    content:"OPEN · CHOOSE A DESTINATION";
+  }
+  .z2r-library-directory > summary small {
+    font-size:7px;
+  }
+  .z2r-library-directory > summary b {
+    flex-basis:27px;
+    width:27px;
+    height:27px;
+    font-size:16px;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-directory,
+  .z2r-library-directory > summary b {
+    transition:none!important;
+  }
+}
+
+
+/* ZERO2ROOT 2.8 — cinematic neural atmosphere for the homepage.
+   The effects sit behind the existing interactive SVG and never intercept
+   pointer input. Motion is deliberately slow and low-contrast. */
+.z2r-library-radial-wrap {
+  isolation:isolate;
+}
+.z2r-library-radial-wrap::before,
+.z2r-library-radial-wrap::after {
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:50%;
+  left:50%;
+  width:min(94%,760px);
+  aspect-ratio:1;
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+}
+.z2r-library-radial-wrap::before {
+  background:
+    radial-gradient(circle at 13% 29%,rgba(217,153,115,.92) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 23% 13%,rgba(142,169,154,.9) 0 1.2px,transparent 3px),
+    radial-gradient(circle at 37% 8%,rgba(210,170,112,.8) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 67% 11%,rgba(142,169,154,.85) 0 1px,transparent 3px),
+    radial-gradient(circle at 85% 24%,rgba(217,153,115,.85) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 91% 48%,rgba(142,169,154,.9) 0 1.2px,transparent 3px),
+    radial-gradient(circle at 82% 76%,rgba(210,170,112,.85) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 62% 91%,rgba(142,169,154,.9) 0 1px,transparent 3px),
+    radial-gradient(circle at 34% 89%,rgba(217,153,115,.82) 0 1px,transparent 2.8px),
+    radial-gradient(circle at 9% 69%,rgba(142,169,154,.9) 0 1px,transparent 3px),
+    radial-gradient(circle at 50% 50%,transparent 56%,rgba(142,169,154,.12) 56.15%,transparent 56.55%),
+    radial-gradient(circle at 50% 50%,transparent 68%,rgba(217,153,115,.10) 68.15%,transparent 68.45%);
+  opacity:.48;
+  filter:drop-shadow(0 0 5px rgba(142,169,154,.14));
+  animation:z2r-neural-drift 82s linear infinite;
+}
+.z2r-library-radial-wrap::after {
+  background:
+    conic-gradient(from 18deg,
+      transparent 0deg 36deg,
+      rgba(217,153,115,.18) 37deg,
+      transparent 39deg 112deg,
+      rgba(142,169,154,.15) 113deg,
+      transparent 116deg 218deg,
+      rgba(210,170,112,.13) 219deg,
+      transparent 222deg 310deg,
+      rgba(142,169,154,.13) 311deg,
+      transparent 314deg 360deg);
+  opacity:.42;
+  filter:blur(.35px);
+  mask-image:radial-gradient(circle,transparent 0 43%,#000 48% 74%,transparent 79%);
+  animation:z2r-neural-counterdrift 112s linear infinite;
+}
+.z2r-library-radial {
+  position:relative;
+  z-index:1;
+}
+.z2r-library-hovercard {z-index:3}
+
+/* Signal pulses travel along the existing SVG connections. */
+.z2r-library-radial .library-link-group {
+  animation:library-link-flow 28s linear infinite,z2r-link-breathe 7s ease-in-out infinite;
+}
+.z2r-library-radial .library-link-page {
+  stroke:#9db5a6;
+  stroke-opacity:.13;
+  stroke-dasharray:1.5 8;
+  animation:z2r-page-signal 32s linear infinite;
+}
+.z2r-library-radial .library-overview-page-dot {
+  opacity:.55;
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:z2r-node-pulse 4.8s ease-in-out infinite;
+}
+.z2r-library-radial .library-overview-page-dot:nth-of-type(3n) {animation-delay:-1.6s}
+.z2r-library-radial .library-overview-page-dot:nth-of-type(3n + 1) {animation-delay:-3.2s}
+.z2r-library-radial .library-center-ring {
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:z2r-core-glow 5.5s ease-in-out infinite;
+}
+.z2r-library-radial .library-group-sector,
+.z2r-library-radial .library-page-sector {
+  transition:
+    opacity .42s cubic-bezier(.2,.75,.25,1),
+    filter .42s cubic-bezier(.2,.75,.25,1),
+    stroke-width .32s ease,
+    fill-opacity .42s ease;
+}
+.z2r-library-radial .library-group-sector:focus-visible,
+.z2r-library-radial .library-page-sector:focus-visible {
+  outline:none;
+  filter:brightness(1.65) drop-shadow(0 0 9px rgba(217,153,115,.58));
+  stroke:#fff0df;
+  stroke-width:3.5;
+}
+
+/* Gentle entrance sequence, only on the homepage's first render. */
+.z2r-library-copy {
+  animation:z2r-soft-rise .72s cubic-bezier(.2,.75,.25,1) both;
+}
+.z2r-library-map-stage {
+  animation:z2r-map-arrive .95s cubic-bezier(.2,.75,.25,1) .08s both;
+}
+.z2r-library-selection {
+  animation:z2r-soft-rise .78s cubic-bezier(.2,.75,.25,1) .18s both;
+}
+.z2r-library-kicker {
+  animation:z2r-kicker-light 5.8s ease-in-out 1s infinite;
+}
+.z2r-library-copy h1 em {
+  text-shadow:0 0 22px rgba(217,153,115,.13);
+  transition:text-shadow .35s ease;
+}
+.z2r-library-copy h1:hover em {
+  text-shadow:0 0 28px rgba(217,153,115,.26);
+}
+
+/* Tactile but restrained control transitions. */
+.z2r-library-map-tools button,
+.z2r-library-map-legend button,
+.z2r-library-filters button,
+.z2r-library-directory > summary,
+.z2r-library-open-link,
+.z2r-library-child-list a,
+.z2r-library-child-list button {
+  transition:
+    color .22s ease,
+    background-color .22s ease,
+    border-color .22s ease,
+    box-shadow .28s ease,
+    transform .28s cubic-bezier(.2,.75,.25,1);
+}
+.z2r-library-map-legend i {
+  box-shadow:0 0 0 0 rgba(217,153,115,0);
+  transition:box-shadow .28s ease,transform .28s ease;
+}
+.z2r-library-map-legend button:hover i,
+.z2r-library-map-legend button.is-active i {
+  box-shadow:0 0 0 4px rgba(217,153,115,.10),0 0 9px rgba(217,153,115,.28);
+  transform:scale(1.12);
+}
+.z2r-library-filters button:hover {
+  transform:translateY(-1px);
+}
+.z2r-library-directory > summary:hover {
+  box-shadow:inset 0 0 22px rgba(199,124,85,.055);
+}
+
+/* Ambient motion keyframes */
+@keyframes z2r-neural-drift {
+  from {transform:translate(-50%,-50%) rotate(0deg)}
+  to {transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes z2r-neural-counterdrift {
+  from {transform:translate(-50%,-50%) rotate(360deg) scale(.985)}
+  to {transform:translate(-50%,-50%) rotate(0deg) scale(1.015)}
+}
+@keyframes z2r-page-signal {
+  to {stroke-dashoffset:-96}
+}
+@keyframes z2r-link-breathe {
+  0%,100% {stroke-opacity:.16}
+  50% {stroke-opacity:.34}
+}
+@keyframes z2r-node-pulse {
+  0%,100% {opacity:.42;filter:drop-shadow(0 0 0 rgba(217,153,115,0))}
+  50% {opacity:1;filter:drop-shadow(0 0 4px rgba(217,153,115,.42))}
+}
+@keyframes z2r-core-glow {
+  0%,100% {stroke-opacity:.58;filter:drop-shadow(0 0 1px rgba(142,169,154,.08))}
+  50% {stroke-opacity:.98;filter:drop-shadow(0 0 7px rgba(142,169,154,.24))}
+}
+@keyframes z2r-soft-rise {
+  from {opacity:0;transform:translateY(12px)}
+  to {opacity:1;transform:translateY(0)}
+}
+@keyframes z2r-map-arrive {
+  from {opacity:0;transform:translateY(9px) scale(.986)}
+  to {opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes z2r-kicker-light {
+  0%,78%,100% {text-shadow:0 0 0 rgba(217,153,115,0)}
+  88% {text-shadow:0 0 10px rgba(217,153,115,.24)}
+}
+
+/* Keep the effects lightweight and calm on phones. */
+@media (max-width:760px) {
+  .z2r-library-radial-wrap::before,
+  .z2r-library-radial-wrap::after {
+    opacity:.22;
+    animation-duration:130s;
+  }
+  .z2r-library-copy,
+  .z2r-library-map-stage,
+  .z2r-library-selection {
+    animation:none;
+  }
+  .z2r-library-kicker {animation:none}
+  .z2r-library-radial .library-overview-page-dot {
+    animation-duration:6.5s;
+  }
+}
+
+/* Honor accessibility settings: no continuous/entrance movement on request. */
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-radial-wrap::before,
+  .z2r-library-radial-wrap::after,
+  .z2r-library-radial .library-link-group,
+  .z2r-library-radial .library-link-page,
+  .z2r-library-radial .library-overview-page-dot,
+  .z2r-library-radial .library-center-ring,
+  .z2r-library-copy,
+  .z2r-library-map-stage,
+  .z2r-library-selection,
+  .z2r-library-kicker {
+    animation:none!important;
+  }
+  .z2r-library *,
+  .z2r-library *::before,
+  .z2r-library *::after {
+    transition:none!important;
+  }
+}
+
+
+/* LIGHT THEME — readable knowledge-map surfaces and labels */
+[data-md-color-scheme="default"] .z2r-library {
+  --lib-ink:#F1EEE7;
+  --lib-panel:#FFFDF8;
+  --lib-panel-2:#E7E2D8;
+  --lib-line:#D3CCBF;
+  --lib-ivory:#242A27;
+  --lib-muted:#555D56;
+  --lib-copper:#A85F3E;
+  --lib-copper-light:#87482F;
+  --lib-mineral:#486957;
+  --lib-brass:#86663A;
+  color:var(--lib-ivory);
+}
+[data-md-color-scheme="default"] .z2r-library-copy h1,
+[data-md-color-scheme="default"] .z2r-library-selection h2,
+[data-md-color-scheme="default"] .z2r-library-inspector-body h2 {
+  color:#242A27 !important;
+}
+[data-md-color-scheme="default"] .z2r-library-kicker,
+[data-md-color-scheme="default"] .z2r-library-inspector-type,
+[data-md-color-scheme="default"] .z2r-library-selection-index span:last-child {
+  color:#87482F !important;
+}
+[data-md-color-scheme="default"] .z2r-library-copy h1 em {color:#A85F3E}
+[data-md-color-scheme="default"] .z2r-library-intro,
+[data-md-color-scheme="default"] .z2r-library-selection p,
+[data-md-color-scheme="default"] .z2r-library-child-list,
+[data-md-color-scheme="default"] .z2r-library-child-list small {
+  color:#555D56 !important;
+}
+[data-md-color-scheme="default"] .z2r-library-selection,
+[data-md-color-scheme="default"] .z2r-library-discovery,
+[data-md-color-scheme="default"] .z2r-library-directory {
+  color:#242A27;
+}
+[data-md-color-scheme="default"] .z2r-library-child-list a,
+[data-md-color-scheme="default"] .z2r-library-child-list button {
+  background:#F8F5EE;
+  border-color:#D3CCBF;
+  color:#242A27;
+}
+[data-md-color-scheme="default"] .z2r-library-child-list a:hover,
+[data-md-color-scheme="default"] .z2r-library-child-list button:hover {
+  background:#EEE8DC;
+  border-color:#A85F3E;
+}
+[data-md-color-scheme="default"] .z2r-library-map-legend button,
+[data-md-color-scheme="default"] .z2r-library-filters button,
+[data-md-color-scheme="default"] .z2r-library-result-count,
+[data-md-color-scheme="default"] .z2r-library-directory summary,
+[data-md-color-scheme="default"] .z2r-library-directory p {
+  color:#4D554E;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-group-label {
+  fill:#343B35;
+  font-weight:700;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-group-count,
+[data-md-color-scheme="default"] .z2r-library-radial .library-page-index {
+  fill:#59635A;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-ring {
+  fill:#FFFDF8;
+  stroke:#8C958A;
+}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-title {fill:#242A27}
+[data-md-color-scheme="default"] .z2r-library-radial .library-center-subtitle {fill:#59635A}
+[data-md-color-scheme="default"] .z2r-library-radial .library-link-group {stroke:#A85F3E;stroke-opacity:.3}
+[data-md-color-scheme="default"] .z2r-library-radial .library-link-page {stroke:#59635A;stroke-opacity:.25}
+[data-md-color-scheme="default"] .z2r-library-footer {color:#59635A}

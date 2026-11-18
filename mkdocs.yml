@@ -1,5 +1,5 @@
 site_name: Zero2Root
-site_description: Cybersecurity learning paths, technical lessons, tools and resources — from foundations to advanced practice.
+site_description: Public cybersecurity intelligence hub for AI models, benchmarks, offensive-security skills, payload references, bug bounty research and learning paths.
 site_author: Zero2Root Contributors
 site_url: https://zero2root.com
 repo_url: https://github.com/Zero2Root-VK/Zero2Root
@@ -10,8 +10,8 @@ theme:
   custom_dir: docs/overrides
   icon:
     repo: fontawesome/brands/github
-  logo: assets/zero2root-wordmark.svg
-  favicon: assets/zero2root-favicon.svg
+  logo: assets/zero2root-temp-lockup.svg
+  favicon: assets/zero2root-temp-favicon.svg
   palette:
     - scheme: slate
       primary: brown
@@ -78,6 +78,7 @@ extra_css:
   - assets/stylesheets/content-v2.css
   - assets/stylesheets/brand-v2.css
   - assets/stylesheets/home-map.css
+  - assets/stylesheets/model-explorer.css
 
 extra:
   social:
@@ -147,6 +148,26 @@ nav:
     - Web App Tools: tools/03-web-tools.md
     - Network & Infra Tools: tools/04-network-tools.md
     - Mobile Tools: tools/05-mobile-tools.md
+
+  - AI & Security Intelligence:
+    - AI Lab: ai-lab/index.md
+    - AI Model Explorer: ai-lab/explorer.md
+    - AI Model Directory: ai-lab/models/index.md
+    - AI Benchmarks: ai-lab/benchmarks/index.md
+    - AI & LLM Security: ai-security/index.md
+    - AI-Assisted Workflows: ai-workflows/index.md
+
+  - Offensive Security:
+    - Skills Overview: offensive-security/index.md
+    - Web Application Testing: offensive-security/web-application.md
+    - API Security: offensive-security/api-security.md
+    - Infrastructure Testing: offensive-security/infrastructure.md
+    - Source-Code Review: offensive-security/source-code-review.md
+    - Payload & Fuzzing Reference: payloads/index.md
+
+  - Bug Bounty & Research:
+    - Bug Bounty Intelligence: bug-bounty/index.md
+    - Research Library: research-library/index.md
 
   - Resources:
     - Overview: resources/index.md

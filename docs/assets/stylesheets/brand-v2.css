@@ -888,3 +888,109 @@
   border-color: var(--z2r-line) !important;
   box-shadow: none !important;
 }
+
+
+/* ZERO2ROOT 2.9 — unify the site header with the current graphite identity.
+   Overrides legacy navy/glass header rules from extra.css. */
+.md-header,
+.md-header[data-md-component="header"] {
+  background: #14191A !important;
+  background-color: #14191A !important;
+  border-bottom: 1px solid #303A38 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Keep the primary navigation visually connected, with a subtle tonal step. */
+.md-tabs {
+  background: #111615 !important;
+  border-bottom: 1px solid #303A38 !important;
+  box-shadow: none !important;
+}
+
+/* Avoid legacy theme variables reintroducing a navy tint in the header. */
+[data-md-color-scheme="slate"] {
+  --pv-header-bg: #14191A;
+  --pv-header-border: #303A38;
+}
+
+
+/* ZERO2ROOT 3.0 — theme-aware header surfaces.
+   Dark mode: graphite header and a subtly deeper navigation strip.
+   Light mode: warm-paper surfaces with dark readable controls.
+   Do not hard-code dark header colours across both schemes. */
+[data-md-color-scheme="slate"] .md-header,
+[data-md-color-scheme="slate"] .md-header[data-md-component="header"] {
+  background:#14191A!important;
+  background-color:#14191A!important;
+  border-bottom:1px solid #303A38!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+[data-md-color-scheme="slate"] .md-tabs {
+  background:#111615!important;
+  border-bottom:1px solid #303A38!important;
+  box-shadow:none!important;
+}
+[data-md-color-scheme="slate"] .md-header__title,
+[data-md-color-scheme="slate"] .md-header__topic,
+[data-md-color-scheme="slate"] .md-header__button,
+[data-md-color-scheme="slate"] .md-header .md-icon {
+  color:#E9E5DC!important;
+}
+
+[data-md-color-scheme="default"] .md-header,
+[data-md-color-scheme="default"] .md-header[data-md-component="header"] {
+  background:#E7E2D8!important;
+  background-color:#E7E2D8!important;
+  border-bottom:1px solid #D8D1C5!important;
+  box-shadow:none!important;
+  backdrop-filter:none!important;
+  -webkit-backdrop-filter:none!important;
+}
+[data-md-color-scheme="default"] .md-tabs {
+  background:#F1EEE7!important;
+  border-bottom:1px solid #D8D1C5!important;
+  box-shadow:none!important;
+}
+[data-md-color-scheme="default"] .md-header__title,
+[data-md-color-scheme="default"] .md-header__topic,
+[data-md-color-scheme="default"] .md-header__button,
+[data-md-color-scheme="default"] .md-header .md-icon,
+[data-md-color-scheme="default"] .md-tabs .md-icon {
+  color:#242A27!important;
+}
+[data-md-color-scheme="default"] .md-tabs__link {
+  color:#62665F!important;
+}
+[data-md-color-scheme="default"] .md-tabs__link:hover,
+[data-md-color-scheme="default"] .md-tabs__link--active {
+  color:#955236!important;
+}
+[data-md-color-scheme="default"] .md-tabs__link--active::after {
+  background:#A85F3E!important;
+}
+
+
+/* Header lockup: separate wordmark artwork for each theme */
+.md-header__button.md-logo img {
+  display:none !important;
+}
+.md-header__button.md-logo::before {
+  content:"";
+  display:block;
+  width:190px;
+  height:38px;
+  background:url("../zero2root-temp-lockup.svg") left center / contain no-repeat;
+}
+[data-md-color-scheme="default"] .md-header__button.md-logo::before {
+  background-image:url("../zero2root-temp-lockup-light.svg");
+}
+@media (max-width:600px) {
+  .md-header__button.md-logo::before {
+    width:150px;
+    height:31px;
+  }
+}

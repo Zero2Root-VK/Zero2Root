@@ -1,12 +1,14 @@
 {
   "meta": {
-    "title": "Zero2Root — Existing Learning Library",
+    "title": "Zero2Root — Cybersecurity Knowledge Library",
     "source": "Existing Markdown pages and original MkDocs navigation",
-    "pageCount": 49,
+    "pageCount": 62,
     "learningLevels": 5,
     "lessonCount": 34,
     "toolGuideCount": 5,
-    "resourceCount": 3
+    "resourceCount": 3,
+    "collectionCount": 6,
+    "groupCount": 10
   },
   "groups": [
     {
@@ -71,6 +73,33 @@
       "kind": "resources",
       "color": "#A99D84",
       "pageCount": 4
+    },
+    {
+      "id": "ai-intelligence",
+      "code": "AI",
+      "label": "AI Lab",
+      "name": "AI & Security Intelligence",
+      "kind": "reference",
+      "color": "#8EA99A",
+      "pageCount": 5
+    },
+    {
+      "id": "offensive-arsenal",
+      "code": "OFFSEC",
+      "label": "Offensive Security",
+      "name": "Offensive Security Arsenal",
+      "kind": "reference",
+      "color": "#C77C55",
+      "pageCount": 6
+    },
+    {
+      "id": "research-bounty",
+      "code": "RESEARCH",
+      "label": "Research",
+      "name": "Bug Bounty & Research",
+      "kind": "resources",
+      "color": "#D2AA70",
+      "pageCount": 2
     }
   ],
   "pages": [
@@ -612,6 +641,222 @@
       "groupLabel": "Career & Practice",
       "groupCode": "REF",
       "index": 3
+    },
+    {
+      "id": "ai-lab-overview",
+      "title": "AI Lab",
+      "href": "ai-lab/",
+      "type": "ai-overview",
+      "summary": "Cybersecurity-focused AI models, local deployment guidance, availability and model evaluation.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 0
+    },
+    {
+      "id": "ai-model-directory",
+      "title": "AI Model Directory",
+      "href": "ai-lab/models/",
+      "type": "ai-reference",
+      "summary": "Verified model cards, intended tasks, deployment options, license notes and official links.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 1
+    },
+    {
+      "id": "ai-benchmarks",
+      "title": "AI Benchmarks",
+      "href": "ai-lab/benchmarks/",
+      "type": "ai-reference",
+      "summary": "Transparent methodology for evaluating cybersecurity AI models without invented scores.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 2
+    },
+    {
+      "id": "ai-security-testing",
+      "title": "AI & LLM Security",
+      "href": "ai-security/",
+      "type": "ai-reference",
+      "summary": "Prompt injection, RAG, MCP, agent-tool boundaries and defensive validation.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 3
+    },
+    {
+      "id": "ai-workflows",
+      "title": "AI-Assisted Workflows",
+      "href": "ai-workflows/",
+      "type": "ai-reference",
+      "summary": "Human-reviewed AI workflows for authorized reconnaissance, code review and bug bounty.",
+      "group": "ai-intelligence",
+      "groupLabel": "AI & Security Intelligence",
+      "groupCode": "AI",
+      "index": 4
+    },
+    {
+      "id": "offensive-skills",
+      "title": "Offensive Security Skills",
+      "href": "offensive-security/",
+      "type": "offsec-overview",
+      "summary": "Structured offensive-security methodologies, prerequisites, evidence and remediation.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 0
+    },
+    {
+      "id": "web-app-testing",
+      "title": "Web Application Testing",
+      "href": "offensive-security/web-application/",
+      "type": "offsec-reference",
+      "summary": "Authentication, authorization, input handling, business logic and web testing methodology.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 1
+    },
+    {
+      "id": "api-security-testing",
+      "title": "API Security Testing",
+      "href": "offensive-security/api-security/",
+      "type": "offsec-reference",
+      "summary": "BOLA, BFLA, token validation, property-level authorization and API test workflows.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 2
+    },
+    {
+      "id": "infrastructure-testing",
+      "title": "Infrastructure Testing",
+      "href": "offensive-security/infrastructure/",
+      "type": "offsec-reference",
+      "summary": "Scoped asset discovery, service enumeration, segmentation and safe validation.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 3
+    },
+    {
+      "id": "source-code-review",
+      "title": "Source-Code Review",
+      "href": "offensive-security/source-code-review/",
+      "type": "offsec-reference",
+      "summary": "Trace untrusted data, inspect sensitive sinks, review dependencies and verify findings.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 4
+    },
+    {
+      "id": "payload-reference",
+      "title": "Payload & Fuzzing",
+      "href": "payloads/",
+      "type": "offsec-reference",
+      "summary": "Authorized test markers, payload categories, encoding context and curated upstream references.",
+      "group": "offensive-arsenal",
+      "groupLabel": "Offensive Security Arsenal",
+      "groupCode": "OFFSEC",
+      "index": 5
+    },
+    {
+      "id": "bug-bounty-intelligence",
+      "title": "Bug Bounty Intelligence",
+      "href": "bug-bounty/",
+      "type": "research-overview",
+      "summary": "Program discovery, scope review, responsible disclosure and high-quality report guidance.",
+      "group": "research-bounty",
+      "groupLabel": "Bug Bounty & Research",
+      "groupCode": "RESEARCH",
+      "index": 0
+    },
+    {
+      "id": "research-library",
+      "title": "Security Research Library",
+      "href": "research-library/",
+      "type": "research-reference",
+      "summary": "Curated standards, technical references, research and hands-on security labs.",
+      "group": "research-bounty",
+      "groupLabel": "Bug Bounty & Research",
+      "groupCode": "RESEARCH",
+      "index": 1
+    }
+  ],
+  "collections": [
+    {
+      "id": "learning-paths",
+      "code": "LEARN",
+      "label": "Learning Paths",
+      "name": "Learning Paths",
+      "kind": "learning",
+      "color": "#8EA99A",
+      "groupIds": [
+        "level-0",
+        "level-1",
+        "level-2",
+        "level-3",
+        "level-4"
+      ],
+      "summary": "Five structured stages, from cybersecurity foundations through lead and architect practice."
+    },
+    {
+      "id": "tools",
+      "code": "TOOLS",
+      "label": "Tools",
+      "name": "Tools Reference",
+      "kind": "reference",
+      "color": "#8E9A88",
+      "groupIds": [
+        "tools"
+      ]
+    },
+    {
+      "id": "resources",
+      "code": "REF",
+      "label": "Resources",
+      "name": "Career & Practice",
+      "kind": "resources",
+      "color": "#A99D84",
+      "groupIds": [
+        "resources"
+      ]
+    },
+    {
+      "id": "ai-intelligence",
+      "code": "AI",
+      "label": "AI",
+      "name": "AI & Security Intelligence",
+      "kind": "reference",
+      "color": "#8EA99A",
+      "groupIds": [
+        "ai-intelligence"
+      ]
+    },
+    {
+      "id": "offensive-arsenal",
+      "code": "OFFSEC",
+      "label": "Offensive Security",
+      "name": "Offensive Security Arsenal",
+      "kind": "reference",
+      "color": "#C77C55",
+      "groupIds": [
+        "offensive-arsenal"
+      ]
+    },
+    {
+      "id": "research-bounty",
+      "code": "RESEARCH",
+      "label": "Research",
+      "name": "Bug Bounty & Research",
+      "kind": "resources",
+      "color": "#D2AA70",
+      "groupIds": [
+        "research-bounty"
+      ]
     }
   ]
 }

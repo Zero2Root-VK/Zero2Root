@@ -54,154 +54,96 @@ Record dependencies in a requirements file and pin tested versions for repeatabl
 
 ## 4. Example: bounded HTTP inventory utility
 
-This example reads a file containing URLs that have already been approved for testing. It sends GET requests only, does not follow redirects, validates URL syntax, uses explicit timeouts, retries only eligible GET responses and writes structured JSON. It does not crawl, discover additional targets or disable TLS certificate verification.
+The module includes a reusable Python utility and its unit tests:
 
-Create `http_inventory.py`:
+- [HTTP inventory script](examples/http_inventory.py)
+- [Unit tests](examples/test_http_inventory.py)
+- [Runtime dependencies](examples/requirements.txt)
 
-~~~python
-#!/usr/bin/env python3
-from __future__ import annotations
+This is a metadata inventory tool, not a crawler or vulnerability scanner. It accepts one approved HTTP(S) URL per line and requires a separate file containing the exact hostnames or IP addresses allowed for the run.
 
-import argparse
-import json
-import logging
-from pathlib import Path
-from urllib.parse import urlsplit
+### Install in an isolated environment
 
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
+Run these commands from the examples directory:
 
-
-LOG = logging.getLogger("http_inventory")
-
-
-def validate_url(value: str) -> str:
-    parts = urlsplit(value)
-    if parts.scheme not in {"http", "https"} or not parts.hostname:
-        raise ValueError("expected an absolute HTTP(S) URL")
-    if parts.username or parts.password:
-        raise ValueError("credentials must not be embedded in URLs")
-    return value
-
-
-def load_targets(path: Path) -> list[str]:
-    targets: list[str] = []
-    for line_number, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
-        value = raw.strip()
-        if not value or value.startswith("#"):
-            continue
-        try:
-            targets.append(validate_url(value))
-        except ValueError as exc:
-            raise ValueError(f"{path}:{line_number}: {exc}") from exc
-
-    # Preserve order while removing duplicate URLs.
-    return list(dict.fromkeys(targets))
-
-
-def build_session() -> requests.Session:
-    retry = Retry(
-        total=2,
-        connect=2,
-        read=0,
-        status=2,
-        backoff_factor=0.5,
-        status_forcelist=(429, 500, 502, 503, 504),
-        allowed_methods=frozenset({"GET"}),
-        respect_retry_after_header=True,
-        raise_on_status=False,
-    )
-    adapter = HTTPAdapter(max_retries=retry)
-
-    session = requests.Session()
-    session.mount("https://", adapter)
-    session.mount("http://", adapter)
-    session.headers.update({"User-Agent": "Zero2Root-Authorized-Inventory/1.0"})
-    return session
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Inventory HTTP response metadata for an approved URL list."
-    )
-    parser.add_argument("--input", required=True, type=Path, help="Approved URL list")
-    parser.add_argument("--output", required=True, type=Path, help="JSON output path")
-    parser.add_argument("--connect-timeout", type=float, default=3.05)
-    parser.add_argument("--read-timeout", type=float, default=10.0)
-    args = parser.parse_args()
-
-    if args.connect_timeout <= 0 or args.read_timeout <= 0:
-        parser.error("timeouts must be greater than zero")
-
-    try:
-        targets = load_targets(args.input)
-    except (OSError, UnicodeError, ValueError) as exc:
-        LOG.error("Cannot load target list: %s", exc)
-        return 2
-
-    if not targets:
-        LOG.error("The approved target list is empty")
-        return 2
-
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    results: list[dict[str, object]] = []
-
-    with build_session() as session:
-        for url in targets:
-            try:
-                response = session.get(
-                    url,
-                    timeout=(args.connect_timeout, args.read_timeout),
-                    allow_redirects=False,
-                    verify=True,
-                )
-                results.append({
-                    "url": urlsplit(url)._replace(query="", fragment="").geturl(),
-                    "query_parameters_present": bool(urlsplit(url).query),
-                    "status_code": response.status_code,
-                    "server": response.headers.get("Server"),
-                    "content_type": response.headers.get("Content-Type"),
-                    "location": response.headers.get("Location"),
-                })
-            except requests.RequestException as exc:
-                # Avoid logging a complete URL that might contain sensitive query data.
-                LOG.warning("Request failed for %s (%s)", urlsplit(url).hostname,
-                            type(exc).__name__)
-                results.append({
-                    "url": url,
-                    "error": type(exc).__name__,
-                })
-
-    with args.output.open("w", encoding="utf-8") as handle:
-        json.dump(results, handle, indent=2)
-        handle.write("\n")
-
-    LOG.info("Wrote %d results to %s", len(results), args.output)
-    return 0
-
-
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-    raise SystemExit(main())
+~~~bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 ~~~
 
-Create `approved-urls.txt` with only authorised test URLs:
+On Windows PowerShell, activate with:
+
+~~~powershell
+.venv\Scripts\Activate.ps1
+~~~
+
+### Prepare the approved inputs
+
+Create `approved-hosts.txt` with exact hostnames, one per line. Do not use wildcards or parent-domain entries unless the exact parent hostname itself is authorised.
+
+~~~text
+app.example.test
+api.example.test
+~~~
+
+Create `approved-urls.txt` with exact URLs that are included in the engagement scope:
 
 ~~~text
 https://app.example.test/
 https://api.example.test/health
 ~~~
 
-Run it:
+The `.test` names are documentation placeholders. Replace them only with exact hosts and URLs approved for your assessment. The default allowed ports are 80 and 443; add a non-standard port explicitly with `--allowed-ports`, for example `--allowed-ports 443,8443`.
+
+### Validate before sending requests
+
+First run validation-only mode. It checks URL syntax, exact host membership, allowed ports, duplicate targets and the maximum target count without making network requests:
 
 ~~~bash
 python http_inventory.py \
   --input approved-urls.txt \
+  --allow-hosts approved-hosts.txt \
+  --output evidence/http-inventory.json \
+  --validate-only
+~~~
+
+Review the printed origins and resolve any scope issue before removing `--validate-only`.
+
+### Run the inventory
+
+~~~bash
+python http_inventory.py \
+  --input approved-urls.txt \
+  --allow-hosts approved-hosts.txt \
   --output evidence/http-inventory.json
 ~~~
 
-The script intentionally does not follow redirects. This prevents it from silently moving to an unreviewed host. Review any `Location` value and add a new URL to the input file only after checking scope.
+Default safeguards include:
+
+- Exact hostname/IP matching; subdomains are not implicitly accepted.
+- Explicit port allowlisting (80 and 443 by default).
+- GET requests only, one target at a time, with a one-second delay by default.
+- A maximum of 100 unique targets unless deliberately changed.
+- Connect/read timeouts and a limited retry policy for GET requests.
+- TLS certificate verification enabled; redirects are recorded but never followed.
+- Response bodies are not downloaded.
+- Query values, URL paths and raw redirect locations are not written to the JSON report. The report records only the origin and whether a path or query was present.
+- Output is written atomically with owner-only file permissions on POSIX systems.
+- Environment proxy variables are not inherited automatically. The utility connects directly; adapt it to use an explicitly approved proxy if the engagement requires one.
+
+The exact host allowlist and port list are guardrails, not a complete scope engine. They do not validate ownership of resolved IP addresses, CIDR boundaries, CDN tenancy or every engagement exclusion. Confirm DNS answers and the written rules of engagement independently. A GET request can still trigger side effects on a poorly designed application; use a permitted test environment and check the target behaviour before running.
+
+### Run the tests
+
+The tests use local parsing and mocked HTTP responses; they do not contact external systems:
+
+~~~bash
+python -m unittest -v test_http_inventory.py
+python -m py_compile http_inventory.py
+~~~
+
+The suite checks hostname normalisation, IDNA and IPv6 handling, exact allowlist enforcement, port restrictions, URL credential/fragment rejection, duplicate limits, redirect non-following and secret-value redaction from results.
 
 ## 5. Process execution: avoid shell injection
 

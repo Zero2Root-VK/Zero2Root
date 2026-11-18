@@ -81,3 +81,42 @@
 [data-md-color-scheme="default"] .z2r-explorer .mx-note {
   background:#F8F5EE;
 }
+
+
+/* ZERO2ROOT MOBILE UX PASS — AI explorer touch controls and readable cards. */
+@media (max-width:760px) {
+  .z2r-explorer {padding-left:0;padding-right:0}
+  .z2r-explorer .mx-toolbar {gap:9px}
+  .z2r-explorer .mx-toolbar input,
+  .z2r-explorer .mx-toolbar select,
+  .z2r-explorer .mx-toolbar button {
+    min-height:46px;
+    font-size:14px;
+  }
+  .z2r-explorer .mx-card {
+    min-width:0;
+    padding:15px;
+  }
+  .z2r-explorer .mx-card h3 {font-size:1rem;line-height:1.35}
+  .z2r-explorer .mx-card p {font-size:.9rem;line-height:1.6}
+  .z2r-explorer .mx-link,
+  .z2r-explorer .mx-close {
+    display:inline-flex;
+    min-height:44px;
+    align-items:center;
+    justify-content:center;
+    padding:9px 12px;
+  }
+  .z2r-explorer .mx-dialog {
+    width:min(100% - 20px,620px);
+    max-height:calc(100dvh - 24px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+  }
+}
+@media (max-width:480px) {
+  .z2r-explorer .mx-stats {gap:8px}
+  .z2r-explorer .mx-meta {gap:8px}
+  .z2r-explorer .mx-detailitem {min-width:0;overflow-wrap:anywhere}
+  .z2r-explorer .mx-card {overflow-wrap:anywhere}
+}

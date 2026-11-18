@@ -21,13 +21,13 @@ Use these tools as complementary evidence sources. Do not collapse SAST, SCA, se
 
 ## 2. Semgrep — source-code analysis
 
-Semgrep uses rules to identify code patterns. Select rules according to the language, framework and assessment question.
+Semgrep uses rules to identify code patterns. Select rules according to the language, framework and assessment question. For a repeatable local run, prefer an explicitly selected ruleset or version-controlled local rules over an unpinned automatic selection.
 
 ~~~bash
 semgrep scan --config auto --json --output evidence/semgrep.json .
 ~~~
 
-The `auto` configuration uses Semgrep's rule-selection mechanism. For repeatable enterprise work, select and pin explicit rulesets or local rules, record their versions and review their licenses/terms. Do not assume that a default rule selection is identical across dates or environments.
+The `auto` configuration fetches rules from the Semgrep Registry and uses the project URL during rule selection; the CLI documentation also describes pseudonymous usage metrics when registry configuration is used. Review the data-handling implications before scanning private client repositories. For repeatable or restricted environments, select a pinned ruleset such as `p/default` or use version-controlled local rules, subject to the ruleset's terms. Record the ruleset revision and do not assume that an automatically selected rule set is identical across dates or environments.
 
 For each finding, trace:
 
@@ -40,6 +40,8 @@ For each finding, trace:
 A pattern match is a review candidate. Follow the data flow and run a safe test where appropriate.
 
 ## 3. Gitleaks — secret detection
+
+**Maintenance note (checked 18 November 2026):** the upstream Gitleaks repository currently describes the project as feature-complete, with future releases focused on security patches. It remains usable for existing workflows, but teams choosing a new long-lived secret-scanning dependency should review current maintenance activity, supported releases and alternatives rather than assuming active feature development.
 
 Scan a local repository directory:
 

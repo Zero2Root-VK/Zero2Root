@@ -173,7 +173,7 @@ a { color: inherit; }
 .atlas-node-count { fill: #f0e9dd; text-anchor: middle; font: 11px var(--atlas-mono); pointer-events: none; }
 .atlas-hub-aura { fill: rgba(200,142,104,.04); stroke: rgba(200,142,104,.22); stroke-width: .8; stroke-dasharray: 2 5; }
 .atlas-hub-orbit { fill: none; stroke: rgba(156,179,163,.38); stroke-width: .7; stroke-dasharray: 3 6; }
-.atlas-hub-core { fill: radial-gradient(circle,#29352f,#111818); stroke: rgba(200,142,104,.68); stroke-width: 1.1; filter: drop-shadow(0 0 20px rgba(200,142,104,.16)); }
+.atlas-hub-core { fill: url(#atlas-hub-fill); stroke: rgba(200,142,104,.68); stroke-width: 1.1; filter: drop-shadow(0 0 20px rgba(200,142,104,.16)); }
 .atlas-hub-ticks { fill: none; stroke: #c88e68; stroke-width: 1.2; opacity: .75; }
 .atlas-hub-title { fill: #eee9dc; text-anchor: middle; font: 600 13px 'Space Grotesk',sans-serif; letter-spacing: -.025em; }
 .atlas-hub-sub { fill: #a0b0a3; text-anchor: middle; font: 7px var(--atlas-mono); letter-spacing: .08em; }

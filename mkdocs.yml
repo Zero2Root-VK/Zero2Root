@@ -147,8 +147,8 @@ nav:
     - Network Scanning & Vulnerability Assessment: tools/02-scanning-tools.md
     - Web & API Testing: tools/03-web-tools.md
     - Network Traffic & Protocol Analysis: tools/04-network-tools.md
-    - Windows, Active Directory & Identity: tools/06-ad-tools.md
     - Mobile Application Testing: tools/05-mobile-tools.md
+    - Windows, Active Directory & Identity: tools/06-ad-tools.md
     - Cloud, Container & IaC Security: tools/07-cloud-tools.md
     - Source Code & Supply-Chain Security: tools/08-code-tools.md
     - Scripting & Security Automation: tools/09-scripting-automation.md

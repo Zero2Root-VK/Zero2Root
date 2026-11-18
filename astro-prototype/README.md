@@ -8,7 +8,7 @@ This folder is an isolated framework prototype. It does not replace the current 
 - Starlight 0.43
 - React 19 for the interactive explorer
 - Existing Zero2Root homepage index JSON as the content source
-- SVG-based interactive knowledge map (no graph dependency for the first iteration)
+- Animated SVG field atlas with layered domain, subdomain and resource navigation
 
 ## Experience
 
@@ -24,7 +24,7 @@ Only the ten Tools & Automation guides are migrated into Starlight in this proto
 
 ## Local development
 
-Requires Node.js 22.16.0 or newer in the Node 22 line.
+Requires Node.js 22.23.5 or newer in the Node 22 line.
 
 ```bash
 cd astro-prototype

@@ -1,11 +1,8 @@
 [build]
-  # Install dependencies, build the mkdocs site, and run our custom python script to clean up banners
+  # Install dependencies and build the selected site implementation.
   command = "bash scripts/netlify-build.sh"
-  
-  # This is the directory Netlify will serve to the public
   publish = "site"
 
 [build.environment]
-  # Specify python version
   PYTHON_VERSION = "3.9"
-  NODE_VERSION = "22.16.0"
+  NODE_VERSION = "22.23.5"

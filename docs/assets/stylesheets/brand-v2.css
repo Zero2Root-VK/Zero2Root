@@ -972,3 +972,25 @@
 [data-md-color-scheme="default"] .md-tabs__link--active::after {
   background:#A85F3E!important;
 }
+
+
+/* Header lockup: separate wordmark artwork for each theme */
+.md-header__button.md-logo img {
+  display:none !important;
+}
+.md-header__button.md-logo::before {
+  content:"";
+  display:block;
+  width:190px;
+  height:38px;
+  background:url("../zero2root-temp-lockup.svg") left center / contain no-repeat;
+}
+[data-md-color-scheme="default"] .md-header__button.md-logo::before {
+  background-image:url("../zero2root-temp-lockup-light.svg");
+}
+@media (max-width:600px) {
+  .md-header__button.md-logo::before {
+    width:150px;
+    height:31px;
+  }
+}

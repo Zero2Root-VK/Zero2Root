@@ -1,11 +1,11 @@
 {
   "meta": {
     "title": "Zero2Root — Cybersecurity Knowledge Library",
-    "source": "Existing Markdown pages and original MkDocs navigation",
-    "pageCount": 62,
+    "source": "Existing and expanded Markdown pages coordinated with MkDocs navigation",
+    "pageCount": 67,
     "learningLevels": 5,
     "lessonCount": 34,
-    "toolGuideCount": 5,
+    "toolGuideCount": 10,
     "resourceCount": 3,
     "collectionCount": 6,
     "groupCount": 10
@@ -59,11 +59,11 @@
     {
       "id": "tools",
       "code": "TOOLS",
-      "label": "Tools",
-      "name": "Tools Reference",
+      "label": "Tools & Automation",
+      "name": "Tools & Automation",
       "kind": "reference",
       "color": "#8E9A88",
-      "pageCount": 6
+      "pageCount": 11
     },
     {
       "id": "resources",
@@ -537,66 +537,121 @@
       "title": "Overview",
       "href": "tools/",
       "type": "reference-overview",
-      "summary": "A quick-reference guide to tools used across reconnaissance, scanning, web, network and mobile assessments.",
+      "summary": "A practitioner field reference for selecting, operating and connecting security tools with reproducible evidence.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 0
     },
     {
       "id": "tools-recon-tools",
-      "title": "Recon Tools",
+      "title": "Reconnaissance & Attack-Surface Discovery",
       "href": "tools/01-recon-tools/",
       "type": "reference",
-      "summary": "Quick reference for passive and active reconnaissance tools.",
+      "summary": "Passive discovery, DNS resolution, approved asset verification, HTTP probing and controlled crawling.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 1
     },
     {
       "id": "tools-scanning-tools",
-      "title": "Scanning Tools",
+      "title": "Network Scanning & Vulnerability Assessment",
       "href": "tools/02-scanning-tools/",
       "type": "reference",
-      "summary": "Scanning and enumeration references, including Nmap and vulnerability scanners.",
+      "summary": "Host discovery, TCP/UDP scanning, service identification, vulnerability scanners, TLS checks and manual validation.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 2
     },
     {
       "id": "tools-web-tools",
-      "title": "Web Application Tools",
+      "title": "Web & API Testing",
       "href": "tools/03-web-tools/",
       "type": "reference",
-      "summary": "Web application testing tools, usage patterns and workflow examples.",
+      "summary": "Proxy analysis, request replay, controlled fuzzing, API testing, ZAP automation and evidence capture.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 3
     },
     {
       "id": "tools-network-tools",
-      "title": "Network & Infrastructure Tools",
+      "title": "Network Traffic & Protocol Analysis",
       "href": "tools/04-network-tools/",
       "type": "reference",
-      "summary": "Network and infrastructure assessment tools, internal testing and enumeration references.",
+      "summary": "Wireshark, TShark, tcpdump, netcat and Scapy for bounded protocol testing and packet evidence.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 4
     },
     {
-      "id": "tools-mobile-tools",
-      "title": "Mobile Testing Tools",
-      "href": "tools/05-mobile-tools/",
+      "id": "tools-ad-tools",
+      "title": "Windows, Active Directory & Identity",
+      "href": "tools/06-ad-tools/",
       "type": "reference",
-      "summary": "Android and iOS testing tools from static analysis through dynamic instrumentation.",
+      "summary": "NetExec, Impacket, BloodHound CE and LDAP tools for authorised identity and trust analysis.",
       "group": "tools",
-      "groupLabel": "Tools Reference",
+      "groupLabel": "Tools & Automation",
       "groupCode": "TOOLS",
       "index": 5
+    },
+    {
+      "id": "tools-mobile-tools",
+      "title": "Mobile Application Testing",
+      "href": "tools/05-mobile-tools/",
+      "type": "reference",
+      "summary": "ADB, JADX, Apktool, MobSF, Frida and Objection for static and runtime mobile analysis.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 6
+    },
+    {
+      "id": "tools-cloud-tools",
+      "title": "Cloud, Container & IaC Security",
+      "href": "tools/07-cloud-tools/",
+      "type": "reference",
+      "summary": "Prowler, Trivy, Checkov, Syft and Grype for cloud posture, container and infrastructure checks.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 7
+    },
+    {
+      "id": "tools-code-tools",
+      "title": "Source Code & Supply-Chain Security",
+      "href": "tools/08-code-tools/",
+      "type": "reference",
+      "summary": "Semgrep, Gitleaks, Trivy, SBOM generation, dependency analysis and SARIF integration.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 8
+    },
+    {
+      "id": "tools-scripting-automation",
+      "title": "Scripting & Security Automation",
+      "href": "tools/09-scripting-automation/",
+      "type": "reference",
+      "summary": "Python, Bash, structured data, HTTP clients, safe subprocess execution, retries, logging and tests.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 9
+    },
+    {
+      "id": "tools-workflows",
+      "title": "End-to-End Assessment Workflows",
+      "href": "tools/10-workflows/",
+      "type": "reference",
+      "summary": "Scope-gated tool pipelines, evidence normalisation, CI integration, validation and operational controls.",
+      "group": "tools",
+      "groupLabel": "Tools & Automation",
+      "groupCode": "TOOLS",
+      "index": 10
     },
     {
       "id": "resources-overview",
@@ -807,12 +862,13 @@
       "id": "tools",
       "code": "TOOLS",
       "label": "Tools",
-      "name": "Tools Reference",
+      "name": "Tools & Automation",
       "kind": "reference",
       "color": "#8E9A88",
       "groupIds": [
         "tools"
-      ]
+      ],
+      "summary": "Practical tools, automation patterns and reproducible workflows for authorised security assessments."
     },
     {
       "id": "resources",

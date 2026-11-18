@@ -16,7 +16,7 @@ Built with a focus on practical application, Zero2Root provides structured learn
 
 * **Structured Learning Paths**: 5 distinct levels of progression (Foundations ➔ Junior ➔ Mid-Level ➔ Senior ➔ Lead/Architect).
 * **Interview Q&A Modules**: Dedicated interview preparation sections tailored to each career level.
-* **Tools Reference**: Comprehensive guides on Recon, Scanning, Web App, Network, and Mobile pentesting tools.
+* **Tools & Automation**: Practical guides for recon, scanning, web/API, network, identity, mobile, cloud, source-code and supply-chain tools, plus scripting and end-to-end assessment workflows.
 * **Premium UI/UX**: Built with Material for MkDocs, featuring a responsive, custom glassmorphic dark-mode design.
 * **Readability First**: Deep-nested navigation hierarchy and optimized Table of Contents for seamless studying.
 

@@ -1,5 +1,5 @@
 site_name: Zero2Root
-site_description: Public cybersecurity intelligence hub for AI models, benchmarks, offensive-security skills, payload references, bug bounty research and learning paths.
+site_description: Practical cybersecurity knowledge platform for learning paths, security assessments, tools and automation, AI security, vulnerability research and professional resources.
 site_author: Zero2Root Contributors
 site_url: https://zero2root.com
 repo_url: https://github.com/Zero2Root-VK/Zero2Root
@@ -141,13 +141,18 @@ nav:
       - Business Development: level-4/05-business-development.md
       - Interview Q&A — Lead: level-4/06-interview-qa.md
 
-  - Tools Reference:
+  - Tools & Automation:
     - Overview: tools/index.md
-    - Recon Tools: tools/01-recon-tools.md
-    - Scanning Tools: tools/02-scanning-tools.md
-    - Web App Tools: tools/03-web-tools.md
-    - Network & Infra Tools: tools/04-network-tools.md
-    - Mobile Tools: tools/05-mobile-tools.md
+    - Reconnaissance & Attack-Surface Discovery: tools/01-recon-tools.md
+    - Network Scanning & Vulnerability Assessment: tools/02-scanning-tools.md
+    - Web & API Testing: tools/03-web-tools.md
+    - Network Traffic & Protocol Analysis: tools/04-network-tools.md
+    - Windows, Active Directory & Identity: tools/06-ad-tools.md
+    - Mobile Application Testing: tools/05-mobile-tools.md
+    - Cloud, Container & IaC Security: tools/07-cloud-tools.md
+    - Source Code & Supply-Chain Security: tools/08-code-tools.md
+    - Scripting & Security Automation: tools/09-scripting-automation.md
+    - End-to-End Assessment Workflows: tools/10-workflows.md
 
   - AI & Security Intelligence:
     - AI Lab: ai-lab/index.md

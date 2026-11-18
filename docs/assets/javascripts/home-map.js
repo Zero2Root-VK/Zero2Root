@@ -146,7 +146,7 @@
 
   function collectionKindLabel(collection) {
     if (collection.id === "learning-paths") return "LEARNING PATHS";
-    if (collection.id === "tools") return "TOOLS REFERENCE";
+    if (collection.id === "tools") return "TOOLS & AUTOMATION";
     if (collection.id === "resources") return "CAREER & PRACTICE";
     if (collection.id === "ai-intelligence") return "AI & SECURITY INTELLIGENCE";
     if (collection.id === "offensive-arsenal") return "OFFENSIVE SECURITY";
@@ -165,7 +165,7 @@
 
   function groupKindLabel(group) {
     if (group.kind === "learning") return "LEARNING PATH";
-    if (group.id === "tools") return "TOOLS COLLECTION";
+    if (group.id === "tools") return "TOOLS & AUTOMATION";
     if (group.id === "ai-intelligence") return "AI & SECURITY INTELLIGENCE";
     if (group.id === "offensive-arsenal") return "OFFENSIVE SECURITY";
     if (group.id === "research-bounty") return "RESEARCH & BUG BOUNTY";

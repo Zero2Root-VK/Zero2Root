@@ -8,7 +8,7 @@ hide:
     <section class="z2r-library-copy" aria-label="Zero2Root knowledge library">
       <p class="z2r-library-kicker">A FIELD GUIDE TO THE SECURITY LANDSCAPE</p>
       <h1>Cybersecurity,<br><em>mapped.</em></h1>
-      <p class="z2r-library-intro">Explore learning paths, AI model intelligence, offensive-security skills, testing references and bug bounty research—all in one place.</p>
+      <p class="z2r-library-intro">Explore learning paths, tools and automation, AI security, offensive-security research and practical security references—all in one place.</p>
 
       <div class="z2r-library-metrics" aria-label="Library statistics">
         <div><strong data-library-stat="levels">05</strong><span>LEVELS</span></div>

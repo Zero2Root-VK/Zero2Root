@@ -1,557 +1,179 @@
-# Recon Tools
+# Reconnaissance & Attack-Surface Discovery
 
-Quick reference for the reconnaissance phase — passive and active information gathering.
+<div class="z2r-page-intro" markdown="1">
+<span class="z2r-level-kicker">TOOLS / 01 · DISCOVERY</span>
 
----
+Build an evidence-backed inventory of approved domains, DNS records, live web services and application endpoints. Keep passive collection separate from active probing and never assume that a discovered asset is automatically authorised.
+</div>
 
-## theHarvester
+## 1. Purpose and workflow
 
-**Purpose:** Gathers email addresses, subdomains, IPs, and URLs from public sources.
+Reconnaissance answers: **which assets are associated with the approved organisation, which respond, and what should be examined next?**
 
-```bash
-# Search across all sources
-theHarvester -d example.com -b all
+A defensible workflow is:
 
-# Search specific sources
-theHarvester -d example.com -b google,bing,linkedin,yahoo
+1. Load the approved root domains, IP ranges and explicit exclusions.
+2. Collect passive observations from permitted public sources.
+3. Resolve candidate hostnames and remove duplicates.
+4. Probe only approved hosts for live services.
+5. Crawl approved applications at a controlled depth and request rate.
+6. Validate ownership, scope and material observations before passing targets to scanners.
 
-# Output to file
-theHarvester -d example.com -b all -f results.html
+Passive data can be stale, incomplete or associated with third-party infrastructure. Active DNS queries, crawling and probing create traffic and must follow the engagement rules.
 
-# Common sources: google, bing, baidu, yahoo, hunter, linkedin, twitter, github, shodan
-```
+## 2. Tool selection
 
-**Interview relevance:** Know what sources it queries, that it's passive reconnaissance (no direct contact with target), and what the typical output is used for (email lists for phishing simulation, subdomain list for further testing).
+| Tool | Best fit | Important limitation |
+|---|---|---|
+| [Subfinder](https://docs.projectdiscovery.io/tools/subfinder/overview) | Passive subdomain discovery from configured public sources | Coverage depends on source availability and configured API keys |
+| [Amass](https://github.com/owasp-amass/amass) | DNS and attack-surface mapping, including passive enumeration | Active modes can generate additional DNS traffic |
+| [theHarvester](https://github.com/laramies/theHarvester) | Collecting public email, hostname and source references | Source coverage and API limits vary |
+| [Certificate Transparency](https://crt.sh/) | Finding names appearing in public TLS certificates | Certificate entries do not prove that a host is live or in scope |
+| [Shodan](https://help.shodan.io/) | Reviewing internet-exposure observations from Shodan's index | Results are point-in-time observations, not a live scan |
+| [dnsx](https://docs.projectdiscovery.io/tools/dnsx/overview) | Resolving and querying DNS records at scale | DNS answers can vary by resolver, location and time |
+| [httpx](https://docs.projectdiscovery.io/tools/httpx/overview) | HTTP probing, status codes, titles and technology hints | A response does not prove application ownership or vulnerability |
+| [Katana](https://docs.projectdiscovery.io/tools/katana/overview) | Controlled web crawling and endpoint discovery | Crawling may trigger state changes if the app exposes unsafe GET routes |
 
----
+The ProjectDiscovery CLI tool named `httpx` is not the Python HTTPX library. Check the binary path and version when both are installed.
 
-## Amass
+## 3. Establish a controlled workspace
 
-**Purpose:** Comprehensive subdomain enumeration using DNS, scraping, APIs, and brute force.
+Use a separate directory for each engagement. The domain below is a placeholder; replace it only with a root explicitly present in the approved scope.
 
-```bash
-# Passive enumeration only
-amass enum -passive -d example.com
+~~~bash
+umask 077
+mkdir -p evidence/recon
+printf '%s\n' 'example.com' > evidence/recon/approved-roots.txt
+~~~
 
-# Active + passive (DNS brute force included)
-amass enum -d example.com
+Keep the approved scope file under change control. Do not construct target lists from search results and feed them directly into active tools without checking them against scope and exclusions.
 
-# Use API keys for additional sources
-amass enum -d example.com -config ~/.config/amass/config.ini
+## 4. Passive discovery
 
-# Output to file
-amass enum -d example.com -o subdomains.txt
+### Subfinder
 
-# Intel mode — find related domains
-amass intel -d example.com -whois
-```
+Subfinder queries passive sources to discover subdomains. Provider configuration and API keys determine source coverage.
 
-**Interview relevance:** Understanding passive vs active mode, and that amass uses multiple techniques (DNS, CT logs, scraping, APIs) making it more comprehensive than single-technique tools.
+~~~bash
+subfinder -d example.com -silent -o evidence/recon/subfinder.txt
+~~~
 
----
+For repeatable work, record the Subfinder version, provider configuration identifier (not the API key), source options and collection time. Avoid publishing provider keys or raw authenticated configuration files.
 
-## Subfinder
+### Amass
 
-**Purpose:** Fast passive subdomain discovery using multiple APIs.
+Use passive mode when the task is to collect data without active DNS brute forcing:
 
-```bash
-# Basic usage
-subfinder -d example.com
+~~~bash
+amass enum -passive -d example.com -o evidence/recon/amass-passive.txt
+~~~
 
-# Output list of subdomains
-subfinder -d example.com -o subdomains.txt
+Amass has other modes and options. Review its current help and documentation before enabling active enumeration, brute forcing or recursive discovery.
 
-# Silent mode (output only)
-subfinder -d example.com -silent
+### Certificate Transparency
 
-# Use with other tools (pipe)
-subfinder -d example.com | httpx | nuclei -t technologies/
-```
+A simple CT query can identify names present in certificates issued for a domain:
 
----
+~~~bash
+curl -fsS 'https://crt.sh/?q=%25.example.com&output=json' \
+  | jq -r '.[].name_value' \
+  | sed 's/^\*\.//' \
+  | sort -u > evidence/recon/ct-names.txt
+~~~
 
-## Certificate Transparency — crt.sh
+Treat every returned name as an unverified candidate. Certificate entries may be historical, wildcard-derived, misspelled, delegated or hosted by a third party.
 
-Every certificate issued for a domain is publicly logged in CT logs. Often reveals subdomains that aren't in DNS.
+### Shodan and other indexed sources
 
-```bash
-# Command line query
-curl -s "https://crt.sh/?q=%.example.com&output=json" | jq '.[].name_value' | sort -u
+Use a provider's official interface or API and retain the query, account context and collection time. Confirm that the indexed address belongs to the authorised asset before using it as an active scan target. A Shodan observation can help prioritise review; it cannot replace direct validation.
 
-# Alternative: grep out unique subdomains
-curl -s "https://crt.sh/?q=%.example.com&output=json" | \
-  python3 -c "import sys,json; [print(v) for x in json.load(sys.stdin) for v in x['name_value'].split('\n')]" | \
-  sort -u
-```
+## 5. Resolve and normalise candidates
 
----
+Merge passive results, remove blank lines and deduplicate:
 
-## Shodan CLI
+~~~bash
+cat evidence/recon/subfinder.txt evidence/recon/amass-passive.txt evidence/recon/ct-names.txt \
+  | tr '[:upper:]' '[:lower:]' \
+  | sed '/^[[:space:]]*$/d' \
+  | sort -u > evidence/recon/candidate-hostnames.txt
+~~~
 
-```bash
-# Install
-pip install shodan
-shodan init YOUR_API_KEY
+Resolve the candidate list with dnsx:
 
-# Basic search
-shodan search hostname:example.com
+~~~bash
+dnsx -l evidence/recon/candidate-hostnames.txt -a -resp -silent \
+  -o evidence/recon/resolved-a-records.txt
+~~~
 
-# Search with specific port
-shodan search hostname:example.com port:443
+This example collects A-record responses. Add AAAA, CNAME, MX or other record queries only when they answer a defined assessment question. Do not discard the original hostname list: unresolved names can be temporarily unavailable or intentionally internal.
 
-# Get IP information
-shodan host 198.51.100.1
+## 6. Probe approved HTTP services
 
-# Count results without downloading
-shodan count hostname:example.com
+After scope validation, probe the approved/resolved hosts. Keep a simple live-URL list for subsequent tools and a structured inventory for analysis.
 
-# Download results
-shodan download results hostname:example.com
-shodan parse results.json.gz
+~~~bash
+httpx -l evidence/recon/candidate-hostnames.txt \
+  -silent -status-code -title -tech-detect -json \
+  -o evidence/recon/http-inventory.jsonl
+~~~
 
-# Monitor (alerts when new services appear)
-shodan alert create "Example Corp" 198.51.100.0/24
+Review the tool's current CLI help to confirm available flags in the installed release. Technology detection is fingerprinting, not proof of a specific version or exploitable weakness. Preserve redirects, response codes and final URLs where the workflow needs them.
 
-# Stats
-shodan stats --facets port hostname:example.com
-```
+## 7. Controlled crawling
 
----
+Katana can discover links and application endpoints from a seed URL. Start with one approved application and a low crawl depth. Review current options with `katana -h` and the official documentation before adding JavaScript crawling, form submission or higher concurrency.
 
-## Recon-ng
+Example command shape:
 
-**Purpose:** Full-featured OSINT framework with modular architecture. Similar concept to Metasploit but for reconnaissance.
+~~~bash
+katana -u https://app.example.test -d 2 -rl 2 -jsonl \
+  -o evidence/recon/katana-endpoints.jsonl
+~~~
 
-```bash
-# Start
-recon-ng
+The hostname ending in `.test` is a lab placeholder. Do not crawl login, logout, payment, administrative or state-changing flows unless the engagement permits them. Avoid submitting forms or following workflows that can create, modify or delete production data.
 
-# Inside recon-ng:
-> marketplace install all              # Install all modules
-> workspaces create example            # Create workspace
-> db insert domains domains=example.com
+## 8. Normalise results for the next stage
 
-# Use a module
-> modules load recon/domains-hosts/hackertarget
-> run
+A useful asset record should preserve at least:
 
-# Search for modules
-> marketplace search github
+| Field | Meaning |
+|---|---|
+| `asset` | Canonical hostname or IP address |
+| `source` | Tool or passive source that discovered it |
+| `observed_at` | UTC collection timestamp |
+| `record_type` | DNS record or HTTP observation type |
+| `resolved_address` | Address observed at collection time, where relevant |
+| `scope_status` | In scope, excluded, pending verification |
+| `evidence_file` | Path to the raw result |
 
-# Common modules:
-# recon/domains-hosts/brute_hosts      — DNS brute force
-# recon/hosts-hosts/shodan_hostname    — Shodan lookup
-# recon/domains-contacts/whois_pocs   — WHOIS contacts
-# recon/contacts-credentials/hibp      — Have I Been Pwned lookup
-```
+Do not merge two services solely because they share an IP address. Virtual hosting, CDNs and reverse proxies can place unrelated tenants behind the same address.
 
----
+## 9. Common errors and troubleshooting
 
-## WHOIS Lookup
+- **No results:** check the root domain, DNS connectivity, resolver policy and provider API configuration. Empty output does not prove that no assets exist.
+- **Unexpected third-party names:** compare registrant, DNS delegation, certificate data and written scope. Exclude until ownership is confirmed.
+- **Wildcard DNS:** compare random, non-existent labels to understand wildcard responses before trusting brute-force results.
+- **HTTP probe failures:** distinguish DNS failure, TLS failure, timeout, redirect and HTTP error. Do not automatically label all non-200 responses as dead.
+- **Rate limiting:** reduce request rate, observe Retry-After and coordinate with the owner. Do not evade provider limits by rotating identities or source addresses.
+- **Tool output changes:** pin tool versions for an engagement and review release notes before upgrading.
 
-```bash
-# Domain WHOIS
-whois example.com
+## 10. Handoff checklist
 
-# IP range WHOIS
-whois 198.51.100.1
+- [ ] Roots and exclusions match the approved scope.
+- [ ] Passive and active results are stored separately.
+- [ ] Candidate names are deduplicated and resolved.
+- [ ] Every active target has been scope-checked.
+- [ ] HTTP status, title and final URL are retained where collected.
+- [ ] Third-party services and shared infrastructure are flagged for review.
+- [ ] Tool versions, timestamps and commands are recorded.
+- [ ] Raw results are protected and retained.
 
-# ASN lookup (find all IP ranges for an org)
-whois -h whois.radb.net -- '-i origin AS12345'
+## Official references
 
-# Online tools:
-# https://whois.domaintools.com/
-# https://bgp.he.net/
-# https://search.arin.net/rdap/ (ARIN for North America)
-# https://rdap.db.ripe.net/ (RIPE for Europe)
-# https://rdap.apnic.net/ (APNIC for Asia-Pacific including India)
-```
-
----
-
-## Google Dorks — Quick Reference
-
-```
-# Restrict to domain
-site:example.com
-
-# Find specific file types
-site:example.com filetype:pdf
-site:example.com ext:xlsx ext:docx
-
-# Find admin panels
-inurl:admin site:example.com
-inurl:login site:example.com
-intitle:"admin panel" site:example.com
-
-# Find exposed configs
-site:example.com ext:conf
-site:example.com ext:env
-site:example.com ext:ini ext:cfg
-
-# Find exposed credentials
-site:example.com intext:"password"
-site:example.com intext:"api_key"
-
-# Directory listings
-intitle:"index of" site:example.com
-
-# Error messages revealing tech stack
-intext:"SQL syntax" site:example.com
-intext:"Warning: mysql" site:example.com
-intext:"Fatal error" site:example.com
-
-# Backup files
-site:example.com ext:bak ext:backup ext:old
-```
-
----
-
-## DNS Enumeration Quick Reference
-
-```bash
-# Zone transfer attempt
-dig axfr @ns1.example.com example.com
-
-# All DNS record types
-dig ANY example.com
-dig A example.com
-dig AAAA example.com
-dig MX example.com
-dig NS example.com
-dig TXT example.com
-dig SOA example.com
-dig CNAME www.example.com
-
-# Reverse DNS
-dig -x 198.51.100.1
-
-# Using dnsrecon
-dnsrecon -d example.com -t axfr         # Zone transfer
-dnsrecon -d example.com -t brt          # Brute force
-dnsrecon -d example.com -t std          # Standard enumeration
-dnsrecon -r 198.51.100.0/24 -t rvl     # Reverse lookup of IP range
-
-# Using dnsenum
-dnsenum example.com
-dnsenum --threads 10 -f /usr/share/wordlists/dns/subdomains.txt example.com
-```
-
----
-
-## Maltego — Visual Link Analysis
-
-Maltego creates visual relationship graphs connecting entities (people, organizations, domains, IPs, email addresses). Particularly powerful for investigating relationships across multiple data sources simultaneously.
-
-```
-Setup:
-1. Register at maltego.com (free community edition available)
-2. Download and install Maltego
-3. Add Transform Hubs (data source integrations)
-
-Core entities:
-
-- Domain, DNS name, URL
-
-- IP address, AS number, netblock
-
-- Person, email address, phone number
-
-- Organization, location
-
-Key transforms:
-Domain → DNS Names (subdomains)
-Domain → MX records (mail servers)
-Domain → Whois (registrant info)
-Email → Person (social media profiles)
-IP → AS number → Netblock (find related IPs)
-Domain → Shodan results
-
-Workflow:
-1. Start with target domain
-2. Run "All DNS" transform — discovers subdomains, mail servers, nameservers
-3. Run WHOIS transform on domain — gets registrant details
-4. Run "To IP Address" on discovered hostnames
-5. Run Shodan transforms on IP addresses
-6. Build relationship map visually
-
-Community vs Commercial:
-Community: 12 entities per graph, limited transforms
-Professional/Enterprise: Unlimited, full transform library including Shodan, VirusTotal, etc.
-```
-
----
-
-## Wayback Machine / Web Archives
-
-Historical website content reveals removed endpoints, old application versions, and content that developers thought was gone.
-
-```bash
-# Command-line tools for Wayback Machine
-
-# waybackurls — get all URLs ever crawled for a domain
-go install github.com/tomnomnom/waybackurls@latest
-waybackurls example.com
-
-# Filter for interesting file types
-waybackurls example.com | grep -E "\.(php|asp|aspx|jsp|cfm|cgi)"
-waybackurls example.com | grep -E "\.(json|xml|yaml|config|env|bak|old|backup)"
-waybackurls example.com | grep "admin\|login\|api\|internal"
-
-# gau — get all URLs from multiple sources (Wayback, CommonCrawl, OTX, URLScan)
-go install github.com/lc/gau/v2/cmd/gau@latest
-gau example.com
-gau --blacklist png,jpg,gif,svg example.com  # Skip image URLs
-
-# Katana — active web crawler
-go install github.com/projectdiscovery/katana/cmd/katana@latest
-katana -u https://example.com
-katana -u https://example.com -jc  # Execute JavaScript (finds dynamic endpoints)
-
-# Combine tools
-gau example.com | sort -u | grep -E "\.(php|asp|cfm|jsp)" > old_endpoints.txt
-```
-
-**What to look for in historical content:**
-- Old API endpoints that may still be active
-
-- Removed admin panels that weren't properly access-controlled
-
-- Old versions of applications with known CVEs
-
-- Configuration files that were briefly indexed
-
-- Employee names and email addresses from old "about" pages
-
-- Forgotten subdomains from acquisitions or deprecated projects
-
----
-
-## GitHub and Code Repository Recon
-
-Developers routinely commit sensitive information — API keys, database credentials, internal hostnames — to public repositories.
-
-```bash
-# Manual GitHub search (web browser)
-# https://github.com/search?q=example.com+password&type=code
-# https://github.com/search?q=example.com+api_key&type=code
-# https://github.com/search?q=example.com+secret&type=code
-# https://github.com/search?q=example.com+token&type=code
-# https://github.com/search?q=example.com+aws_access_key&type=code
-# https://github.com/search?q=org:example-corp+password&type=code
-
-# trufflehog — scan git history for secrets
-pip install trufflehog
-trufflehog github --org example-corp
-trufflehog github --repo https://github.com/example-corp/repo
-trufflehog git file:///path/to/local/repo
-
-# gitleaks — find secrets in repositories
-go install github.com/gitleaks/gitleaks/v8@latest
-gitleaks detect --source /path/to/repo
-gitleaks detect --source /path/to/repo --report-format json --report-path results.json
-
-# Scan entire GitHub organization
-gitleaks detect --source . -c gitleaks.toml
-
-# gitrob — scan GitHub organizations for sensitive files
-go install github.com/michenriksen/gitrob@latest
-gitrob analyze example-corp
-
-# GitHub dorking with gh CLI
-gh search code "example.com password" --limit 100
-gh search code "org:example-corp api_key" --limit 100
-```
-
-**High-value targets in GitHub:**
-```
-# Files that commonly contain credentials
-.env, .env.local, .env.production
-config.yml, config.json, settings.py
-*.pem, *.key, *.p12, *.pfx
-docker-compose.yml (often has DB passwords)
-.travis.yml, .circleci/config.yml (CI/CD env vars)
-Dockerfile (ENV statements)
-terraform.tfvars (cloud credentials)
-kubeconfig (Kubernetes cluster access)
-
-# Search operators for GitHub
-filename:.env secret
-filename:config.yml password
-extension:pem private
-path:/.aws credentials
-```
-
----
-
-## Shodan Dorking — Advanced Usage
-
-```bash
-# Find specific vulnerable software versions
-product:"Apache httpd" version:"2.4.49"   # CVE-2021-41773
-product:"GitLab" version:"13.10.0"        # Known vulnerable version
-product:"Confluence" port:8090
-
-# Find internet-exposed services that shouldn't be
-port:27017 country:IN                     # MongoDB in India
-port:9200 product:Elasticsearch           # Elasticsearch (often unauthenticated)
-port:6379 product:Redis                   # Redis (often unauthenticated)
-port:5432 PostgreSQL country:US           # Postgres
-
-# Find organization infrastructure
-org:"Example Corporation" port:22
-org:"Example Corporation" http.title:"admin"
-org:"Example Corporation" ssl.cert.subject.cn:"*.example.com"
-
-# Find exposed control panels
-http.title:"Jenkins" port:8080
-http.title:"Kibana" port:5601
-http.title:"Jupyter" port:8888 country:IN
-http.title:"phpMyAdmin"
-http.component:"Laravel"
-
-# Find default credentials
-"default password" org:"Example Corp"
-http.html:"admin/admin"
-
-# ICS/SCADA (useful context for OT security assessments)
-port:102 product:"Siemens S7"             # Siemens PLCs
-port:20000 product:DNP3                   # DNP3 industrial protocol
-"Schneider Electric" port:80
-
-# Using Shodan API
-shodan search --fields ip_str,port,org,product "hostname:example.com" --limit 100
-shodan scan submit --filename targets.txt  # Scan specific IPs/ranges
-shodan alert create "example monitoring" "org:\"Example Corp\""  # Monitor for changes
-```
-
----
-
-## Hunter.io and Email Pattern Discovery
-
-Before running phishing simulations or credential spraying, identify the email format used by the target organization.
-
-```
-# Manual: https://hunter.io/search/example.com
-# Shows: email format (firstname.lastname@example.com) + verified addresses
-
-# Email format patterns (common):
-{first}.{last}@example.com     → john.smith@example.com
-{f}{last}@example.com          → jsmith@example.com
-{first}@example.com            → john@example.com
-{first}{last}@example.com      → johnsmith@example.com
-{first}_{last}@example.com     → john_smith@example.com
-
-# Once format known, generate email list from LinkedIn employee names
-# LinkedIn → search employees → export names → Python script to format
-
-# EmailFormat.com — another pattern database
-# https://www.email-format.com/i/search/?q=example.com
-
-# Verify emails without sending (SMTP verification)
-# Tools: email-verifier, verify-email
-python3 -c "
-import smtplib
-smtp = smtplib.SMTP('mail.example.com')
-smtp.ehlo()
-smtp.mail('')
-code, msg = smtp.rcpt('test@example.com')
-print(f'Code: {code}')  # 250 = valid, 550 = invalid
-"
-```
-
----
-
-## Passive DNS and IP History
-
-Historical DNS records reveal infrastructure that changed — previous hosting, moved services, internal IP leakage.
-
-```bash
-# SecurityTrails (web UI + API)
-# https://securitytrails.com/domain/example.com/history/a
-# Shows historical A, MX, NS, CNAME records with dates
-
-# RiskIQ PassiveTotal (now Microsoft Defender TI)
-# Historical DNS, WHOIS, malware associations
-
-# CIRCL passive DNS
-# https://www.circl.lu/services/passive-dns/
-
-# VirusTotal for domain/IP history
-curl -s "https://www.virustotal.com/api/v3/domains/example.com" \
-  -H "x-apikey: YOUR_API_KEY" | jq '.data.attributes.last_dns_records'
-
-# DNSDumpster (web) — visual DNS map
-# https://dnsdumpster.com/
-
-# What IP history reveals:
-# - Previous hosting provider (may still have old version running)
-# - Internal IPs leaked in DNS (dev environments)
-# - Relationship between domains (shared hosting = shared IP = related company)
-# - CDN vs origin IP (bypass CDN/WAF to reach origin directly)
-```
-
----
-
-## Recon Automation — Full Pipeline
-
-For external engagements, a repeatable automated recon pipeline saves time and ensures nothing is missed.
-
-```bash
-#!/bin/bash
-# Basic recon automation script
-TARGET=$1
-OUTPUT_DIR="recon_$TARGET"
-mkdir -p $OUTPUT_DIR
-
-echo "[*] Starting recon for $TARGET"
-
-# 1. Subdomain enumeration
-echo "[*] Subdomain enumeration..."
-subfinder -d $TARGET -silent -o $OUTPUT_DIR/subdomains_subfinder.txt
-amass enum -passive -d $TARGET -o $OUTPUT_DIR/subdomains_amass.txt
-curl -s "https://crt.sh/?q=%.${TARGET}&output=json" | \
-  jq -r '.[].name_value' | sort -u > $OUTPUT_DIR/subdomains_crt.txt
-
-# Combine and deduplicate
-cat $OUTPUT_DIR/subdomains_*.txt | sort -u > $OUTPUT_DIR/all_subdomains.txt
-echo "[*] Found $(wc -l < $OUTPUT_DIR/all_subdomains.txt) unique subdomains"
-
-# 2. DNS resolution — find live hosts
-echo "[*] Resolving live hosts..."
-cat $OUTPUT_DIR/all_subdomains.txt | \
-  dnsx -silent -a -resp-only > $OUTPUT_DIR/live_ips.txt
-
-# 3. HTTP probing — find web servers
-echo "[*] Probing for web servers..."
-cat $OUTPUT_DIR/all_subdomains.txt | \
-  httpx -silent -status-code -title -tech-detect > $OUTPUT_DIR/web_servers.txt
-
-# 4. Screenshot all web servers (gowitness)
-echo "[*] Taking screenshots..."
-cat $OUTPUT_DIR/web_servers.txt | cut -d' ' -f1 | \
-  gowitness file -f - --destination $OUTPUT_DIR/screenshots/
-
-# 5. Nuclei scanning
-echo "[*] Running nuclei..."
-cat $OUTPUT_DIR/web_servers.txt | cut -d' ' -f1 | \
-  nuclei -t exposures/ -t misconfiguration/ -severity high,critical \
-  -o $OUTPUT_DIR/nuclei_findings.txt
-
-# 6. Port scan live IPs
-echo "[*] Port scanning..."
-nmap -iL $OUTPUT_DIR/live_ips.txt -p- --min-rate 5000 \
-  -oA $OUTPUT_DIR/nmap_portscan
-
-echo "[*] Recon complete. Results in $OUTPUT_DIR/"
-```
-
-**Tools used in the pipeline above (install all):**
-```bash
-go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install -v github.com/owasp-amass/amass/v4/...@master
-go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
-go install -v github.com/sensepost/gowitness@latest
-go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
-```
+- [ProjectDiscovery documentation](https://docs.projectdiscovery.io/)
+- [Subfinder](https://docs.projectdiscovery.io/tools/subfinder/overview)
+- [Amass](https://github.com/owasp-amass/amass)
+- [theHarvester](https://github.com/laramies/theHarvester)
+- [crt.sh](https://crt.sh/)
+- [Shodan Help Centre](https://help.shodan.io/)
+- [Katana](https://docs.projectdiscovery.io/tools/katana/overview)

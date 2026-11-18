@@ -102,22 +102,30 @@ Resolve the candidate list with dnsx:
 
 ~~~bash
 dnsx -l evidence/recon/candidate-hostnames.txt -a -resp -silent \
-  -o evidence/recon/resolved-a-records.txt
+  -rl 5 -t 5 -o evidence/recon/resolved-a-records.txt
 ~~~
 
 This example collects A-record responses. Add AAAA, CNAME, MX or other record queries only when they answer a defined assessment question. Do not discard the original hostname list: unresolved names can be temporarily unavailable or intentionally internal.
 
 ## 6. Probe approved HTTP services
 
-After scope validation, probe the approved/resolved hosts. Keep a simple live-URL list for subsequent tools and a structured inventory for analysis.
+After a human scope review, save the approved hostnames as one hostname per line in `evidence/recon/approved-hostnames.txt`. Do not pass the unreviewed candidate file directly to an active probe. The ProjectDiscovery httpx CLI currently supports JSONL output with `-json` and request-rate/thread controls with `-rl` and `-t`.
 
 ~~~bash
-httpx -l evidence/recon/candidate-hostnames.txt \
+httpx -l evidence/recon/approved-hostnames.txt \
   -silent -status-code -title -tech-detect -json \
+  -rl 5 -t 5 \
   -o evidence/recon/http-inventory.jsonl
 ~~~
 
-Review the tool's current CLI help to confirm available flags in the installed release. Technology detection is fingerprinting, not proof of a specific version or exploitable weakness. Preserve redirects, response codes and final URLs where the workflow needs them.
+Create a plain URL list from the structured output for tools that expect one URL per line:
+
+~~~bash
+jq -r '.url // empty' evidence/recon/http-inventory.jsonl \
+  | sort -u > evidence/recon/live-http-urls.txt
+~~~
+
+The `.url` field is part of the httpx JSON output. Confirm it against the installed binary's `-ldv` output if you pin a different release or change the output format. The two files now serve different purposes: JSONL retains the structured observations; `live-http-urls.txt` is a simple downstream target list. Technology detection is fingerprinting, not proof of a specific version or exploitable weakness. httpx does not follow redirects unless that behaviour is enabled; review any discovered redirect destination against scope before testing it.
 
 ## 7. Controlled crawling
 

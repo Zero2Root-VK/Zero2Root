@@ -144,9 +144,9 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
               <p>{view === 'explore' ? 'Select a domain to reveal its structure and the material connected to it.' : view === 'workflow' ? 'Follow the stages of a controlled security assessment.' : 'Search and filter the complete content index.'}</p>
             </div>
             <div className="z2r-view-switch" role="tablist" aria-label="Explorer views">
-              <button role="tab" aria-selected={view === 'explore'} className={view === 'explore' ? 'active' : ''} onClick={() => setView('explore')}>Explorer</button>
-              <button role="tab" aria-selected={view === 'workflow'} className={view === 'workflow' ? 'active' : ''} onClick={() => setView('workflow')}>Workflow</button>
-              <button role="tab" aria-selected={view === 'directory'} className={view === 'directory' ? 'active' : ''} onClick={() => setView('directory')}>Directory</button>
+              <button role="tab" aria-selected={view === 'explore'} className={view === 'explore' ? 'active' : ''} onClick={() => { setView('explore'); setSelectedPage(null); }}>Explorer</button>
+              <button role="tab" aria-selected={view === 'workflow'} className={view === 'workflow' ? 'active' : ''} onClick={() => { setView('workflow'); setSelectedPage(null); }}>Workflow</button>
+              <button role="tab" aria-selected={view === 'directory'} className={view === 'directory' ? 'active' : ''} onClick={() => { setView('directory'); setSelectedPage(null); }}>Directory</button>
             </div>
           </div>
 

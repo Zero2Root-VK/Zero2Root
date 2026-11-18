@@ -43,7 +43,7 @@ The Netlify build script routes only the `prototype/astro-knowledge-explorer` br
 
 ## Known prototype limitations
 
-- The current atlas builds a typed Graphology network from the curated index at runtime, with collection, group and resource nodes, explicit hierarchy edges, and curated cross-topic relationships.
+- The current atlas builds a typed Graphology network from the curated index at runtime, with collection, group and resource nodes, explicit hierarchy edges, and curated cross-topic relationships. Node positions are seeded from the hierarchy so the graph can initialise without a blocking force-layout pass.
 - Relationship edges are curated examples, not inferred or exhaustive.
 - The remaining 56 pages are not copied to Starlight yet; they open in the existing MkDocs preview.
 - There is no committed npm lockfile yet because this environment cannot access the npm registry. Direct dependencies are pinned in package.json; a lockfile should be generated before production migration.

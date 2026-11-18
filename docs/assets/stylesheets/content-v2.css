@@ -831,3 +831,83 @@
     -webkit-overflow-scrolling:touch;
   }
 }
+
+
+/* ZERO2ROOT MOBILE UX PASS — comfortable reading and no accidental page-wide overflow. */
+@media (max-width:760px) {
+  .md-container:not(:has(.z2r-hero)) .md-content__inner {
+    padding-left:18px!important;
+    padding-right:18px!important;
+    padding-bottom:42px!important;
+  }
+  .md-typeset {
+    font-size:16px;
+    line-height:1.75;
+    overflow-wrap:anywhere;
+  }
+  .md-typeset h1 {
+    font-size:clamp(1.8rem,7vw,2.35rem)!important;
+    line-height:1.12!important;
+    overflow-wrap:normal;
+  }
+  .md-typeset h2 {
+    font-size:1.35rem!important;
+    line-height:1.25!important;
+    scroll-margin-top:5rem;
+  }
+  .md-typeset h3 {font-size:1.1rem!important;line-height:1.35!important}
+  .md-typeset p,
+  .md-typeset li {overflow-wrap:anywhere}
+  .md-typeset pre,
+  .md-typeset .highlight,
+  .md-typeset .highlighttable {
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .md-typeset pre {
+    font-size:.78rem!important;
+    line-height:1.6!important;
+    tab-size:2;
+  }
+  .md-typeset table:not([class]) {
+    display:block;
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    white-space:normal;
+  }
+  .md-typeset table:not([class]) th,
+  .md-typeset table:not([class]) td {
+    min-width:105px;
+    padding:9px 10px!important;
+    font-size:.82rem;
+    line-height:1.5;
+  }
+  .md-typeset .grid.cards > ul,
+  .md-typeset .grid.cards > ol {
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .md-typeset .grid.cards > ul > li,
+  .md-typeset .grid.cards > ol > li,
+  .md-typeset .grid.cards > li {
+    min-width:0;
+    padding:16px!important;
+  }
+  .md-typeset a,
+  .md-nav__link {overflow-wrap:anywhere}
+  .md-typeset button,
+  .md-typeset input,
+  .md-typeset select,
+  .md-typeset summary {
+    min-height:42px;
+  }
+}
+@media (max-width:420px) {
+  .md-container:not(:has(.z2r-hero)) .md-content__inner {
+    padding-left:15px!important;
+    padding-right:15px!important;
+  }
+  .md-typeset {font-size:15.5px}
+  .md-typeset pre {font-size:.74rem!important}
+}

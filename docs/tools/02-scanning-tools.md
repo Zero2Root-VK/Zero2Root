@@ -1,639 +1,200 @@
-# Scanning Tools
+# Network Scanning & Vulnerability Assessment Tools
 
----
+<div class="z2r-page-intro" markdown="1">
+<span class="z2r-level-kicker">TOOLS / 02 · SCANNING & VALIDATION</span>
 
-## Nmap — Core Reference
+Move from an approved asset inventory to measured host, port, service, vulnerability and configuration evidence. A scan is a test with limits—not permission to probe everything reachable.
+</div>
 
-Full Nmap documentation is in the [Scanning & Enumeration](../level-1/02-scanning-enumeration.md) module. Quick-reference card:
+## 1. Scanning sequence
 
-```bash
-# Host discovery
-nmap -sn 192.168.1.0/24              # Ping sweep
-nmap -Pn target                       # Skip discovery, assume up
+Use a staged approach. Each phase should answer a defined question and inform the next phase.
 
-# Port scanning
-nmap -sS target                       # SYN scan (stealth, root required)
-nmap -sT target                       # TCP connect (no root needed)
-nmap -sU -p 53,161,500 target        # UDP scan (specific ports)
-nmap -p- --min-rate 5000 target      # All 65535 ports, fast
-nmap -p 1-1024 target                # First 1024 ports
-nmap --top-ports 100 target          # Most common 100 ports
+1. **Host discovery:** identify responsive hosts in the authorised range.
+2. **Port inventory:** identify listening TCP and selected UDP services.
+3. **Service identification:** establish protocol and version evidence.
+4. **Vulnerability assessment:** run approved checks against the confirmed services.
+5. **Manual validation:** test whether the reported condition is present and applicable.
+6. **Retest:** repeat the original test after remediation using comparable options.
 
-# Detection
-nmap -sV target                       # Service/version detection
-nmap -O target                        # OS fingerprinting
-nmap -sV -O -sC target               # Everything + default scripts
+Do not begin with maximum timing, every port, every plugin and every template. Large scans can disrupt fragile devices, trigger monitoring alerts or affect shared services.
 
-# NSE scripts
-nmap -sC target                       # Default scripts
-nmap --script vuln target             # Vulnerability scripts
-nmap --script "http-*" target         # All HTTP scripts
-nmap --script smb-vuln-ms17-010 target # Specific script
+## 2. Nmap — network exploration and service discovery
 
-# Output
-nmap -oA output target               # All formats (recommended)
-nmap -oN output.txt target           # Normal
-nmap -oX output.xml target           # XML
-nmap -oG output.gnmap target         # Grepable
+Create the output directory from the engagement workspace before running the examples:
 
-# Timing
-nmap -T4 target                      # Fast (good for internal nets)
-nmap -T2 target                      # Slow (for fragile targets)
-```
+~~~bash
+umask 077
+mkdir -p evidence
+~~~
 
----
+The examples write files beneath `evidence/`; without the directory, Nmap and the other tools may fail to create their output files.
 
-## Masscan
+[Nmap](https://nmap.org/docs.html) is used for host discovery, port scanning, service/version detection, OS fingerprinting and supported NSE scripts.
 
-Very fast port scanner — can scan the entire internet in under 6 minutes with appropriate rate. Use for large internal networks.
+### Host discovery
 
-```bash
-# Basic scan
-masscan 192.168.0.0/16 -p80,443,22,445
+~~~bash
+nmap -sn -oA evidence/host-discovery 192.168.56.0/24
+~~~
 
-# Fast rate (be careful — can overwhelm networks)
-masscan 192.168.0.0/16 -p0-65535 --rate=10000
+This discovers hosts without performing a port scan. Discovery behaviour depends on privileges, routing and filtering. A host that does not answer the selected probes is not necessarily offline.
 
-# Output
-masscan 192.168.0.0/16 -p80,443 -oL results.txt
+### TCP port inventory
 
-# Exclude ranges
-masscan 0.0.0.0/0 -p80 --exclude 192.168.1.0/24
-```
+~~~bash
+sudo nmap -sS -p 1-1000 -T3 --reason \
+  -oA evidence/tcp-top-1000 192.168.56.10
+~~~
 
----
+- `-sS` uses a TCP SYN scan and normally requires raw-packet privileges.
+- `-p` defines the port range.
+- `-T3` uses Nmap's normal timing profile.
+- `--reason` records the reason for the reported state.
+- `-oA` writes normal, grepable and XML output files.
 
-## Nessus / OpenVAS
+If raw-packet privileges are unavailable, `-sT` performs a TCP connect scan through the operating system. Use the scan type that is supported and permitted by the environment.
 
-**Nessus** (Tenable): Industry-standard commercial vulnerability scanner. Free tier (Nessus Essentials) allows scanning up to 16 hosts.
+### Service and version detection
 
-**OpenVAS** (Greenbone): Open-source alternative. Full feature set available for free.
+~~~bash
+nmap -sV --version-light -p 22,80,443 \
+  -oA evidence/service-detection 192.168.56.10
+~~~
 
-**Key concepts for interviews:**
-- Authenticated vs unauthenticated scanning — authenticated scans are dramatically more thorough (checks patch level, installed software versions, local config)
+Version detection sends probes to identify services. Treat product/version output as evidence to investigate, not conclusive proof of vulnerability. Proxies, banners, backported patches and custom builds can make version-only matching misleading.
 
-- Plugin families — Windows, Linux, Web Servers, Databases, SSL/TLS, etc.
+### Limited UDP assessment
 
-- False positives — always validate Critical and High findings before reporting
+~~~bash
+sudo nmap -sU --top-ports 20 -T2 --reason \
+  -oA evidence/udp-top-20 192.168.56.10
+~~~
 
-- Scan policies — safe checks only vs intrusive checks (some plugins can crash services)
+UDP results can be ambiguous. Nmap may report `open|filtered` when no response is received. Use protocol-aware checks and corroborating evidence instead of treating that state as a confirmed open service.
 
-```bash
-# OpenVAS CLI
-gvm-cli socket --gvm-socket /var/run/gvmd/gvmd.sock --xml "<get_version/>"
+!!! note "Reserved example address"
+    The address in the examples is from a private lab range. Replace it with an asset explicitly approved for your assessment. Do not copy the commands against arbitrary public targets.
 
-# Nessus API (for automation)
-curl -k -X POST https://localhost:8834/session \
-  -d '{"username":"admin","password":"password"}' \
-  -H "Content-Type: application/json"
-```
+## 3. Masscan — high-speed port discovery
 
----
+Masscan can identify exposed ports across large approved ranges quickly. Its speed is also its principal operational risk.
 
-## Nuclei
+Use it only when the network owner has approved the exact ranges, rate, source address and time window. Start with a small range and a low request rate; coordinate with monitoring teams.
 
-Template-based vulnerability scanner. Community maintains thousands of templates for CVEs, misconfigurations, and exposures.
+~~~bash
+sudo masscan 192.168.56.0/24 -p80,443 --rate 100 \
+  -oL evidence/masscan-web-ports.txt
+~~~
 
-```bash
-# Update templates
-nuclei -update-templates
+Treat the output as candidate open ports. Confirm service identity with a targeted Nmap scan. Do not copy internet examples that use extremely high rates into a corporate or production network.
 
-# Scan with all templates
-nuclei -u https://target.com
+## 4. Nessus and Greenbone/OpenVAS
 
-# Specific severity
-nuclei -u https://target.com -severity critical,high
+### Nessus
 
-# Specific template categories
-nuclei -u https://target.com -t cves/
-nuclei -u https://target.com -t exposures/
-nuclei -u https://target.com -t misconfiguration/
-nuclei -u https://target.com -t technologies/
+Tenable Nessus provides discovery, vulnerability and compliance-oriented scan templates. Select a scan template to match the purpose:
 
-# Multiple targets
-nuclei -l urls.txt -t cves/ -o results.txt
+| Scan purpose | Appropriate starting point |
+|---|---|
+| Asset discovery | Host Discovery |
+| Standard vulnerability assessment | Basic Network Scan |
+| Targeted plugin assessment | A relevant vulnerability template or approved custom policy |
+| Configuration/compliance review | A matching compliance audit and supported audit file |
+| Authenticated patch/configuration review | A credentialed scan configured for the target operating system |
 
-# Rate limiting
-nuclei -u https://target.com -rate-limit 50 -c 10
+Use credentialed scans when the engagement and client configuration permit them. Validate successful authentication and coverage in the scan evidence; an attempted credentialed scan is not proof that local checks ran.
 
-# With authentication
-nuclei -u https://target.com -H "Authorization: Bearer token123"
-```
+### Greenbone/OpenVAS
 
----
+Greenbone Vulnerability Management provides an alternative vulnerability-management platform. Keep scanner feeds current, select an appropriate scan configuration and ensure the target list and port list reflect the approved scope. Record feed status and scanner version alongside the report.
 
-## testssl.sh
+### Scanner configuration controls
 
-Tests TLS/SSL configuration comprehensively.
+- Confirm the exact target list and exclusions before launching.
+- Use safe checks and conservative performance settings for fragile or production systems.
+- Coordinate credential use and account lockout policy.
+- Avoid enabling brute-force or denial-of-service checks unless explicitly approved.
+- Schedule scans to avoid backup windows, batch jobs and peak traffic.
+- Store the native export as well as the human-readable report.
 
-```bash
-# Full scan
-testssl.sh https://target.com
+Nessus can export native scan files and reports in several formats. A native export is useful for later review, while a PDF/HTML/CSV report is convenient for distribution. Protect both because they can disclose hostnames, software versions and internal configuration.
 
-# Specific checks
-testssl.sh --protocols target.com      # Protocol versions
-testssl.sh --ciphers target.com        # Cipher suites
-testssl.sh --headers target.com        # HTTP security headers
-testssl.sh --vulnerabilities target.com # Known TLS vulns (POODLE, BEAST, etc.)
+## 5. Nuclei — template-based detection
 
-# JSON output for automation
-testssl.sh --jsonfile results.json https://target.com
+Nuclei evaluates targets against YAML templates. It is useful for repeatable detection of known exposures and vulnerability signatures, but the quality of a result depends on the template, target response and conditions required by the check.
 
-# Quick summary
-testssl.sh --fast https://target.com
-```
+Start with a narrow severity selection and a conservative request ceiling:
 
----
+~~~bash
+nuclei -l evidence/recon/live-urls.txt \
+  -severity high,critical \
+  -rate-limit 5 -c 5 \
+  -jsonl -o evidence/nuclei-high-critical.jsonl
+~~~
 
-# Web Application Tools
+Before a run:
 
----
+- Review template IDs, authorship, tags and required conditions.
+- Keep the template repository/version or update date with the engagement record.
+- Exclude templates that are intrusive, destructive or outside the rules of engagement.
+- Use `-validate` when authoring or modifying templates.
+- Keep the request-rate and concurrency settings appropriate to the application.
 
-## Burp Suite
+A template match is a candidate finding. Inspect the request/response evidence and reproduce it safely before reporting. Some vulnerabilities require out-of-band callbacks, authentication or application state that a template cannot infer.
 
-The central tool for web application testing. Every web pentester must know this.
+## 6. TLS configuration assessment with testssl.sh
 
-**Key features:**
+[testssl.sh](https://github.com/testssl/testssl.sh) checks TLS/SSL protocols, ciphers and known configuration weaknesses.
 
-**Proxy:** Intercepts all browser traffic. Configure browser to use 127.0.0.1:8080 as proxy. Install Burp's CA certificate in browser.
+~~~bash
+./testssl.sh https://app.example.test:443
+~~~
 
-**Repeater:** Resend and modify individual requests manually. Core workflow tool.
+Use the current README and `./testssl.sh --help` for machine-readable output options in the installed release. Record the exact hostname, port, SNI name, date and tool version. A TLS result against an IP without the expected SNI name may assess a different virtual host.
 
-**Intruder:** Automated fuzzing. Four attack types:
+Interpret protocol and cipher results in the context of the service role, client compatibility requirements and current cryptographic policy. Do not report a deprecated protocol as exploitable without explaining the actual exposure and supported threat model.
 
-- Sniper: One payload, one position
+## 7. Reading results correctly
 
-- Battering Ram: Same payload, multiple positions
+| Result | What it means | What it does not mean |
+|---|---|---|
+| Port `open` | A service accepted the scan's probe | The service is vulnerable |
+| Port `filtered` | Filtering prevented Nmap from determining open/closed | The host is down |
+| `open|filtered` | Nmap could not distinguish those states | A confirmed open UDP service |
+| Version fingerprint | The response resembles a known service/version | The exact patch level is proven |
+| Scanner plugin finding | A check matched its detection logic | The condition is exploitable in this deployment |
+| Nuclei template match | A template's matcher conditions were satisfied | The finding is independently validated |
 
-- Pitchfork: Multiple payloads, one-to-one pairing
+## 8. Validation workflow
 
-- Cluster Bomb: Multiple payloads, all combinations (most thorough)
+For each important candidate:
 
-**Scanner (Pro):** Active and passive vulnerability scanning. Passive = analysis of traffic already captured. Active = sends additional requests to probe for vulnerabilities.
+1. Identify the exact asset, port, service and scan time.
+2. Read the plugin/template description and evidence, not only the severity label.
+3. Confirm the product and patch level using authoritative system evidence where available.
+4. Determine whether compensating controls, reverse proxies or backported patches affect applicability.
+5. Reproduce with a safe, narrow check and preserve the request/response or host evidence.
+6. Record false-positive reasoning and test limitations.
+7. Retest with comparable settings after remediation.
 
-**Decoder:** Encode/decode Base64, URL encoding, HTML entities, hex.
+Do not combine plugin severity, CVSS, EPSS and business impact into one unexplained number. Keep the source metrics and the analyst's risk decision distinct.
 
-**Comparer:** Diff two responses — useful for identifying subtle differences indicating blind injection or access control changes.
+## 9. Operational failure modes
 
-**Extensions (BApp Store):**
-- Autorize: Tests access control by replaying requests with different session tokens
+- **Large scan queues:** reduce hosts/checks concurrency and split the approved range into batches.
+- **Missing hosts:** confirm routing, discovery method and firewall policy; consider an approved `-Pn` scan only when host discovery is known to be blocked.
+- **Missing UDP services:** review rate limiting and protocol-specific response behaviour.
+- **Credentialed scan failures:** validate the account, required privileges, remote management configuration and scanner logs.
+- **Inconsistent results:** compare scan profile, plugin/feed version, target resolution, credentials and time window.
+- **Unexpected service impact:** stop the scan, notify the engagement contact and preserve logs before changing configuration.
 
-- Logger++: Advanced request logging
+## Official references
 
-- InQL: GraphQL introspection and testing
-
-- JWT Editor: JWT manipulation
-
-- JS Link Finder: Extracts endpoints from JavaScript files
-
-- Param Miner: Discovers hidden parameters
-
-```
-# Essential keyboard shortcuts:
-Ctrl+R = Send to Repeater
-Ctrl+I = Send to Intruder
-Ctrl+U = URL encode selection
-Ctrl+Shift+U = URL decode selection
-```
-
----
-
-## Gobuster / Feroxbuster / ffuf
-
-**Gobuster:** Directory and DNS brute force.
-
-```bash
-# Directory/file brute force
-gobuster dir -u http://target.com -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
-gobuster dir -u http://target.com -w wordlist.txt -x php,html,txt,js
-gobuster dir -u http://target.com -w wordlist.txt -t 50  # 50 threads
-
-# DNS subdomain brute force
-gobuster dns -d example.com -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
-
-# VHost brute force
-gobuster vhost -u http://target.com -w subdomains.txt
-```
-
-**ffuf** (Fuzz Faster U Fool): More flexible, supports request templates.
-
-```bash
-# Directory fuzzing
-ffuf -u http://target.com/FUZZ -w wordlist.txt
-
-# Parameter fuzzing
-ffuf -u "http://target.com/page?FUZZ=value" -w params.txt
-
-# POST body fuzzing
-ffuf -u http://target.com/login -X POST -d "user=FUZZ&pass=test" -w users.txt
-
-# Filter by status code
-ffuf -u http://target.com/FUZZ -w wordlist.txt -mc 200,201,301,302
-
-# Match by word/line count (filter false positives)
-ffuf -u http://target.com/FUZZ -w wordlist.txt -fw 10  # Filter 10-word responses
-```
-
----
-
-## SQLMap
-
-Automated SQL injection detection and exploitation.
-
-```bash
-# Basic test
-sqlmap -u "http://target.com/page?id=1"
-
-# POST request
-sqlmap -u "http://target.com/login" --data="user=admin&pass=test"
-
-# With session cookie
-sqlmap -u "http://target.com/profile" --cookie="session=abc123"
-
-# From Burp request file
-sqlmap -r request.txt
-
-# Enumerate
-sqlmap -u "http://target.com/page?id=1" --dbs        # Databases
-sqlmap -u "http://target.com/page?id=1" -D mydb --tables
-sqlmap -u "http://target.com/page?id=1" -D mydb -T users --dump
-
-# WAF bypass
-sqlmap -u "http://target.com/page?id=1" --tamper=space2comment,between,randomcase
-sqlmap -u "http://target.com/page?id=1" --random-agent --delay=2 --level=5 --risk=3
-```
-
-**Interview note:** Always explain that sqlmap is used to confirm and demonstrate findings, and should be run with appropriate parameters to avoid overwhelming the target (use `--delay` and `--level=1` for initial testing, increase if needed).
-
----
-
-## Nikto
-
-Web server misconfiguration scanner. Fast, noisy — use for quick misconfiguration checks.
-
-```bash
-# Basic scan
-nikto -h http://target.com
-
-# HTTPS
-nikto -h https://target.com -ssl
-
-# Specific port
-nikto -h http://target.com:8080
-
-# Output
-nikto -h http://target.com -o results.txt -Format txt
-nikto -h http://target.com -o results.html -Format html
-
-# Tuning (limit check types to reduce noise)
-nikto -h http://target.com -Tuning 1234     # Specific check categories
-```
-
----
-
-# Network & Infrastructure Tools
-
----
-
-## Wireshark / tcpdump
-
-**Wireshark:** GUI packet analyzer. Essential for understanding traffic, capturing credentials over cleartext protocols, and debugging.
-
-**Key filters:**
-```
-# Protocol filters
-http
-https or ssl
-smb or smb2
-dns
-ftp
-telnet
-
-# IP filters
-ip.addr == 192.168.1.100
-ip.src == 192.168.1.100
-ip.dst == 192.168.1.100
-
-# Port filters
-tcp.port == 80
-tcp.port == 445
-
-# Credential hunting
-http.request.method == "POST"
-ftp.request.command == "PASS"
-smtp.auth
-
-# Follow TCP stream: right-click packet → Follow → TCP Stream
-```
-
-**tcpdump (CLI):**
-```bash
-# Capture all traffic
-tcpdump -i eth0
-
-# Save to file
-tcpdump -i eth0 -w capture.pcap
-
-# Read file
-tcpdump -r capture.pcap
-
-# Filters
-tcpdump -i eth0 port 80
-tcpdump -i eth0 host 192.168.1.100
-tcpdump -i eth0 'tcp port 80 and host 192.168.1.100'
-tcpdump -i eth0 not arp          # Exclude ARP
-```
-
----
-
-## Netcat / Ncat
-
-```bash
-# Listen for incoming connection
-nc -lvnp 4444                    # Listener
-ncat -lvnp 4444 --ssl           # Encrypted listener
-
-# Connect
-nc target 4444
-
-# File transfer
-nc -lvnp 9999 > received_file   # Receiver
-nc target 9999 < file_to_send   # Sender
-
-# Port scanning (basic)
-nc -zv target 20-100
-
-# Banner grabbing
-echo "" | nc -nv target 22
-```
-
----
-
-## CrackMapExec (CME)
-
-Swiss army knife for Windows/AD network testing.
-
-```bash
-# Enumerate hosts
-cme smb 192.168.1.0/24
-
-# Test credentials
-cme smb target -u admin -p 'Password123'
-cme smb target -u admin -H NTLMhash          # Pass-the-Hash
-cme smb target -u users.txt -p passwords.txt  # Credential spraying
-
-# Enumerate shares
-cme smb target -u user -p pass --shares
-
-# Enumerate users
-cme smb dc -u user -p pass --users
-
-# Check for SMB signing
-cme smb 192.168.1.0/24 --gen-relay-list targets.txt
-
-# Execute commands (if admin)
-cme smb target -u admin -p pass -x "whoami"
-cme smb target -u admin -p pass -X "Get-Process"  # PowerShell
-
-# Target multiple protocols
-cme winrm target -u admin -p pass -x "whoami"
-cme ldap dc -u admin -p pass --users
-cme mssql target -u sa -p pass --query "SELECT @@version"
-```
-
----
-
-## Enum4linux-ng
-
-Linux host enumeration via SMB/RPC/LDAP.
-
-```bash
-# Full enumeration
-enum4linux-ng -A target
-
-# Specific enumeration
-enum4linux-ng -U target    # Users
-enum4linux-ng -G target    # Groups
-enum4linux-ng -S target    # Shares
-enum4linux-ng -P target    # Password policy
-enum4linux-ng -N target    # RID cycling (user enumeration via RID)
-```
-
----
-
-## Impacket Suite
-
-Python implementation of Windows networking protocols. Essential for AD testing from Linux.
-
-```bash
-# Authentication testing
-smbclient.py corp.local/user:pass@target      # SMB client
-psexec.py corp.local/user:pass@target         # Remote shell via SMB
-wmiexec.py corp.local/user:pass@target        # Remote shell via WMI
-smbexec.py corp.local/user:pass@target        # Remote shell via service
-
-# Pass-the-Hash (use NT hash instead of password)
-psexec.py -hashes :NThash corp.local/user@target
-
-# Kerberos tickets
-GetUserSPNs.py -dc-ip dc_ip corp.local/user:pass   # Kerberoast
-GetNPUsers.py corp.local/ -usersfile users.txt -no-pass  # AS-REP roast
-
-# Credential dumping
-secretsdump.py corp.local/admin:pass@target   # Remote dump
-secretsdump.py -sam sam.hive -system system.hive LOCAL  # Offline dump
-
-# NTLM relay
-ntlmrelayx.py -tf targets.txt -smb2support
-
-# Kerberos ticket operations
-ticketer.py -nthash krbtgt_hash -domain-sid S-1-5-21-... -domain corp.local admin
-```
-
----
-
-## BloodHound / SharpHound
-
-Active Directory attack path visualization.
-
-```bash
-# Collect AD data from Linux
-bloodhound-python -d corp.local -u user -p pass -c All -ns dc_ip
-
-# Collect from Windows (SharpHound)
-SharpHound.exe -c All --zipfilename output.zip
-
-# Import to BloodHound
-# GUI: Drag and drop the ZIP file
-
-# Key queries in BloodHound:
-# "Find Shortest Paths to Domain Admins"
-# "Find All Domain Admins"
-# "Find Kerberoastable Users"
-# "Find AS-REP Roastable Users"
-# "Find Computers where Domain Users are Local Admin"
-# "Find Principals with DCSync Rights"
-# "Shortest Paths to Unconstrained Delegation Systems"
-```
-
----
-
-# Mobile Testing Tools
-
----
-
-## ADB (Android Debug Bridge)
-
-```bash
-# Device management
-adb devices                           # List connected devices
-adb shell                             # Shell on device
-adb install app.apk                   # Install APK
-adb pull /path/on/device ./local      # Pull file from device
-adb push ./local /path/on/device      # Push file to device
-
-# App management
-adb shell pm list packages            # List installed packages
-adb shell pm path com.example.app     # Find APK path
-adb shell run-as com.example.app ls   # Access app data (non-root)
-
-# Logging
-adb logcat                            # All logs
-adb logcat -s tag                     # Filter by tag
-adb logcat | grep -iE "password|token|key"
-
-# Backup
-adb backup -noapk -f backup.ab com.example.app
-
-# Port forwarding
-adb forward tcp:8080 tcp:8080         # Forward device port to host
-adb reverse tcp:9090 tcp:9090         # Forward host port to device
-
-# Proxy setup
-adb shell settings put global http_proxy host:port
-adb shell settings delete global http_proxy
-```
-
----
-
-## apktool
-
-Decodes and rebuilds Android APKs.
-
-```bash
-# Decompile APK
-apktool d app.apk -o output_dir/
-apktool d app.apk -o output_dir/ --no-res  # Skip resource decoding
-
-# Rebuild APK (after modification)
-apktool b output_dir/ -o app_modified.apk
-
-# Sign rebuilt APK
-keytool -genkeypair -v -keystore test.jks -alias testkey -keyalg RSA -keysize 2048 -validity 365
-apksigner sign --ks test.jks --out app_signed.apk app_modified.apk
-
-# Install and test
-adb install -r app_signed.apk
-```
-
----
-
-## jadx
-
-Decompiles APK to readable Java code. Better than apktool for code analysis.
-
-```bash
-# Command line decompile
-jadx -d output_dir/ app.apk
-
-# GUI (recommended for navigating large codebases)
-jadx-gui app.apk
-
-# Show original bytecode comments
-jadx -d output_dir/ --show-bad-code app.apk
-
-# After decompilation, search for sensitive patterns:
-grep -r "api_key\|password\|secret\|token" output_dir/ --include="*.java"
-grep -r "http://" output_dir/ --include="*.java"
-grep -r "Log\.\(d\|v\|i\|e\)" output_dir/ --include="*.java"
-```
-
----
-
-## MobSF (Mobile Security Framework)
-
-Automated static and dynamic analysis for Android and iOS.
-
-```bash
-# Docker setup
-docker run -it --rm -p 8000:8000 opensecurity/mobile-security-framework-mobsf:latest
-
-# Access: http://localhost:8000
-# Upload APK or IPA for automated analysis
-
-# Key sections in MobSF report:
-# - Android Manifest Analysis (permissions, exported components)
-# - Security Analysis (insecure code patterns, dangerous APIs)
-# - File Analysis (interesting files in APK)
-# - Strings Analysis (hardcoded secrets)
-# - Permissions Analysis
-# - Network Security Analysis
-```
-
----
-
-## Frida
-
-Dynamic instrumentation framework for hooking and modifying app behavior at runtime.
-
-```bash
-# Install frida-tools
-pip install frida-tools
-
-# Push frida-server to Android device
-adb push frida-server /data/local/tmp/
-adb shell "chmod 755 /data/local/tmp/frida-server && /data/local/tmp/frida-server &"
-
-# List running apps
-frida-ps -U
-
-# Attach to running app
-frida -U -n "com.example.app" -l script.js
-
-# Spawn and attach
-frida -U -f com.example.app -l script.js --no-pause
-
-# Use Codeshare scripts
-frida -U -f com.example.app --codeshare pcipolloni/universal-android-ssl-pinning-bypass-with-frida
-```
-
----
-
-## Objection
-
-Frida-based automated mobile testing framework.
-
-```bash
-# Launch with objection
-objection -g com.example.app explore
-
-# Key commands inside objection:
-
-# Android:
-android info list                    # App details
-android hooking list activities      # All activities
-android hooking list classes         # Loaded classes
-android keystore list                # Keystore contents
-android sslpinning disable          # Bypass SSL pinning
-android root disable                 # Bypass root detection
-memory dump all /tmp/memdump        # Dump process memory
-android sqlite list                  # List databases
-android sqlite execute "SELECT * FROM users"
-
-# iOS:
-ios info list
-ios keychain dump                   # Dump iOS keychain
-ios sslpinning disable             # Bypass SSL pinning
-ios hooking list classes
-ios pasteboard monitor
-```
+- [Nmap documentation](https://nmap.org/docs.html)
+- [Nmap port-scanning techniques](https://nmap.org/book/man-port-scanning-techniques.html)
+- [Tenable Nessus scan templates](https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm)
+- [Tenable Nessus scan policies](https://docs.tenable.com/nessus/Content/Policies.htm)
+- [Tenable scan exports and reports](https://docs.tenable.com/nessus/Content/ScanReportFormats.htm)
+- [ProjectDiscovery Nuclei](https://docs.projectdiscovery.io/tools/nuclei/overview)
+- [testssl.sh](https://github.com/testssl/testssl.sh)

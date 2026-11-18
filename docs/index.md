@@ -8,7 +8,7 @@ hide:
     <section class="z2r-library-copy" aria-label="Zero2Root knowledge library">
       <p class="z2r-library-kicker">A FIELD GUIDE TO THE SECURITY LANDSCAPE</p>
       <h1>Cybersecurity,<br><em>mapped.</em></h1>
-      <p class="z2r-library-intro">Explore learning paths, AI model intelligence, offensive-security skills, testing references and bug bounty research—all in one place.</p>
+      <p class="z2r-library-intro">Explore learning paths, tools and automation, AI security, offensive-security research and practical security references—all in one place.</p>
 
       <div class="z2r-library-metrics" aria-label="Library statistics">
         <div><strong data-library-stat="levels">05</strong><span>LEVELS</span></div>
@@ -84,11 +84,11 @@ hide:
     <div class="z2r-library-search-results" data-library-search-results hidden></div>
   </section>
 
-  <details class="z2r-library-directory">
-    <summary><span>Browse all existing destinations</span><small data-library-directory-count>62 PAGES</small><b aria-hidden="true">＋</b></summary>
+  <section class="z2r-library-directory" aria-label="Browse all existing destinations">
+    <div class="z2r-library-directory-heading"><span>Browse all existing destinations</span><small data-library-directory-count>62 PAGES</small><b aria-hidden="true">▦</b></div>
     <p>The directory contains the same existing Markdown pages represented in the map.</p>
     <div class="z2r-library-directory-grid" data-library-directory></div>
-  </details>
+  </section>
 
   <footer class="z2r-library-footer">
     <span>ZERO2ROOT / CURRENT CONTENT INDEX</span>

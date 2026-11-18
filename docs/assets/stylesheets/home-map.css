@@ -2672,3 +2672,614 @@
 [data-md-color-scheme="default"] .z2r-library-radial .library-link-group {stroke:#A85F3E;stroke-opacity:.3}
 [data-md-color-scheme="default"] .z2r-library-radial .library-link-page {stroke:#59635A;stroke-opacity:.25}
 [data-md-color-scheme="default"] .z2r-library-footer {color:#59635A}
+
+
+/* ZERO2ROOT MOBILE UX PASS — list-first discovery and thumb-friendly controls.
+   On phones the radial SVG is an atmospheric desktop navigator, not a usable
+   touch target. Promote its existing, fully functional collection legend to
+   the primary mobile navigation instead of forcing users to zoom/pan. */
+@media (max-width:760px) {
+  .z2r-library-experience {
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    min-height:0;
+    padding:10px 0 0;
+  }
+  .z2r-library-copy {
+    width:100%;
+    max-width:none;
+    padding:8px 0 0;
+  }
+  .z2r-library-kicker {
+    margin:8px 0 10px!important;
+    font-size:9px!important;
+    line-height:1.5!important;
+  }
+  .z2r-library-copy h1 {
+    white-space:normal;
+    font-size:clamp(40px,10vw,56px)!important;
+    line-height:1.02!important;
+  }
+  .z2r-library-intro {
+    max-width:42rem;
+    margin:12px 0 15px!important;
+    font-size:15px!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-metrics {
+    width:100%;
+    max-width:none;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px;
+    padding:12px 0;
+  }
+  .z2r-library-metrics strong {font-size:19px!important}
+  .z2r-library-metrics span {
+    font-size:9px!important;
+    line-height:1.35;
+    letter-spacing:.07em;
+  }
+  .z2r-library-map-stage {
+    width:100%;
+    padding:18px 0 8px;
+  }
+  .z2r-library-map-topline {
+    padding:0 2px 10px;
+    font-size:9px;
+    line-height:1.4;
+  }
+  .z2r-library-radial {display:none!important}
+  .z2r-library-map-tools {display:none!important}
+  .z2r-library-map-legend {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-content:stretch;
+    gap:8px;
+    padding:0;
+  }
+  .z2r-library-map-legend::before {
+    content:"CHOOSE A COLLECTION";
+    grid-column:1/-1;
+    margin:0 0 2px;
+    color:var(--lib-muted);
+    font:600 9px/1.4 "IBM Plex Mono",monospace;
+    letter-spacing:.13em;
+  }
+  .z2r-library-map-legend button {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:9px;
+    width:100%;
+    min-width:0;
+    min-height:48px;
+    padding:10px 11px;
+    color:var(--lib-ivory);
+    background:var(--lib-panel);
+    border:1px solid var(--lib-line);
+    border-radius:5px;
+    text-align:left;
+    font:600 11px/1.35 "IBM Plex Sans",sans-serif;
+    letter-spacing:0;
+  }
+  .z2r-library-map-legend button span {
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+  .z2r-library-map-legend i {
+    flex:0 0 9px;
+    width:9px;
+    height:9px;
+  }
+  .z2r-library-map-legend button.is-active {
+    border-color:var(--lib-copper);
+    background:rgba(199,124,85,.10);
+    color:var(--lib-copper-light);
+  }
+  .z2r-library-map-caption {display:none}
+  .z2r-library-selection {
+    width:100%;
+    min-height:0;
+    margin-top:10px;
+    padding:15px 14px 16px;
+    background:var(--lib-panel);
+    border:1px solid var(--lib-line);
+    border-radius:6px;
+  }
+  .z2r-library-selection-index {
+    margin-bottom:11px;
+    font-size:9px;
+    line-height:1.4;
+  }
+  .z2r-library-inspector-type {
+    font-size:9px;
+    line-height:1.5;
+  }
+  .z2r-library-selection h2 {
+    margin:9px 0 7px!important;
+    font-size:23px!important;
+    line-height:1.2!important;
+  }
+  .z2r-library-inspector-group {
+    font-size:9px;
+    line-height:1.5;
+  }
+  .z2r-library-selection p {
+    max-width:none;
+    margin:0 0 13px!important;
+    font-size:14px!important;
+    line-height:1.65!important;
+  }
+  .z2r-library-breadcrumbs {gap:7px;flex-wrap:wrap}
+  .z2r-library-breadcrumbs button {min-height:40px;padding:7px 4px;font-size:11px}
+  .z2r-library-child-list {gap:7px}
+  .z2r-explorer-child {
+    min-height:48px;
+    padding:10px 11px;
+    gap:10px;
+  }
+  .z2r-explorer-child strong {font-size:13px;line-height:1.35}
+  .z2r-explorer-child small {font-size:11px;line-height:1.4}
+  .z2r-library-open-link {
+    min-height:46px;
+    align-items:center;
+    padding:0 12px;
+    font-size:11px;
+  }
+  .z2r-library-discovery {
+    grid-template-columns:minmax(0,1fr);
+    gap:11px;
+    padding:15px 0;
+  }
+  .z2r-library-search {
+    min-height:48px;
+    height:48px;
+    padding:0 12px;
+  }
+  .z2r-library-search input {font-size:16px}
+  .z2r-library-search kbd {display:none}
+  .z2r-library-filters {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+  }
+  .z2r-library-filters button {
+    min-height:44px;
+    padding:8px 10px;
+    font-size:10px;
+    line-height:1.3;
+    text-align:center;
+  }
+  .z2r-library-result-count {
+    justify-self:start;
+    font-size:9px;
+    line-height:1.5;
+  }
+  .z2r-library-directory > summary {min-height:58px}
+  .z2r-library-directory > summary span {font-size:11px}
+  .z2r-library-directory > summary span::after {font-size:8px}
+  .z2r-library-directory-grid {grid-template-columns:1fr}
+  .z2r-library-directory-group {padding:12px}
+  .z2r-library-directory-group h3 {font-size:12px;line-height:1.4}
+  .z2r-library-directory-group a {
+    min-height:42px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:8px 0;
+    font-size:13px;
+    line-height:1.4;
+  }
+  .z2r-library-directory-group a small {font-size:9px}
+  .z2r-library-footer {
+    gap:10px;
+    font-size:8px;
+    line-height:1.5;
+    letter-spacing:.04em;
+  }
+}
+@media (max-width:390px) {
+  .z2r-library-metrics {grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}
+  .z2r-library-map-legend {grid-template-columns:1fr}
+  .z2r-library-map-legend button {min-height:46px}
+  .z2r-library-filters {grid-template-columns:1fr 1fr}
+}
+
+
+/* ZERO2ROOT MOBILE EXPLORER — map-first responsive navigation.
+   Keep the radial map as the primary interaction surface on touch screens.
+   Selection context, breadcrumbs and the existing lesson list follow it. */
+@media (max-width:760px) {
+  .z2r-library-experience {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    min-height:0;
+    padding:8px 0 0;
+  }
+
+  .z2r-library-copy {
+    width:100%;
+    max-width:none;
+    padding:4px 0 2px;
+  }
+  .z2r-library-kicker {
+    margin:8px 0 9px!important;
+    font-size:9px!important;
+    line-height:1.45!important;
+  }
+  .z2r-library-copy h1 {
+    white-space:normal;
+    font-size:clamp(36px,8.8vw,48px)!important;
+    line-height:1.02!important;
+  }
+  .z2r-library-intro {
+    max-width:46rem;
+    margin:10px 0 10px!important;
+    font-size:13px!important;
+    line-height:1.55!important;
+  }
+  .z2r-library-metrics {
+    width:100%;
+    max-width:none;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:6px;
+    padding:9px 0 10px;
+    border-top:1px solid rgba(142,169,154,.16);
+    border-bottom:1px solid rgba(142,169,154,.16);
+  }
+  .z2r-library-metrics > div {
+    min-width:0;
+    gap:3px;
+  }
+  .z2r-library-metrics strong {font-size:16px!important}
+  .z2r-library-metrics span {
+    font-size:8px!important;
+    line-height:1.35;
+    letter-spacing:.06em;
+  }
+
+  .z2r-library-map-stage {
+    width:100%;
+    min-width:0;
+    padding:12px 0 4px;
+  }
+  .z2r-library-map-topline {
+    align-items:center;
+    padding:0 3px 8px;
+    font-size:8px;
+    line-height:1.5;
+    letter-spacing:.09em;
+  }
+  .z2r-library-radial-wrap {
+    display:grid;
+    width:100%;
+    place-items:center;
+    padding:0!important;
+    background:transparent!important;
+    border:1px solid rgba(142,169,154,.16)!important;
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .z2r-library-radial {
+    display:block!important;
+    width:min(100%,520px)!important;
+    max-width:100%;
+    height:auto!important;
+    margin:0 auto;
+    overflow:visible;
+    touch-action:pan-y;
+  }
+
+  /* SVG text is authored in viewBox units; scale it up so labels remain
+     readable after the 860px map is fitted to a phone viewport. */
+  .z2r-library-radial .library-group-label {
+    font-size:21px!important;
+    letter-spacing:.035em;
+  }
+  .z2r-library-radial .library-group-count {
+    font-size:13px!important;
+  }
+  .z2r-library-radial .library-page-index {
+    font-size:15px!important;
+  }
+  .z2r-library-radial .library-center-title {
+    font-size:25px!important;
+  }
+  .z2r-library-radial .library-center-subtitle {
+    font-size:11px!important;
+    letter-spacing:.08em;
+  }
+  .z2r-library-radial .library-node-index {
+    font-size:11px!important;
+  }
+
+  .z2r-library-map-legend {
+    display:flex;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    gap:7px;
+    width:100%;
+    max-width:100%;
+    padding:9px 2px 6px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(199,124,85,.45) transparent;
+  }
+  .z2r-library-map-legend::before {content:none!important}
+  .z2r-library-map-legend button {
+    display:inline-flex;
+    flex:0 0 auto;
+    align-items:center;
+    gap:8px;
+    width:auto;
+    min-width:0;
+    min-height:38px;
+    padding:7px 10px;
+    color:var(--lib-ivory);
+    background:rgba(142,169,154,.045);
+    border:1px solid rgba(142,169,154,.20);
+    border-radius:3px;
+    font:600 9px/1.35 "IBM Plex Mono",monospace;
+    letter-spacing:.01em;
+    white-space:nowrap;
+  }
+  .z2r-library-map-legend button span {
+    min-width:0;
+    overflow-wrap:normal;
+  }
+  .z2r-library-map-legend i {
+    flex:0 0 7px;
+    width:7px;
+    height:7px;
+  }
+  .z2r-library-map-legend button.is-active {
+    color:var(--lib-copper-light);
+    background:rgba(199,124,85,.09);
+    border-color:var(--lib-copper);
+  }
+  .z2r-library-map-caption {
+    display:flex;
+    gap:8px;
+    padding:3px 3px 0;
+    font-size:7px;
+    line-height:1.45;
+    letter-spacing:.06em;
+  }
+
+  .z2r-library-selection {
+    width:100%;
+    min-width:0;
+    min-height:0;
+    margin:8px 0 0;
+    padding:12px 12px 14px;
+    background:var(--lib-panel);
+    border:1px solid var(--lib-line);
+    border-radius:4px;
+  }
+  .z2r-library-breadcrumbs {
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:7px;
+    min-height:34px;
+    margin:0 0 9px;
+    padding:0 0 5px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    white-space:nowrap;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .z2r-library-breadcrumbs::-webkit-scrollbar {display:none}
+  .z2r-library-breadcrumbs button {
+    flex:0 0 auto;
+    min-height:32px;
+    padding:5px 2px;
+    font-size:10px;
+    line-height:1.3;
+  }
+  .z2r-breadcrumb-divider {flex:0 0 auto;font-size:10px}
+  .z2r-library-selection-index {
+    margin-bottom:9px;
+    font-size:8px;
+    line-height:1.45;
+    letter-spacing:.08em;
+  }
+  .z2r-library-inspector-type {
+    font-size:9px;
+    line-height:1.5;
+  }
+  .z2r-library-selection h2 {
+    margin:8px 0 6px!important;
+    font-size:22px!important;
+    line-height:1.18!important;
+  }
+  .z2r-library-inspector-group {
+    margin:0 0 9px;
+    font-size:8px;
+    line-height:1.5;
+  }
+  .z2r-library-selection p {
+    max-width:none;
+    margin:0 0 12px!important;
+    font-size:13px!important;
+    line-height:1.6!important;
+  }
+
+  /* The JS renders this exact class name; keep the contextual list visible
+     and readable beneath the selected collection or learning level. */
+  .z2r-library-child-list,
+  .z2r-explorer-child-list {
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    max-height:380px;
+    margin:11px 0 12px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(142,169,154,.35) transparent;
+  }
+  .z2r-explorer-child-heading {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:0 0 5px;
+    font-size:8px;
+    line-height:1.5;
+  }
+  .z2r-explorer-child-heading small {font-size:8px}
+  .z2r-explorer-child {
+    display:flex;
+    align-items:center;
+    min-height:48px;
+    padding:9px 10px;
+    gap:10px;
+    border-radius:3px;
+  }
+  .z2r-explorer-child-copy {gap:3px}
+  .z2r-explorer-child strong {
+    font-size:12px;
+    line-height:1.4;
+    white-space:normal;
+    overflow:visible;
+  }
+  .z2r-explorer-child small {
+    font-size:9px;
+    line-height:1.4;
+    white-space:normal;
+    overflow:visible;
+  }
+  .z2r-explorer-child-arrow {flex:0 0 auto;font-size:14px}
+  .z2r-library-open-link {
+    min-height:44px;
+    padding:0 12px;
+    font-size:10px;
+  }
+
+  .z2r-library-discovery {
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    gap:9px;
+    padding:13px 0;
+  }
+  .z2r-library-search {
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:46px;
+    min-height:46px;
+    padding:0 11px;
+  }
+  .z2r-library-search input {min-width:0;font-size:16px}
+  .z2r-library-search kbd {display:none}
+  .z2r-library-filters {
+    display:flex;
+    flex-wrap:nowrap;
+    gap:6px;
+    width:100%;
+    padding:0 0 5px;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(199,124,85,.4) transparent;
+  }
+  .z2r-library-filters button {
+    flex:0 0 auto;
+    min-height:38px;
+    padding:7px 10px;
+    font-size:9px;
+    white-space:nowrap;
+  }
+  .z2r-library-result-count {
+    justify-self:start;
+    font-size:8px;
+    line-height:1.5;
+  }
+  .z2r-library-directory > summary {min-height:50px}
+  .z2r-library-directory-grid {grid-template-columns:1fr}
+  .z2r-library-directory-group {padding:11px}
+  .z2r-library-directory-group h3 {font-size:11px;line-height:1.4}
+  .z2r-library-directory-group a {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:44px;
+    padding:8px 0;
+    font-size:12px;
+    line-height:1.4;
+  }
+  .z2r-library-directory-group a small {font-size:9px}
+  .z2r-library-footer {
+    gap:9px;
+    font-size:7px;
+    line-height:1.5;
+    letter-spacing:.035em;
+  }
+}
+
+@media (max-width:390px) {
+  .z2r-library-copy h1 {font-size:clamp(34px,9vw,40px)!important}
+  .z2r-library-intro {font-size:12px!important}
+  .z2r-library-metrics {grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .z2r-library-metrics > div {flex-direction:row;align-items:baseline;gap:7px}
+  .z2r-library-metrics span {font-size:7px!important}
+  .z2r-library-radial .library-group-label {font-size:22px!important}
+  .z2r-library-radial .library-group-count {font-size:14px!important}
+  .z2r-library-radial .library-page-index {font-size:16px!important}
+  .z2r-library-selection {padding:11px 10px 12px}
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .z2r-library-radial [data-library-viewport] {transition:none!important}
+}
+
+
+/* Browse All is a permanent directory, not a disclosure control. */
+.z2r-library-directory > .z2r-library-directory-heading {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:52px;
+  padding:0 15px;
+  color:var(--lib-ivory);
+  list-style:none;
+  border-bottom:1px solid rgba(199,124,85,.24);
+}
+.z2r-library-directory-heading > span {
+  font-size:11px;
+  font-weight:700;
+}
+.z2r-library-directory-heading > small {
+  margin-left:auto;
+  color:var(--lib-muted);
+  font:8px "IBM Plex Mono",monospace;
+}
+.z2r-library-directory-heading > b {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  color:var(--lib-copper-light);
+  background:rgba(199,124,85,.08);
+  border:1px solid rgba(199,124,85,.28);
+  border-radius:50%;
+  font:14px "IBM Plex Mono",monospace;
+  font-weight:500;
+}
+@media (max-width:760px) {
+  .z2r-library-directory > .z2r-library-directory-heading {
+    min-height:50px;
+    padding:0 10px;
+    gap:8px;
+  }
+  .z2r-library-directory-heading > span {font-size:10px}
+}

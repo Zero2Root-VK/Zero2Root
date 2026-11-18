@@ -43,7 +43,25 @@ export default function KnowledgeExplorer({ data, docsOrigin }) {
   const [selectedPage, setSelectedPage] = useState(null);
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState('all');
-  const [showRelations, setShowRelations] = useState(false);\n  const searchInput = useRef(null);\n\n  useEffect(() => {\n    const onKeyDown = (event) => {\n      const target = event.target;\n      const editing = target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));\n      if (event.key === '/' && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {\n        event.preventDefault();\n        searchInput.current?.focus();\n      }\n      if (event.key === 'Escape') {\n        setQuery('');\n        searchInput.current?.blur();\n      }\n    };\n    window.addEventListener('keydown', onKeyDown);\n    return () => window.removeEventListener('keydown', onKeyDown);\n  }, []);
+  const [showRelations, setShowRelations] = useState(false);
+  const searchInput = useRef(null);
+
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      const target = event.target;
+      const editing = target instanceof HTMLElement && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+      if (event.key === '/' && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        searchInput.current?.focus();
+      }
+      if (event.key === 'Escape') {
+        setQuery('');
+        searchInput.current?.blur();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
   const pageById = useMemo(() => new Map(data.pages.map((page) => [page.id, page])), [data]);
   const groupById = useMemo(() => new Map(data.groups.map((group) => [group.id, group])), [data]);

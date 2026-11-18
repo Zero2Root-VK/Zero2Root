@@ -43,11 +43,11 @@ The Netlify build script routes only the `prototype/astro-knowledge-explorer` br
 
 ## Known prototype limitations
 
-- The index data is still the existing curated JSON, not yet a normalized content graph.
+- The current atlas builds a typed Graphology network from the curated index at runtime, with collection, group and resource nodes, explicit hierarchy edges, and curated cross-topic relationships.
 - Relationship edges are curated examples, not inferred or exhaustive.
 - The remaining 56 pages are not copied to Starlight yet; they open in the existing MkDocs preview.
-- There is no generated npm lockfile yet because this environment cannot access the npm registry. Netlify resolves the exact direct dependency versions from package.json during the preview build.
-- Accessibility and actual device behaviour still require browser/device verification after the preview deploy.
+- There is no committed npm lockfile yet because this environment cannot access the npm registry. Direct dependencies are pinned in package.json; a lockfile should be generated before production migration.
+- WebGL compatibility, graph accessibility alternatives, and actual device behaviour still require browser/device verification after the preview deploy.
 
 ## Safety
 

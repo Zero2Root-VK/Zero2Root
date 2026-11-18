@@ -47,7 +47,7 @@ Each stage should have defined inputs and outputs. Do not pass every discovered 
 
 This example demonstrates a conservative workflow for one authorised root domain. It is not a complete penetration test and it does not automatically validate or report vulnerabilities.
 
-Prerequisites: current versions of Subfinder, dnsx, httpx and Nuclei installed from their official sources. Confirm that each binary is the expected ProjectDiscovery tool and review its current `-h` output before a real run.
+Prerequisites: current versions of Subfinder, dnsx, httpx, Nuclei and jq installed from their official sources. Confirm that each binary is the expected tool and review its current `-h` output. The example sets low explicit request limits and sends active requests only to an explicit, human-reviewed host allowlist.
 
 Create `scope-approved-hosts.txt` separately. It must contain only exact hostnames approved for active testing, one per line. Review candidate discovery results against the engagement scope and exclusions before populating this file.
 
@@ -56,41 +56,64 @@ Create `scope-approved-hosts.txt` separately. It must contain only exact hostnam
 set -Eeuo pipefail
 umask 077
 
-ROOT_DOMAIN="example.com"  # Replace only with a root domain explicitly in scope.
+ROOT_DOMAIN="example.test"  # Reserved documentation domain; replace only with an approved root.
 SCOPE_FILE="scope-approved-hosts.txt"
 STAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 OUT="evidence/$STAMP"
 
 mkdir -p "$OUT"
 
-for tool in subfinder dnsx httpx nuclei; do
+for tool in subfinder dnsx httpx nuclei jq; do
   if ! command -v "$tool" >/dev/null 2>&1; then
     printf 'Required tool not found: %s\n' "$tool" >&2
     exit 127
   fi
 done
 
-printf 'Root domain: %s\nRun started: %s\n' "$ROOT_DOMAIN" "$STAMP" \
-  > "$OUT/run-manifest.txt"
-
-# Passive discovery creates candidates; it does not authorise active testing.
-subfinder -d "$ROOT_DOMAIN" -silent -o "$OUT/passive-hostnames.txt"
-
-if [[ ! -s "$OUT/passive-hostnames.txt" ]]; then
-  printf 'No passive names returned; stopping.\n' >&2
-  exit 0
-fi
-
-if [[ ! -s "$SCOPE_FILE" ]]; then
-  printf 'Create and review %s before active probing.\n' "$SCOPE_FILE" >&2
+ROOT_DOMAIN="$(printf '%s' "$ROOT_DOMAIN" | tr '[:upper:]' '[:lower:]' | sed 's/\.$//')"
+if [[ ! "$ROOT_DOMAIN" =~ ^[a-z0-9.-]+$ || "$ROOT_DOMAIN" == *..* || "$ROOT_DOMAIN" == .* || "$ROOT_DOMAIN" == *. ]]; then
+  printf 'ROOT_DOMAIN is not a valid basic DNS name: %s\n' "$ROOT_DOMAIN" >&2
   exit 2
 fi
 
-# This guard limits entries to the configured root. The file must still be
-# reviewed against the engagement's explicit allowlist and exclusions.
-while IFS= read -r host; do
-  [[ -z "$host" || "$host" == \#* ]] && continue
-  host="$(printf '%s' "$host" | tr '[:upper:]' '[:lower:]' | sed 's/\.$//')"
+printf 'Root domain: %s\nRun started: %s\n' "$ROOT_DOMAIN" "$STAMP" \
+  > "$OUT/run-manifest.txt"
+
+# Passive discovery is collected for analyst review only.
+subfinder -d "$ROOT_DOMAIN" -silent -o "$OUT/passive-hostname-candidates.txt"
+
+if [[ ! -s "$OUT/passive-hostname-candidates.txt" ]]; then
+  printf 'No passive names returned; continuing only if an approved scope file exists.\n' \
+    >> "$OUT/run-manifest.txt"
+fi
+
+if [[ ! -s "$SCOPE_FILE" ]]; then
+  printf 'Create and review %s before active testing.\n' "$SCOPE_FILE" >&2
+  exit 2
+fi
+
+# Build a normalised exact-host allowlist. This is not a wildcard expansion.
+NORMALIZED_SCOPE="$OUT/approved-hostnames.txt"
+: > "$NORMALIZED_SCOPE"
+
+while IFS= read -r raw || [[ -n "$raw" ]]; do
+  host="${raw%%#*}"
+  host="$(printf '%s' "$host" | tr '[:upper:]' '[:lower:]' | sed 's/^[[:space:]]*//; s/[[:space:]]*$//; s/\.$//')"
+  [[ -z "$host" ]] && continue
+
+  if [[ ! "$host" =~ ^[a-z0-9.-]+$ || "$host" == *..* ]]; then
+    printf 'Invalid hostname in scope file: %s\n' "$host" >&2
+    exit 2
+  fi
+
+  IFS='.' read -r -a labels <<< "$host"
+  for label in ${labels[@]}; do
+    if [[ ! "$label" =~ ^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$ ]]; then
+      printf 'Invalid DNS label in scope file: %s\n' "$label" >&2
+      exit 2
+    fi
+  done
+
   case "$host" in
     "$ROOT_DOMAIN"|*."$ROOT_DOMAIN") ;;
     *)
@@ -98,14 +121,19 @@ while IFS= read -r host; do
       exit 2
       ;;
   esac
+
+  printf '%s\n' "$host" >> "$NORMALIZED_SCOPE"
 done < "$SCOPE_FILE"
 
-cp "$SCOPE_FILE" "$OUT/approved-hostnames.txt"
+sort -u "$NORMALIZED_SCOPE" -o "$NORMALIZED_SCOPE"
 
-dnsx -l "$OUT/approved-hostnames.txt" -a -resp -silent \
-  -o "$OUT/approved-dns-a-records.txt"
+if [[ ! -s "$NORMALIZED_SCOPE" ]]; then
+  printf 'The normalised approved scope is empty; stopping.\n' >&2
+  exit 2
+fi
 
-dnsx -l "$OUT/approved-hostnames.txt" -silent \
+# Only explicitly listed, reviewed hosts move to active DNS resolution.
+dnsx -l "$NORMALIZED_SCOPE" -a -silent -rl 5 -t 5 \
   -o "$OUT/resolved-hostnames.txt"
 
 if [[ ! -s "$OUT/resolved-hostnames.txt" ]]; then
@@ -113,17 +141,20 @@ if [[ ! -s "$OUT/resolved-hostnames.txt" ]]; then
   exit 0
 fi
 
+# Perform one HTTP probe and retain both JSONL evidence and a URL list.
 httpx -l "$OUT/resolved-hostnames.txt" -silent \
   -status-code -title -tech-detect -json \
+  -rl 5 -t 5 \
   -o "$OUT/http-inventory.jsonl"
 
-httpx -l "$OUT/resolved-hostnames.txt" -silent \
-  -o "$OUT/live-urls.txt"
+jq -r '.url // empty' "$OUT/http-inventory.jsonl" \
+  | sort -u > "$OUT/live-urls.txt"
 
 if [[ -s "$OUT/live-urls.txt" ]]; then
+  # Review template IDs/tags and engagement exclusions before this stage.
   nuclei -l "$OUT/live-urls.txt" \
     -severity high,critical \
-    -rate-limit 3 -c 5 \
+    -rate-limit 3 -c 5 -bs 5 \
     -jsonl -o "$OUT/nuclei-high-critical.jsonl"
 fi
 
@@ -138,9 +169,11 @@ Before using this workflow beyond a lab:
 - Add engagement-specific exclusions to that review; the suffix guard above is not a substitute for a complete scope policy.
 - Set request rate, concurrency and time window according to the rules of engagement.
 - Review active scanning templates and exclude intrusive checks.
-- Confirm the output schemas for the exact installed versions.
+- Confirm the output schemas for the exact installed versions, especially the JSONL URL field used by `jq`.
+- The root-domain suffix check is only a basic guard. It does not replace the engagement's exact scope, exclusions, third-party ownership checks or CDN/IP validation.
+- Inspect the Nuclei templates that will run. A `high,critical` severity filter is not a guarantee that every matching template is non-intrusive.
 
-The two HTTP probes are intentionally separate: the JSON inventory is for analysis, while the plain URL list is the input to Nuclei. Do not assume every tool can consume another tool's JSON output directly.
+The HTTP inventory is collected once. `jq` extracts the URL field from the JSONL output for Nuclei, avoiding a second HTTP probe. If the installed httpx output schema changes, inspect it with that version's field-discovery help and update the parser before running the pipeline.
 
 ## 3. Example: web application assessment hand-off
 

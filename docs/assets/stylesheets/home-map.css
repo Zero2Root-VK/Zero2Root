@@ -3241,3 +3241,45 @@
 @media (prefers-reduced-motion:reduce) {
   .z2r-library-radial [data-library-viewport] {transition:none!important}
 }
+
+
+/* Browse All is a permanent directory, not a disclosure control. */
+.z2r-library-directory > .z2r-library-directory-heading {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-height:52px;
+  padding:0 15px;
+  color:var(--lib-ivory);
+  list-style:none;
+  border-bottom:1px solid rgba(199,124,85,.24);
+}
+.z2r-library-directory-heading > span {
+  font-size:11px;
+  font-weight:700;
+}
+.z2r-library-directory-heading > small {
+  margin-left:auto;
+  color:var(--lib-muted);
+  font:8px "IBM Plex Mono",monospace;
+}
+.z2r-library-directory-heading > b {
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  color:var(--lib-copper-light);
+  background:rgba(199,124,85,.08);
+  border:1px solid rgba(199,124,85,.28);
+  border-radius:50%;
+  font:14px "IBM Plex Mono",monospace;
+  font-weight:500;
+}
+@media (max-width:760px) {
+  .z2r-library-directory > .z2r-library-directory-heading {
+    min-height:50px;
+    padding:0 10px;
+    gap:8px;
+  }
+  .z2r-library-directory-heading > span {font-size:10px}
+}

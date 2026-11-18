@@ -8,7 +8,7 @@ A working reference for selecting, operating and connecting security tools. The 
 
 ## How to use this module
 
-Use the guides in the order that matches the engagement. Reconnaissance establishes the approved attack surface; scanning and application tools gather technical evidence; protocol, identity, mobile and cloud tools examine specialised environments; source-analysis and scripting tools help scale repeatable work; the workflow guide explains how to connect the outputs.
+Use the guides in the order that matches the engagement. The intended operating model is **scope → discovery → targeted testing → analyst validation → evidence and retest**. Not every engagement needs every tool family, and a result from one stage must not silently authorise the next.
 
 | Guide | Primary question | Typical outputs |
 |---|---|---|
@@ -16,12 +16,23 @@ Use the guides in the order that matches the engagement. Reconnaissance establis
 | [Network scanning & vulnerability assessment](02-scanning-tools.md) | Which hosts, ports, services and candidate weaknesses exist? | Nmap XML, scanner exports, Nuclei JSONL, TLS reports |
 | [Web & API testing](03-web-tools.md) | How does the application behave under controlled security tests? | HTTP evidence, proxy projects, API test results, crawl data |
 | [Network traffic & protocol analysis](04-network-tools.md) | What actually happened on the wire? | PCAP/PCAPNG, decoded protocol fields, packet timelines |
-| [Windows, Active Directory & identity](06-ad-tools.md) | How are domain identities, permissions and trust paths configured? | Directory inventory, collection data, relationship graphs |
 | [Mobile application testing](05-mobile-tools.md) | What can static and runtime analysis establish about an app? | Decompiled resources, manifests, runtime traces, MobSF reports |
+| [Windows, Active Directory & identity](06-ad-tools.md) | How are domain identities, permissions and trust paths configured? | Directory inventory, collection data, relationship graphs |
 | [Cloud, container & IaC security](07-cloud-tools.md) | Which cloud permissions, images and deployment definitions are risky? | Cloud posture reports, image findings, IaC findings, SBOMs |
 | [Source code & supply chain](08-code-tools.md) | Which code paths, dependencies and secrets need review? | SAST findings, secret reports, dependency inventories, SARIF |
 | [Scripting & security automation](09-scripting-automation.md) | How can a repeatable task be automated safely? | Validated scripts, structured JSON/CSV, logs and test results |
 | [End-to-end assessment workflows](10-workflows.md) | How should tools exchange data across an engagement? | Run manifests, correlated findings, evidence packages |
+
+## Choose a workflow by target
+
+| Assessment target | Recommended starting path | Important boundary |
+|---|---|---|
+| Public attack surface | Recon → scanning → web/API | Passive discoveries remain candidates until ownership and scope are checked |
+| Internal network | Network scanning → traffic analysis → identity | Confirm ranges, source IPs, scan windows and fragile assets |
+| Web application or API | Web/API → scripting → end-to-end workflow | Use dedicated roles and synthetic records; avoid state-changing routes unless approved |
+| Android or iOS app | Mobile → traffic analysis → source review | Record device state, app build, signing and instrumentation conditions |
+| Cloud or Kubernetes | Cloud/IaC → source and supply-chain review | Confirm tenant/account and read-only identity before any scan |
+| Repository or build pipeline | Source/supply chain → scripting → CI workflow | Keep code scanning, dependency analysis, secret detection and SBOM generation distinct |
 
 ## Selection principles
 
@@ -81,6 +92,19 @@ nmap,<installed-version>,official-package,approved-profile,YYYY-MM-DD
 ~~~
 
 The version placeholders above are examples, not version recommendations. Check each tool's current release notes and command help before adopting a command in an automated pipeline. Flags, output schemas, default templates and licensing can change.
+
+## Minimum run record
+
+Every active run should have a small manifest that answers: who ran it, what exact approved targets were used, which tool and version ran, which options/templates were applied, when it ran, where the raw output is stored, and whether the output was validated. Keep exclusions and skipped targets visible rather than silently dropping them.
+
+A practical hand-off has four separate states:
+
+1. **Discovered:** observed from passive data or an inventory source.
+2. **In scope:** matched against the written authorisation and exclusions.
+3. **Tested:** an approved tool or manual test was actually executed.
+4. **Validated:** an analyst confirmed applicability and retained reproducible evidence.
+
+Do not collapse these states into a single `found` or `vulnerable` label.
 
 ## Output and validation expectations
 
